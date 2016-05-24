@@ -1,0 +1,23 @@
+<resources>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="buttonStyle">
+        <item name="android:colorButtonNormal">@color/colorPrimary</item>
+    </style>
+
+    <style name="buttonStyleGrey.">
+        <item name="android:colorButtonNormal">#c5c5c5</item>
+    </style>
+
+    <style name="CheckBoxAppTheme">
+        <item name="android:colorAccent">#000000</item>
+        <item name="android:colorControlNormal">#000000</item>
+        <item name="android:colorControlHighlight">#000000</item>
+        <item name="android:colorControlActivated">#000000</item>
+    </style>
+</resources>

@@ -1,0 +1,46 @@
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:paddingBottom="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/itemTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:text="Title"/>
+
+    <TextView
+        android:id="@+id/itemUsers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_below="@+id/itemTitle"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="@android:style/TextAppearance.Small"
+        android:text="Users"
+        android:textColor="#cecece"/>
+
+    <!--<AppCompatCheckBox
+        android:id="@+id/itemCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:checked="true" />-->
+    <CheckBox
+        android:id="@+id/itemCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:buttonTint="@android:color/black"
+        app:theme="@style/CheckBoxAppTheme"
+        android:checked="true"
+        style="@style/CheckBoxAppTheme"/>
+
+</RelativeLayout>

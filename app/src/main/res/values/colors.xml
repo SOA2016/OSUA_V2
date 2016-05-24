@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#e3493c</color>
+    <color name="colorPrimaryDark">#b41f22</color>
+    <color name="colorAccent">#cecece</color>
+    <color name="colorControlHighlight">#cecece</color>
+    <color name="grey">#6e6e6e</color>
+    <color name="lightgrey">#f5f5f5</color>
+    <color name="white">#FFFFFF</color>
+    <color name="darkgrey">#333333</color>
+
+    <color name="a">#c22125</color>
+    <color name="b">#7a1517</color>
+    <color name="c">#e0484b</color>
+    <color name="d">#ea8284</color>
+    <color name="e">#a61d1f</color>
+    <color name="f">#e0484b</color>
+    <color name="g">#c22125</color>
+    <color name="h">#e77476</color>
+    <color name="i">#7a1517</color>
+    <color name="j">#c22125</color>
+    <color name="k">#e0484b</color>
+    <color name="l">#e2575a</color>
+    <color name="m">#f1aeaf</color>
+    <color name="n">#e77476</color>
+    <color name="o">#db2b2f</color>
+    <color name="p">#a61d1f</color>
+    <color name="q">#e56568</color>
+    <color name="r">#dd3a3d</color>
+    <color name="s">#e77476</color>
+    <color name="t">#e2575a</color>
+    <color name="u">#a61d1f</color>
+    <color name="v">#e77476</color>
+    <color name="w">#dd3a3d</color>
+    <color name="x">#89181a</color>
+    <color name="y">#e77476</color>
+    <color name="z">#b41f22</color>
+
+</resources>

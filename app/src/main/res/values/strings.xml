@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">OSUA</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="serverPrefixes">
+        <item>http://</item>
+        <item>https://</item>
+        <item></item>
+    </string-array>
+
+    <string name="serverAddress"></string>
+    <string name="loginName"></string>
+
+</resources>

@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item android:id="@+id/action_logout" android:title="Logout"
+        android:orderInCategory="99" app:showAsAction="never" />
+
+    <item android:id="@+id/action_filter" android:title="Filter" android:icon="@drawable/ic_filter_list_white_24dp"
+        android:orderInCategory="98" app:showAsAction="always" />
+
+    <item android:id="@+id/action_search" android:title="Search" android:icon="@drawable/ic_search_white_24dp"
+        android:orderInCategory="97" app:showAsAction="always" />
+
+    <item android:id="@+id/action_confirm" android:title="Confirm" android:icon="@drawable/ic_done_white_24dp"
+        android:orderInCategory="96" app:showAsAction="always"/>
+
+
+</menu>

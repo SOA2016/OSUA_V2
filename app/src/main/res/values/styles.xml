@@ -1,0 +1,85 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">#333333</item>
+        <item name="android:textColorSecondary">#333333</item>
+    </style>
+
+    <style name="buttonStyle">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="buttonStyleGrey">
+        <item name="colorButtonNormal">#c5c5c5</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CheckBoxAppTheme">
+        <item name="colorAccent">#000000</item>
+        <item name="colorControlNormal">#000000</item>
+        <item name="colorControlHighlight">#000000</item>
+        <item name="colorControlActivated">#000000</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="toolbarNormal" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">#FFF</item>
+        <item name="android:textColorSecondary">#FFF</item>
+    </style>
+
+    <style name="toolbarSearch" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">#333333</item>
+        <item name="android:textColorSecondary">#333333</item>
+    </style>
+
+    <style name="ColorEditTextStyle">
+
+        <!-- colorAccent is used as the default value for colorControlActivated,
+             which is used to tint widgets -->
+
+        <item name="android:colorAccent">#c5c5c5</item>
+        <item name="colorControlActivated">#444444</item>
+        <item name="colorSwitchThumbNormal">#c5c5c5</item>
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlHighlight">#444444</item>
+        <!--<item name="android:colorForeground">@color/colorAccent</item>-->
+
+        <!-- You can also set colorControlNormal, colorControlActivated
+             colorControlHighlight, and colorSwitchThumbNormal. -->
+    </style>
+
+    <style name="Color1SwitchStyle">
+
+        <!-- colorAccent is used as the default value for colorControlActivated,
+             which is used to tint widgets -->
+
+
+        <item name="colorControlActivated">#73ab6b</item>
+        <item name="colorSwitchThumbNormal">#f12c2c</item>
+        <item name="android:colorForeground">#c5c5c5</item>
+
+        <!-- You can also set colorControlNormal, colorControlActivated
+             colorControlHighlight, and colorSwitchThumbNormal. -->
+    </style>
+
+    <style name="CustomDialog" parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="android:listChoiceIndicatorMultiple">@drawable/ic_done_white_24dp</item>
+        <item name="android:background">#aaf</item>
+    </style>
+
+</resources>
