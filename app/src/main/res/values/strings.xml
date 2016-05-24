@@ -8,7 +8,22 @@
         <item></item>
     </string-array>
 
-    <string name="serverAddress"></string>
+    <string-array name="restfullVersion">
+        <item>Restfull API V2.0</item>
+        <item>Restfull API V3.0</item>
+    </string-array>
+
+    <string-array name="snackbarNotifications">
+        <item name="defaultAPI">Using Default API</item>
+        <item name="useApiV1.0">Using API V1.0</item>
+        <item name="useApiV2.0">Using API V2.0</item>
+        <item name="useAPIV3.0">Using API V3.0</item>
+        <item name="defaultErrorLine">Unexpected Error at Line No. </item>
+    </string-array>
+
+    <string name="connectionType">CONNECTION-TYPE</string>
+
+    <string name="serverAddress">SERVER-ADRESS</string>
     <string name="loginName"></string>
 
 </resources>

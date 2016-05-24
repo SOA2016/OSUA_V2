@@ -1,5 +1,7 @@
 package com.wuerth.osua;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -25,14 +27,23 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class RESTClient_V3 {
-	
+public class RESTClient_V3 extends RESTClient {
+
+
 	/***
 	 * Holt sich die Liste der aktivierten Extensions.
 	 * Diese Methode kann als Funktionstest genutzt werden.
 	 * @return Returns Extensions as String
 	 * @throws Exception
 	 */
+
+	RESTClient_V3(MainActivity mainActivity){
+		this.mainActivity = mainActivity;
+		myPrefs = mainActivity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+		spEditor = myPrefs.edit();
+		prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
+		snackbarNotifications = mainActivity.getResources().getStringArray(R.array.snackbarNotifications);
+	}
 
 	public String getKeystoneExtensions() throws Exception{
 		try{
@@ -80,12 +91,33 @@ public class RESTClient_V3 {
 			return e.toString();
 		}
 	}
+
+	/***
+	 * V2 Wrapper for Authentification
+	 * @param loginPassword
+	 * @return Returns the Authentification-Token from Keystone
+	 */
+	public boolean getAuthentificationToken(String loginPassword)
+	{
+		String loginName = myPrefs.getString("loginName", "");
+		String loginProject = myPrefs.getString("loginProject", "");
+		String serverAddress = myPrefs.getString("serverAddress", "");
+		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
+
+		if(loginName.equals("") || loginProject.equals("") || serverAddress.equals("")){
+			mainActivity.showSnackbar(snackbarNotifications[4]+Thread.currentThread().getStackTrace()[2].getLineNumber());
+			return false;
+		}
+
+		return getAuthentificationToken(loginName, loginPassword, serverPrefix, serverAddress, mainActivity);
+	}
+
 	/***
 	 * Holt sich ein Authentifizierungstoken vom Server und gibt dies zurueck.
 	 * @return Returns the Authentification-Token from Keystone
 	 * @throws URISyntaxException
 	 */
-	public boolean getAuthentificationToken(String loginName, String loginPassword, String serverAddress, MainActivity mainActivity){
+	public boolean getAuthentificationToken(String loginName, String loginPassword, int serverPrefix, String serverAddress, MainActivity mainActivity){
 
 		JSONObject jsonRequest = new JSONObject();
 		JSONObject identity = new JSONObject();
@@ -93,6 +125,7 @@ public class RESTClient_V3 {
 		JSONObject password = new JSONObject();
 		JSONObject user = new JSONObject();
 		JSONObject domain = new JSONObject();
+		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
 		JSONArray methods = new JSONArray();
 		methods.put("password");
@@ -131,7 +164,7 @@ public class RESTClient_V3 {
 			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 			
 			HttpClient client = new DefaultHttpClient(httpParameters);
-			URI website = new URI(serverAddress + "/v3/auth/tokens");
+			URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v3/auth/tokens");
 			HttpPost request = new HttpPost();
 
 			request.setURI(website);
@@ -255,6 +288,27 @@ public class RESTClient_V3 {
 	}
 
 
+	public boolean postUser(String projectID, String userName, String userMail, String userPassword, Boolean userEnabled)
+	{
+		if(!validateToken()) {
+			Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
+			fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
+			return false;
+		}
+
+		String actualToken = myPrefs.getString("actualToken", "");
+		String serverAddress = myPrefs.getString("serverAddress", "");
+		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
+		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
+
+		if(actualToken.equals("") || serverAddress.equals("")){
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
+		mainActivity.showSnackbar(addUser(actualToken, userName, userPassword, projectID));
+		return true;
+	}
+
 	/***
 	 * Fuegt einen neuen Benutzer hinzu.
 	 * @param Benutzereingaben
@@ -308,6 +362,27 @@ public class RESTClient_V3 {
 			return e1.toString();
 		}
 	}
+
+	public boolean deleteUser(String userID)
+	{
+		if(!validateToken()) {
+			Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
+			fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
+			return false;
+		}
+
+		String actualToken = myPrefs.getString("actualToken", "");
+		String serverAddress = myPrefs.getString("serverAddress", "");
+		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
+		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
+
+		if(actualToken.equals("") || serverAddress.equals("")){
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
+		mainActivity.showSnackbar(deleteUser(actualToken, userID));
+		return true;
+	}
 	
 	
 	/***
@@ -338,9 +413,47 @@ public class RESTClient_V3 {
 			return e2.toString();
 		}
 	}
+
+	/***
+	 * Created by Stephan Strissel on 24.05.2016.
+	 * Get specific user by ID. Not implemented jet
+	 * @param ID
+	 * @return
+	 */
+	public boolean getUser(String ID) {
+	return false;
+	}
+
+	/***
+	 * Created by Stephan Strissel on 24.05.2016.
+	 * Get specific user by ID. Not implemented jet
+	 * @param ID
+	 * @return
+	 */
+	public boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, Boolean userEnabled) {
+		return false;
+	}
+
+	public boolean getProjects() {
+		return false;
+	}
+
+	public boolean getUsers() {
+		return false;
+	}
+
+
+
+	public boolean validateToken() {
+		return false;
+	}
+
+	public boolean deleteToken() {
+		return false;
+	}
 	
 	/***
-	 * uendert das Passwort eines Benutzers.
+	 * Ändert das Passwort eines Benutzers.
 	 * @param Benutzereingaben
 	 * @return
 	 */

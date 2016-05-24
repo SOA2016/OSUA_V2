@@ -27,7 +27,6 @@ import java.util.ArrayList;
 public class Fragment_AddUser extends Fragment {
 
     MainActivity mainActivity;
-    RESTClient_V2 myRESTClient;
     ArrayList<projectItem> projectList;
     Spinner spinner;
     LinearLayout content;
@@ -60,7 +59,6 @@ public class Fragment_AddUser extends Fragment {
         setHasOptionsMenu(true);
 
         mainActivity = (MainActivity) getActivity();
-        myRESTClient = new RESTClient_V2(mainActivity); // Here you should distinguish API V2.0 or V3.0
 
         spinner = (Spinner) view.findViewById(R.id.input_userProject);
         content = (LinearLayout) view.findViewById(R.id.content);
@@ -114,7 +112,7 @@ public class Fragment_AddUser extends Fragment {
         protected Boolean doInBackground(String... params) {
 
             try{
-                myRESTClient.getProjects();
+                mainActivity.myRESTClient.getProjects();
 
                 return true;
             }
@@ -169,7 +167,7 @@ public class Fragment_AddUser extends Fragment {
             try{
                 //myRESTClient.postUser();
                 //Toast.makeText(mainActivity, "Called", Toast.LENGTH_LONG).show();
-                return myRESTClient.postUser(projectID, userName, userMail, userPassword, userEnabled);
+                return mainActivity.myRESTClient.postUser(projectID, userName, userMail, userPassword, userEnabled);
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());

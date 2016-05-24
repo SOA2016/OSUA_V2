@@ -27,16 +27,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class RESTClient_V2 {
-
-    MainActivity mainActivity;
-    SharedPreferences myPrefs;
-    SharedPreferences.Editor spEditor;
+public class RESTClient_V2 extends RESTClient {
 
     RESTClient_V2(MainActivity mainActivity){
         this.mainActivity = mainActivity;
         myPrefs = mainActivity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         spEditor = myPrefs.edit();
+        prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
+        snackbarNotifications = mainActivity.getResources().getStringArray(R.array.snackbarNotifications);
     }
 
 	public boolean getAuthentificationToken(String loginPassword){
@@ -143,7 +141,7 @@ public class RESTClient_V2 {
 		}
 	}
 
-    public Boolean deleteToken(){
+    public boolean deleteToken(){
 
         String actualToken = myPrefs.getString("actualToken", "");
         String serverAddress = myPrefs.getString("serverAddress", "");
@@ -196,7 +194,7 @@ public class RESTClient_V2 {
         }
     }
 
-    public Boolean validateToken(){
+    public boolean validateToken(){
 
         String actualToken = myPrefs.getString("actualToken", "");
         String serverAddress = myPrefs.getString("serverAddress", "");
@@ -252,7 +250,7 @@ public class RESTClient_V2 {
         }
     }
 
-    public Boolean getUsers(){
+    public boolean getUsers(){
 
         if(!validateToken()) {
             Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
@@ -356,7 +354,7 @@ public class RESTClient_V2 {
         }
     }
 
-    public Boolean getUser(String ID){
+    public boolean getUser(String ID){
 
         if(!validateToken()) {
             Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
@@ -460,7 +458,7 @@ public class RESTClient_V2 {
         }
     }
 
-    public Boolean getProjects(){
+    public boolean getProjects(){
 
         if(!validateToken()) {
             Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
@@ -548,7 +546,7 @@ public class RESTClient_V2 {
         }
     }
 
-    public Boolean postUser(String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
+    public boolean postUser(String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
 
         if(!validateToken()) {
             Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
@@ -622,7 +620,7 @@ public class RESTClient_V2 {
         }
     }
 
-    public Boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
+    public boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
 
         if(!validateToken()) {
             Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
@@ -697,7 +695,7 @@ public class RESTClient_V2 {
         }
     }
 
-    public Boolean deleteUser(String userID){
+    public boolean deleteUser(String userID){
 
         if(!validateToken()) {
             Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();

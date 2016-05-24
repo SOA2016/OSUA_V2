@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     MenuItem menuItemSearch;
     SearchView searchView;
     LinearLayout fragment;
-    RESTClient_V2 RESTClient;
+    public RESTClient myRESTClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         setSupportActionBar(toolbar);
 
         fragment = (LinearLayout) findViewById(R.id.fragment);
-
-        RESTClient = new RESTClient_V2(this);
 
         toolbarSearch = (Toolbar) findViewById(R.id.toolbarSearch);
         //toolbarSearch.setVisibility(View.VISIBLE);
@@ -536,7 +534,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             try{
                 //myRESTClient.postUser();
                 //Toast.makeText(mainActivity, "Called", Toast.LENGTH_LONG).show();
-                return RESTClient.deleteToken();
+                return myRESTClient.deleteToken();
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());

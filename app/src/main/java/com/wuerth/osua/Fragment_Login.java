@@ -33,7 +33,6 @@ public class Fragment_Login extends Fragment {
     String[] benutzer;
     ProgressBar progressBar;
     Button loginButton;
-    RESTClient_V2 myRESTClient;
 
     public Fragment_Login() {
     }
@@ -52,10 +51,8 @@ public class Fragment_Login extends Fragment {
         manager = getActivity().getSupportFragmentManager();
         myPrefs = mainActivity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         spEditor = myPrefs.edit();
-        myRESTClient = new RESTClient_V2(mainActivity); // Here you should distinguish API V2.0 or V3.0
 
         // Load saved Key-Value-Pairs to Views
-
         final EditText loginServer = (EditText) view.findViewById(R.id.input_loginServer);
         loginServer.setText(myPrefs.getString("serverAddress", ""));
 
@@ -70,6 +67,8 @@ public class Fragment_Login extends Fragment {
         final Spinner prefixSpinner = (Spinner) view.findViewById(R.id.input_loginServerSpinner);
         prefixSpinner.setSelection(myPrefs.getInt("serverPrefix", 0));
 
+        final Spinner versionSpinner = (Spinner) view.findViewById(R.id.input_restfullApiVersionSpinner);
+        versionSpinner.setSelection(myPrefs.getInt("restfullApiVersion", 1));
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         loginButton = (Button) view.findViewById(R.id.loginButton);
@@ -90,12 +89,39 @@ public class Fragment_Login extends Fragment {
                 }else if(loginPassword.getText().toString().isEmpty()){
                     mainActivity.showSnackbar("Please enter your password");
                 }else {
-                    // Save Input to as Key-Value-Pair
 
+                    /**
+                     * Created by Stephan Strissel on 24.05.2016.
+                     * Delete Database Cache / Refresh DatabaseAdapter
+                     */
+                    mainActivity.databaseAdapter.deleteUserList();
+                    mainActivity.databaseAdapter.deleteProjectList();
+                    /**
+                     * Created by Stephan Strissel on 24.05.2016.
+                     * Distinguish between API V2.0 or V3.0
+                     * No Switch-Case possible, because case needs 'constant expression'
+                     */
+                    if (versionSpinner.getSelectedItem().toString().equals(getResources().getStringArray(R.array.restfullVersion)[1].toString())) { /* API V3.0 */
+                    /* API V3.0 */
+                        mainActivity.myRESTClient = new RESTClient_V3(mainActivity);
+                        mainActivity.showSnackbar(getResources().getStringArray(R.array.snackbarNotifications)[3]);
+                    } else if (versionSpinner.getSelectedItem().toString().equals(getResources().getStringArray(R.array.restfullVersion)[0].toString())) { /* API V2.0 */
+                    /* API V2.0 */
+                        mainActivity.myRESTClient = new RESTClient_V2(mainActivity);
+                        mainActivity.showSnackbar(getResources().getStringArray(R.array.snackbarNotifications)[2]);
+                    } else {
+                    /* default case API V2.0*/
+                       mainActivity.myRESTClient = new RESTClient_V2(mainActivity);
+                       mainActivity.showSnackbar(getResources().getStringArray(R.array.snackbarNotifications)[0]);
+                    }
+
+
+                    // Save Input to as Key-Value-Pair
                     spEditor.putString("serverAddress", loginServer.getText().toString());
                     spEditor.putString("loginName", loginName.getText().toString());
                     spEditor.putString("loginProject", loginProject.getText().toString());
                     spEditor.putInt("serverPrefix", prefixSpinner.getSelectedItemPosition());
+                    spEditor.putInt("restfullApiVersion", versionSpinner.getSelectedItemPosition());
                     spEditor.apply();
 
                     loginButton.setVisibility(View.INVISIBLE);
@@ -118,7 +144,7 @@ public class Fragment_Login extends Fragment {
         protected Boolean doInBackground(String... params) {
 
             try{
-                return myRESTClient.getAuthentificationToken(params[0]);
+                return mainActivity.myRESTClient.getAuthentificationToken(params[0]);
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());

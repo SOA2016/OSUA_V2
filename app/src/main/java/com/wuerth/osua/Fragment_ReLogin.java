@@ -17,7 +17,6 @@ import android.widget.EditText;
 public class Fragment_ReLogin extends DialogFragment {
     MainActivity mainActivity;
     SharedPreferences myPrefs;
-    RESTClient_V2 myRESTClient;
     EditText inputUserPassword;
 
     @Override
@@ -37,7 +36,6 @@ public class Fragment_ReLogin extends DialogFragment {
         });
 
         mainActivity = (MainActivity) getActivity();
-        myRESTClient = new RESTClient_V2(mainActivity);
         myPrefs = mainActivity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         // Inflate and set the layout for the dialog
@@ -74,7 +72,7 @@ public class Fragment_ReLogin extends DialogFragment {
         protected Boolean doInBackground(String... params) {
 
             try{
-                return myRESTClient.getAuthentificationToken(params[0]);
+                return mainActivity.myRESTClient.getAuthentificationToken(params[0]);
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());

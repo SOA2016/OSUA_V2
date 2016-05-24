@@ -38,7 +38,6 @@ public class Fragment_Filter extends DialogFragment {
     View view;
     AlertDialog.Builder builder;
     AlertDialog alertDialog;
-    RESTClient_V2 myRESTClient;
     ProgressBar progressBar;
 
     @Override
@@ -48,7 +47,6 @@ public class Fragment_Filter extends DialogFragment {
         //this.view = view;
         this.builder = new AlertDialog.Builder(getActivity());
         mainActivity = (MainActivity) getActivity();
-        myRESTClient = new RESTClient_V2(mainActivity);
 
         View view = inflater.inflate(R.layout.fragment_filter, null);
         this.view = view;
@@ -72,7 +70,6 @@ public class Fragment_Filter extends DialogFragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         mainActivity = (MainActivity) getActivity();
-        myRESTClient = new RESTClient_V2(mainActivity); // Here you should distinguish API V2.0 or V3.0
 
         progressBar.getIndeterminateDrawable().setColorFilter(
                 getResources().getColor(R.color.colorPrimary),
@@ -132,8 +129,8 @@ public class Fragment_Filter extends DialogFragment {
         protected Boolean doInBackground(String... params) {
 
             try{
-                if(myRESTClient.validateToken()) {   // First validate token to prevent login from non-admin)
-                    return myRESTClient.getProjects();
+                if(mainActivity.myRESTClient.validateToken()) {   // First validate token to prevent login from non-admin)
+                    return mainActivity.myRESTClient.getProjects();
                 }else{
                     return false;
                 }
