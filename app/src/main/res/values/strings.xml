@@ -8,7 +8,11 @@
         <item></item>
     </string-array>
 
-    <string name="serverAddress"></string>
-    <string name="loginName"></string>
+    <string name="fragment_login_userName">USER-NAME</string>
+    <string name="fragment_login_userProject">USER-PROJECT</string>
+    <string name="fragment_login_userPassword">USER-PASSWORD</string>
+    <string name="fragment_login_serverAddress">SERVER-ADDRESS</string>
+    <string name="fragment_login_userDomain">DOMAIN</string>
+    <string name="fragment_login_loginbutton">LOGIN</string>
 
 </resources>
