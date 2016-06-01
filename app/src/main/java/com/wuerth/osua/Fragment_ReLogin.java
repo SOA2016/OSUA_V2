@@ -19,6 +19,7 @@ public class Fragment_ReLogin extends DialogFragment {
     SharedPreferences myPrefs;
     RESTClient myRESTClient;
     EditText inputUserPassword;
+    Context Context;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class Fragment_ReLogin extends DialogFragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar("Unexpected Error");
+                mainActivity.showSnackbar(Context.getString(R.string.error_0));
                 return false;
             }
         }

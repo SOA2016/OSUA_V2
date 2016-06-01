@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.content.Context;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ public class Fragment_AddUser extends Fragment {
     ProgressBar progressBar;
     EditText inputUserName, inputUserMail, inputUserPassword;
     SwitchCompat inputUserEnabled;
+    Context Context;
 
     public static Fragment_AddUser newInstance(){
         Fragment_AddUser fragment_editUser = new Fragment_AddUser();
@@ -120,7 +122,7 @@ public class Fragment_AddUser extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar("Unexpected Error");
+                mainActivity.showSnackbar(Context.getString(R.string.error_0));
                 return false;
             }
         }
@@ -173,7 +175,7 @@ public class Fragment_AddUser extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar("Unexpected Error");
+                mainActivity.showSnackbar(Context.getString(R.string.error_0));
                 return false;
             }
         }

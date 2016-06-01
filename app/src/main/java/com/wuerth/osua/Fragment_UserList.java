@@ -46,6 +46,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
     String searchQuery;
     int firstItem;
     SwipeRefreshLayout userListRefresh;
+    Context Context;
 
     public Fragment_UserList() {
     }
@@ -198,7 +199,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar("Unexpected Error");
+                mainActivity.showSnackbar(Context.getString(R.string.error_0));
                 return false;
             }
         }
@@ -450,7 +451,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
              }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar("Unexpected Error");
+                mainActivity.showSnackbar(Context.getString(R.string.error_0));
                 return false;
             }
         }

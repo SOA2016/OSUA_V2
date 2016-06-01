@@ -11,7 +11,6 @@ public abstract class RESTClient {
     SharedPreferences myPrefs;
     SharedPreferences.Editor spEditor;
     String[] prefixList;
-    String[] snackbarNotifications;
 
     public abstract boolean getAuthentificationToken(String loginPassword);
 

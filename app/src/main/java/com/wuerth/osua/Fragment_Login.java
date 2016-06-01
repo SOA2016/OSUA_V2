@@ -34,6 +34,7 @@ public class Fragment_Login extends Fragment {
     ProgressBar progressBar;
     Button loginButton;
     RESTClient myRESTClient;
+    Context Context;
 
     public Fragment_Login() {
     }
@@ -122,7 +123,7 @@ public class Fragment_Login extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar("Unexpected Error");
+                mainActivity.showSnackbar(Context.getString(R.string.error_0));
                 return false;
             }
         }

@@ -39,6 +39,7 @@ public class Fragment_EditUser extends Fragment {
     LinearLayout content;
     ProgressBar progressBar;
     EditText inputUserName, inputUserMail, inputUserPassword;
+    Context Context;
 
     public static Fragment_EditUser newInstance(String userID){
         Fragment_EditUser fragment_editUser = new Fragment_EditUser();
@@ -146,7 +147,7 @@ public class Fragment_EditUser extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar("Unexpected Error");
+                mainActivity.showSnackbar(Context.getString(R.string.error_0));
                 return false;
             }
         }
@@ -213,7 +214,7 @@ public class Fragment_EditUser extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar("Unexpected Error");
+                mainActivity.showSnackbar(Context.getString(R.string.error_0));
                 return false;
             }
         }
