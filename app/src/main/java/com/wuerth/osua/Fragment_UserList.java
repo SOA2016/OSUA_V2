@@ -39,7 +39,7 @@ import java.util.ArrayList;
 public class Fragment_UserList extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
 
     private ListView listView;
-    RESTClient_V3 myRESTClient;
+    RESTClient myRESTClient;
     MainActivity mainActivity;
     ProgressBar progressBar;
     ArrayList<userItem> userList;

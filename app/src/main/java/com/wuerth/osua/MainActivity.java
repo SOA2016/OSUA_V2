@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     MenuItem menuItemSearch;
     SearchView searchView;
     LinearLayout fragment;
-    RESTClient_V3 RESTClient;
+    RESTClient RESTClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

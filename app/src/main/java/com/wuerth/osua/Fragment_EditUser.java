@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class Fragment_EditUser extends Fragment {
 
     MainActivity mainActivity;
-    RESTClient_V3 myRESTClient;
+    RESTClient myRESTClient;
     //EditText userName, userMail;
     SwitchCompat inputUserEnabled;
     String userID;

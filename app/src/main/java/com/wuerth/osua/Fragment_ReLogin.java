@@ -17,7 +17,7 @@ import android.widget.EditText;
 public class Fragment_ReLogin extends DialogFragment {
     MainActivity mainActivity;
     SharedPreferences myPrefs;
-    RESTClient_V3 myRESTClient;
+    RESTClient myRESTClient;
     EditText inputUserPassword;
 
     @Override

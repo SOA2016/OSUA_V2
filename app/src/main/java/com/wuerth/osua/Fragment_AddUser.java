@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class Fragment_AddUser extends Fragment {
 
     MainActivity mainActivity;
-    RESTClient_V3 myRESTClient;
+    RESTClient myRESTClient;
     ArrayList<projectItem> projectList;
     Spinner spinner;
     LinearLayout content;

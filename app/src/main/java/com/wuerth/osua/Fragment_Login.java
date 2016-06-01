@@ -33,7 +33,7 @@ public class Fragment_Login extends Fragment {
     String[] benutzer;
     ProgressBar progressBar;
     Button loginButton;
-    RESTClient_V3 myRESTClient;
+    RESTClient myRESTClient;
 
     public Fragment_Login() {
     }

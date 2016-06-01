@@ -38,7 +38,7 @@ public class Fragment_Filter extends DialogFragment {
     View view;
     AlertDialog.Builder builder;
     AlertDialog alertDialog;
-    RESTClient_V2 myRESTClient;
+    RESTClient myRESTClient;
     ProgressBar progressBar;
 
     @Override
