@@ -39,6 +39,7 @@ import java.util.ArrayList;
 public class Fragment_UserList extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
 
     private ListView listView;
+    RESTClient_V3 myRESTClient;
     MainActivity mainActivity;
     ProgressBar progressBar;
     ArrayList<userItem> userList;
@@ -85,6 +86,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         mainActivity = (MainActivity) getActivity();
+        myRESTClient = new RESTClient_V3(mainActivity); // Here you should distinguish API V2.0 or V3.0
 
         progressBar.getIndeterminateDrawable().setColorFilter(
                 getResources().getColor(R.color.colorPrimary),
@@ -188,9 +190,9 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         protected Boolean doInBackground(String... params) {
 
             try{
-                if(mainActivity.myRESTClient.validateToken())    // First validate token to prevent login from non-admin)
-                    if(mainActivity.myRESTClient.getUsers())
-                        mainActivity.myRESTClient.getProjects();
+                //if(myRESTClient.validateToken())    // First validate token to prevent login from non-admin)
+                    if(myRESTClient.getUsers()){}
+                        //myRESTClient.getProjects();
 
                 return true;
             }
@@ -444,8 +446,8 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
             try{
                 //myRESTClient.postUser();
                 //Toast.makeText(mainActivity, "Called", Toast.LENGTH_LONG).show();
-                return mainActivity.myRESTClient.deleteUser(userID);
-            }
+                return myRESTClient.deleteUser(userID);
+             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
                 mainActivity.showSnackbar("Unexpected Error");

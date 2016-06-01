@@ -29,6 +29,7 @@ import java.util.ArrayList;
 public class Fragment_EditUser extends Fragment {
 
     MainActivity mainActivity;
+    RESTClient_V3 myRESTClient;
     //EditText userName, userMail;
     SwitchCompat inputUserEnabled;
     String userID;
@@ -64,6 +65,7 @@ public class Fragment_EditUser extends Fragment {
         setHasOptionsMenu(true);
 
         mainActivity = (MainActivity) getActivity();
+        myRESTClient = new RESTClient_V3(mainActivity); // Here you should distinguish API V2.0 or V3.0
 
         inputUserName = (EditText) view.findViewById(R.id.input_userName);
         inputUserMail = (EditText) view.findViewById(R.id.input_userMail);
@@ -137,8 +139,8 @@ public class Fragment_EditUser extends Fragment {
         protected Boolean doInBackground(String... params) {
 
             try{
-                mainActivity.myRESTClient.getUser(userID);
-                mainActivity.myRESTClient.getProjects();
+                myRESTClient.getUser(userID);
+                //myRESTClient.getProjects();
 
                 return true;
             }
@@ -206,7 +208,8 @@ public class Fragment_EditUser extends Fragment {
             try{
                 //myRESTClient.postUser();
                 //Toast.makeText(mainActivity, "Called", Toast.LENGTH_LONG).show();
-                return mainActivity.myRESTClient.updateUser(userID, projectID, userName, userMail, userPassword, userEnabled);
+                return myRESTClient.updateUser(userID, projectID, userName, userMail, userPassword, userEnabled);
+
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());

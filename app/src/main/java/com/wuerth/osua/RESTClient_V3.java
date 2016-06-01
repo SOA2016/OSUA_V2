@@ -1,8 +1,10 @@
 package com.wuerth.osua;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import org.apache.http.Header;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -12,6 +14,8 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpPatch;
+
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -27,8 +31,17 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class RESTClient_V3 extends RESTClient {
+public class RESTClient_V3 {
 
+	MainActivity mainActivity;
+	SharedPreferences myPrefs;
+	SharedPreferences.Editor spEditor;
+
+	RESTClient_V3(MainActivity mainActivity){
+		this.mainActivity = mainActivity;
+		myPrefs = mainActivity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+		spEditor = myPrefs.edit();
+	}
 
 	/***
 	 * Holt sich die Liste der aktivierten Extensions.
@@ -37,14 +50,6 @@ public class RESTClient_V3 extends RESTClient {
 	 * @throws Exception
 	 */
 
-	RESTClient_V3(MainActivity mainActivity){
-		this.mainActivity = mainActivity;
-		myPrefs = mainActivity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-		spEditor = myPrefs.edit();
-		prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
-		snackbarNotifications = mainActivity.getResources().getStringArray(R.array.snackbarNotifications);
-	}
-
 	public String getKeystoneExtensions() throws Exception{
 		try{
 			HttpClient client = new DefaultHttpClient();
@@ -52,9 +57,9 @@ public class RESTClient_V3 extends RESTClient {
 			HttpGet request = new HttpGet();
 			request.setURI(website);
 			HttpResponse response = client.execute(request);
-			
+
 			int status = response.getStatusLine().getStatusCode();
-			
+
 			HttpEntity e = response.getEntity();
 			if (status == 200){
 				return EntityUtils.toString(e);
@@ -62,7 +67,7 @@ public class RESTClient_V3 extends RESTClient {
 			else{
 				return response.getStatusLine().toString()+" "+EntityUtils.toString(e);
 			}
-			
+
 		}
 		catch(Exception e){
 			return e.toString();
@@ -91,33 +96,23 @@ public class RESTClient_V3 extends RESTClient {
 			return e.toString();
 		}
 	}
-
-	/***
-	 * V2 Wrapper for Authentification
-	 * @param loginPassword
-	 * @return Returns the Authentification-Token from Keystone
-	 */
-	public boolean getAuthentificationToken(String loginPassword)
-	{
-		String loginName = myPrefs.getString("loginName", "");
-		String loginProject = myPrefs.getString("loginProject", "");
-		String serverAddress = myPrefs.getString("serverAddress", "");
-		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
-
-		if(loginName.equals("") || loginProject.equals("") || serverAddress.equals("")){
-			mainActivity.showSnackbar(snackbarNotifications[4]+Thread.currentThread().getStackTrace()[2].getLineNumber());
-			return false;
-		}
-
-		return getAuthentificationToken(loginName, loginPassword, serverPrefix, serverAddress, mainActivity);
-	}
-
 	/***
 	 * Holt sich ein Authentifizierungstoken vom Server und gibt dies zurueck.
 	 * @return Returns the Authentification-Token from Keystone
 	 * @throws URISyntaxException
 	 */
-	public boolean getAuthentificationToken(String loginName, String loginPassword, int serverPrefix, String serverAddress, MainActivity mainActivity){
+	public boolean getAuthentificationToken(String loginPassword){
+
+		String loginName = myPrefs.getString("loginName", "");
+		String loginProject = myPrefs.getString("loginProject", "");
+		String serverAddress = myPrefs.getString("serverAddress", "");
+		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
+		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
+
+		if(loginName.equals("") || loginProject.equals("") || serverAddress.equals("")){
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
 
 		JSONObject jsonRequest = new JSONObject();
 		JSONObject identity = new JSONObject();
@@ -125,7 +120,6 @@ public class RESTClient_V3 extends RESTClient {
 		JSONObject password = new JSONObject();
 		JSONObject user = new JSONObject();
 		JSONObject domain = new JSONObject();
-		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
 		JSONArray methods = new JSONArray();
 		methods.put("password");
@@ -154,15 +148,12 @@ public class RESTClient_V3 extends RESTClient {
 		try {
 
 			HttpParams httpParameters = new BasicHttpParams();
-			// Set the timeout in milliseconds until a connection is established.
-			// The default value is zero, that means the timeout is not used.
-			int timeoutConnection = 10000;
+
+			int timeoutConnection = 10000;	// Set the timeout in milliseconds until a connection is established.
 			HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-			// Set the default socket timeout (SO_TIMEOUT)
-			// in milliseconds which is the timeout for waiting for data.
-			int timeoutSocket = 10000;
+			int timeoutSocket = 10000;	// Set the default socket timeout (SO_TIMEOUT) in milliseconds which is the timeout for waiting for data.
 			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
-			
+
 			HttpClient client = new DefaultHttpClient(httpParameters);
 			URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v3/auth/tokens");
 			HttpPost request = new HttpPost();
@@ -171,19 +162,55 @@ public class RESTClient_V3 extends RESTClient {
 			request.setEntity(new StringEntity(jsonRequest.toString()));
 			request.setHeader("Content-Type", "application/json");
 			request.setHeader("Accept", "application/json");
-			
+
 			HttpResponse response = client.execute(request);
 
 			//return jsonRequest.toString();
 
 			int status = response.getStatusLine().getStatusCode();
 			
-			HttpEntity e = response.getEntity();
+			HttpEntity entity = response.getEntity();
+
+			String responseString = EntityUtils.toString(entity);
+			Log.d("Response (auth)", responseString);
+
+			JSONObject myJSONObject;
+			JSONObject access;
+			JSONObject token;
 
 			switch(status){
 				case 201: {
-                    Log.d("Response", EntityUtils.toString(e));
-					return true;
+
+					Header[] headers = response.getAllHeaders();
+					for (Header header : headers)
+					{
+
+						String headername = new String(header.getName());
+
+						if ( headername.equals("X-Subject-Token"))
+						{
+							try
+							{
+								myJSONObject = new JSONObject(responseString);
+								token = myJSONObject.getJSONObject("token");
+
+								spEditor.putString("actualToken", header.getValue());
+								spEditor.putString("actualTokenExpiresAt", token.getString("expires_at"));
+								spEditor.apply();
+								return true;
+							}
+						 catch (JSONException e)
+						 	{
+								Log.e("RESTClient", ""+status);
+								mainActivity.showSnackbar("Unexpected Error");
+								return false;
+							}
+
+						}
+
+
+					}
+					return false;
 				}
 				case 400: {
 					mainActivity.showSnackbar("Please enter username and password");
@@ -212,12 +239,12 @@ public class RESTClient_V3 extends RESTClient {
 
 	/***
 	 * Ruft die angelegten Tenants ab und gibt diese zurueck.
-	 * @param Benutzereingaben
+	 * @param
 	 * @return
 	 */
 	public String listTenants(String X_Auth_Token){
 		try {
-			
+
 			HttpClient client = new DefaultHttpClient();
 			URI website = new URI("http://143.93.246.220:35357/v2.0/tenants");
 			HttpGet request = new HttpGet();
@@ -225,11 +252,11 @@ public class RESTClient_V3 extends RESTClient {
 			request.setHeader("Content-Type", "application/json");
 			request.setHeader("Accept", "application/json");
 			request.setHeader("X-Auth-Token", X_Auth_Token);
-			
+
 			HttpResponse response = client.execute(request);
 			Integer status = response.getStatusLine().getStatusCode();
 			Log.d("Status-Code: ", status.toString());
-			
+
 			HttpEntity e = response.getEntity();
 			if (status == 200){
 				return EntityUtils.toString(e);
@@ -237,7 +264,7 @@ public class RESTClient_V3 extends RESTClient {
 			else{
 				return response.getStatusLine().toString()+" "+EntityUtils.toString(e);
 			}
-			
+
 		} catch (UnsupportedEncodingException e) {
 			return e.toString();
 		} catch (ClientProtocolException e) {
@@ -248,10 +275,10 @@ public class RESTClient_V3 extends RESTClient {
 			return e1.toString();
 		}
 	}
-	
+
 	/***
 	 * Ruft die angelegten Benutzer auf dem Server ab und gibt die Liste zurueck.
-	 * @param Benutzereingaben
+	 * @param
 	 * @return Returns list of Users
 	 */
 	public String listUsers(String X_Auth_Token){
@@ -287,9 +314,8 @@ public class RESTClient_V3 extends RESTClient {
 		}
 	}
 
+	public Boolean getUsers(){
 
-	public boolean postUser(String projectID, String userName, String userMail, String userPassword, Boolean userEnabled)
-	{
 		if(!validateToken()) {
 			Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
 			fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
@@ -305,66 +331,95 @@ public class RESTClient_V3 extends RESTClient {
 			mainActivity.showSnackbar("Unexpected Error");
 			return false;
 		}
-		mainActivity.showSnackbar(addUser(actualToken, userName, userPassword, projectID));
-		return true;
-	}
 
-	/***
-	 * Fuegt einen neuen Benutzer hinzu.
-	 * @param Benutzereingaben
-	 * @return
-	 */
-	public String addUser(String X_Auth_Token, String username, String password, String tenantID){
-		
-		HttpClient client = new DefaultHttpClient();
 		try {
-			URI website = new URI("http://143.93.246.220:35357/v2.0/users");
-			HttpPost request = new HttpPost();
+			HttpParams httpParameters = new BasicHttpParams();
+
+			int timeoutConnection = 10000;	// Set the timeout in milliseconds until a connection is established.
+			HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+			int timeoutSocket = 10000;	// Set the default socket timeout (SO_TIMEOUT) in milliseconds which is the timeout for waiting for data.
+			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+			HttpClient client = new DefaultHttpClient(httpParameters);
+			URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v3/users");
+			HttpGet request = new HttpGet();
 			request.setURI(website);
 			request.setHeader("Content-Type", "application/json");
 			request.setHeader("Accept", "application/json");
-			request.setHeader("X-Auth-Token", X_Auth_Token);
-			
-			JSONObject user = new JSONObject();
-			JSONObject userinfo = new JSONObject();
-			
-			userinfo.put("name", username);
-			userinfo.put("password", password);
-			userinfo.put("enabled", true);
-			userinfo.put("tenantId", tenantID);
-			
-			user.put("user", userinfo);
-			
-			request.setEntity(new StringEntity(user.toString()));
-			
-			HttpResponse response = client.execute(request);
-			
-			int status = response.getStatusLine().getStatusCode();
-			
-			HttpEntity e = response.getEntity();
-			if (status == 200){
-				return EntityUtils.toString(e);
+			request.setHeader("X-Auth-Token", actualToken);
+
+			HttpResponse httpResponse = client.execute(request);
+
+			int status = httpResponse.getStatusLine().getStatusCode();
+
+			if(status == 200){
+				HttpEntity entity = httpResponse.getEntity();
+				String responseString = EntityUtils.toString(entity);
+				Log.d("Response (userlist)", responseString);
+
+				JSONObject myJSONObject;
+				JSONArray userList;
+
+				try {
+					myJSONObject = new JSONObject(responseString);
+					userList = myJSONObject.getJSONArray("users");
+
+					mainActivity.databaseAdapter.deleteUserList();
+
+					for(int index = 0; index < userList.length(); index++){
+						JSONObject user = userList.getJSONObject(index);
+						String userID, userName, userMail, userProject;
+						Boolean userEnabled;
+
+						//mainActivity.databaseAdapter.insertUser(1,"test", "testmail", "testprojekt");
+
+						userID = user.getString("id");
+						userName = user.getString("name");
+						userEnabled = user.getBoolean("enabled");
+
+						try{
+							userMail = user.getString("email");
+						}catch (Exception e){
+							// No email for this user
+							userMail = "";
+						}
+
+						try{
+							userProject = user.getString("default_project_id");
+						}catch (Exception e){
+							// No project selected for this user
+							userProject = "";
+						}
+
+						mainActivity.databaseAdapter.insertUser(userID, userName, userMail, userProject, userEnabled);
+						//Log.d("User"+index, user.getString("name"));
+					}
+
+					return true;
+
+				} catch (JSONException e) {
+					Log.e("RESTClient", ""+status+e);
+					mainActivity.showSnackbar("Unexpected Error");
+					return false;
+				}
+			} else{
+				Log.e("RESTClient", "" + status);
+				mainActivity.showSnackbar("Unexpected Error");
+				return false;
 			}
-			else{
-				return response.getStatusLine().toString()+" "+EntityUtils.toString(e);
-			}
-			
-			
+		}
+		catch (IOException e) {
+			mainActivity.showSnackbar("Connection to server failed");
+			return false;
 		} catch (URISyntaxException e) {
-			return e.toString();
-		} catch (JSONException e) {
-			return e.toString();
-		} catch (UnsupportedEncodingException e) {
-			return e.toString();
-		} catch (ClientProtocolException e1) {
-			return e1.toString();
-		} catch (IOException e1) {
-			return e1.toString();
+			Log.e("RESTClient", e.toString());
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
 		}
 	}
 
-	public boolean deleteUser(String userID)
-	{
+	public Boolean getUser(String ID){
+
 		if(!validateToken()) {
 			Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
 			fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
@@ -380,81 +435,96 @@ public class RESTClient_V3 extends RESTClient {
 			mainActivity.showSnackbar("Unexpected Error");
 			return false;
 		}
-		mainActivity.showSnackbar(deleteUser(actualToken, userID));
-		return true;
-	}
-	
-	
-	/***
-	 * Luescht einen bestehenden Benutzer.
-	 * @param Benutzereingaben
-	 * @return
-	 */
-	public String deleteUser(String X_Auth_Token, String UserID){
+
 		try {
-			HttpClient client = new DefaultHttpClient();
-			URI website = new URI("http://143.93.246.220:35357/v2.0/users/"+UserID);
-			HttpDelete request = new HttpDelete();
+			HttpParams httpParameters = new BasicHttpParams();
+
+			int timeoutConnection = 10000;	// Set the timeout in milliseconds until a connection is established.
+			HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+			int timeoutSocket = 10000;	// Set the default socket timeout (SO_TIMEOUT) in milliseconds which is the timeout for waiting for data.
+			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+			HttpClient client = new DefaultHttpClient(httpParameters);
+			URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v3/users/"+ID);
+			HttpGet request = new HttpGet();
 			request.setURI(website);
 			request.setHeader("Content-Type", "application/json");
 			request.setHeader("Accept", "application/json");
-			request.setHeader("X-Auth-Token", X_Auth_Token);
-			
-			HttpResponse response = client.execute(request);
-			
-			return response.getStatusLine().toString();
-			
-			
+			request.setHeader("X-Auth-Token", actualToken);
+			request.setHeader("userId", ID);
+
+			HttpResponse httpResponse = client.execute(request);
+
+			int status = httpResponse.getStatusLine().getStatusCode();
+
+			if(status == 200){
+				HttpEntity entity = httpResponse.getEntity();
+				String responseString = EntityUtils.toString(entity);
+				Log.d("Response (editUser)", responseString);
+
+				JSONObject myJSONObject;
+
+				try {
+					myJSONObject = new JSONObject(responseString);
+
+					//mainActivity.databaseAdapter.deleteUserList();
+
+					//for(int index = 0; index < userList.length(); index++){
+					JSONObject user = myJSONObject.getJSONObject("user");
+					String userID, userName, userMail, userProject;
+					Boolean userEnabled;
+
+					//mainActivity.databaseAdapter.insertUser(1,"test", "testmail", "testprojekt");
+
+					userID = user.getString("id");
+					userName = user.getString("name");
+					userEnabled = user.getBoolean("enabled");
+
+					try{
+						userMail = user.getString("email");
+					}catch (Exception e){
+						// No email for this user
+						userMail = "";
+					}
+
+					try{
+						userProject = user.getString("default_project_id");
+					}catch (Exception e){
+						// No project selected for this user
+						userProject = "";
+					}
+
+					mainActivity.databaseAdapter.deleteUserList();
+					mainActivity.databaseAdapter.insertUser(userID, userName, userMail, userProject, userEnabled);
+					//Log.d("User"+index, user.getString("name"));
+					//}
+
+					return true;
+
+				} catch (JSONException e) {
+					Log.e("RESTClient", ""+status+e);
+					mainActivity.showSnackbar("Unexpected Error");
+					return false;
+				}
+			} else{
+				Log.e("RESTClient", "" + status);
+				mainActivity.showSnackbar("Unexpected Error");
+				return false;
+			}
+		}
+		catch (IOException e) {
+			mainActivity.showSnackbar("Connection to server failed");
+			return false;
 		} catch (URISyntaxException e) {
-			return e.toString();
-		} catch (ClientProtocolException e1) {
-			return e1.toString();
-		} catch (IOException e2) {
-			return e2.toString();
+			Log.e("RESTClient", e.toString());
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
 		}
 	}
 
 	/***
-	 * Created by Stephan Strissel on 24.05.2016.
-	 * Get specific user by ID. Not implemented jet
-	 * @param ID
-	 * @return
-	 */
-	public boolean getUser(String ID) {
-	return false;
-	}
-
-	/***
-	 * Created by Stephan Strissel on 24.05.2016.
-	 * Get specific user by ID. Not implemented jet
-	 * @param ID
-	 * @return
-	 */
-	public boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, Boolean userEnabled) {
-		return false;
-	}
-
-	public boolean getProjects() {
-		return false;
-	}
-
-	public boolean getUsers() {
-		return false;
-	}
-
-
-
-	public boolean validateToken() {
-		return false;
-	}
-
-	public boolean deleteToken() {
-		return false;
-	}
-	
-	/***
-	 * Ändert das Passwort eines Benutzers.
-	 * @param Benutzereingaben
+	 * uendert das Passwort eines Benutzers.
+	 * @param
 	 * @return
 	 */
 	public String changePassword(String X_Auth_Token, String UserID, String Password){
@@ -494,6 +564,321 @@ public class RESTClient_V3 extends RESTClient {
 			return e.toString();
 		} catch (JSONException e) {
 			return e.toString();
+		}
+	}
+
+	public Boolean deleteToken(){
+
+		String actualToken = myPrefs.getString("actualToken", "");
+		String serverAddress = myPrefs.getString("serverAddress", "");
+		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
+		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
+
+		if(actualToken.equals("") || serverAddress.equals("")){
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
+
+		try {
+			HttpParams httpParameters = new BasicHttpParams();
+
+			int timeoutConnection = 10000;	// Set the timeout in milliseconds until a connection is established.
+			HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+			int timeoutSocket = 10000;	// Set the default socket timeout (SO_TIMEOUT) in milliseconds which is the timeout for waiting for data.
+			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+			HttpClient client = new DefaultHttpClient(httpParameters);
+			URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v2.0/tokens/"+actualToken);
+			HttpDelete request = new HttpDelete();
+			request.setURI(website);
+			request.setHeader("Content-Type", "application/json");
+			request.setHeader("Accept", "application/json");
+			request.setHeader("X-Auth-Token", actualToken);
+
+			HttpResponse httpResponse = client.execute(request);
+
+			int status = httpResponse.getStatusLine().getStatusCode();
+
+			if(status == 204){
+				spEditor.putString("actualToken", null);
+				spEditor.putString("actualTokenExpiresAt", null);
+				spEditor.apply();
+				return true;
+			}else{
+				Log.e("RESTClient", "" + status);
+				mainActivity.showSnackbar("Error. Token couldn't be deleted");
+				return false;
+			}
+		}
+		catch (IOException e) {
+			mainActivity.showSnackbar("Server timeout. Token couldn't be deleted");
+			return false;
+		} catch (URISyntaxException e) {
+			Log.e("RESTClient", e.toString());
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
+	}
+
+	public Boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
+
+		if(!validateToken()) {
+			Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
+			fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
+			return false;
+		}
+
+		String actualToken = myPrefs.getString("actualToken", "");
+		String serverAddress = myPrefs.getString("serverAddress", "");
+		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
+		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
+
+		if(actualToken.equals("") || serverAddress.equals("")){
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
+
+		try {
+			HttpParams httpParameters = new BasicHttpParams();
+
+			int timeoutConnection = 10000;	// Set the timeout in milliseconds until a connection is established.
+			HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+			int timeoutSocket = 10000;	// Set the default socket timeout (SO_TIMEOUT) in milliseconds which is the timeout for waiting for data.
+			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+			HttpClient client = new DefaultHttpClient(httpParameters);
+			URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v3/users/"+userID);
+			HttpPatch request = new HttpPatch();
+			request.setURI(website);
+			request.setHeader("Content-Type", "application/json");
+			request.setHeader("Accept", "application/json");
+			request.setHeader("X-Auth-Token", actualToken);
+
+			JSONObject user = new JSONObject();
+			JSONObject userinfo = new JSONObject();
+
+			userinfo.put("name", userName);
+			userinfo.put("email", userMail);
+			if(userPassword != null)
+				userinfo.put("password", userPassword);
+			userinfo.put("enabled", userEnabled);
+			userinfo.put("default_project_id", projectID);
+
+			user.put("user", userinfo);
+
+			request.setEntity(new StringEntity(user.toString()));
+
+			HttpResponse httpResponse = client.execute(request);
+
+			int status = httpResponse.getStatusLine().getStatusCode();
+
+			if(status == 200){
+				mainActivity.showSnackbar("User updated successfully");
+				return true;
+			} else{
+				Log.e("RESTClient", "" + status);
+				mainActivity.showSnackbar("Error. User couldn't be updated");
+				return false;
+			}
+		}
+		catch (IOException e) {
+			mainActivity.showSnackbar("Connection to server failed");
+			return false;
+		} catch (URISyntaxException e) {
+			Log.e("RESTClient", e.toString());
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		} catch (JSONException e) {
+			Log.e("RESTClient", e.toString());
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
+	}
+
+	public Boolean postUser(String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
+
+		if(!validateToken()) {
+			Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
+			fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
+			return false;
+		}
+
+		String actualToken = myPrefs.getString("actualToken", "");
+		String serverAddress = myPrefs.getString("serverAddress", "");
+		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
+		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
+
+		if(actualToken.equals("") || serverAddress.equals("")){
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
+
+		try {
+			HttpParams httpParameters = new BasicHttpParams();
+
+			int timeoutConnection = 10000;	// Set the timeout in milliseconds until a connection is established.
+			HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+			int timeoutSocket = 10000;	// Set the default socket timeout (SO_TIMEOUT) in milliseconds which is the timeout for waiting for data.
+			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+			HttpClient client = new DefaultHttpClient(httpParameters);
+			URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v3/users/");
+			HttpPost request = new HttpPost();
+			request.setURI(website);
+			request.setHeader("Content-Type", "application/json");
+			request.setHeader("Accept", "application/json");
+			request.setHeader("X-Auth-Token", actualToken);
+
+			JSONObject user = new JSONObject();
+			JSONObject userinfo = new JSONObject();
+
+			userinfo.put("name", userName);
+			userinfo.put("email", userMail);
+			userinfo.put("password", userPassword);
+			userinfo.put("enabled", userEnabled);
+			userinfo.put("default_project_id", projectID);
+
+			user.put("user", userinfo);
+
+			request.setEntity(new StringEntity(user.toString()));
+
+			HttpResponse httpResponse = client.execute(request);
+
+			int status = httpResponse.getStatusLine().getStatusCode();
+
+			if(status == 201){
+				mainActivity.showSnackbar("User created successfully");
+				return true;
+			} else{
+				Log.e("RESTClient", "" + status);
+				mainActivity.showSnackbar("Error. User not created");
+				return false;
+			}
+		}
+		catch (IOException e) {
+			mainActivity.showSnackbar("Connection to server failed");
+			return false;
+		} catch (URISyntaxException e) {
+			Log.e("RESTClient", e.toString());
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		} catch (JSONException e) {
+			Log.e("RESTClient", e.toString());
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
+	}
+
+	public Boolean deleteUser(String userID){
+
+		if(!validateToken()) {
+			Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
+			fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
+			return false;
+		}
+
+		String actualToken = myPrefs.getString("actualToken", "");
+		String serverAddress = myPrefs.getString("serverAddress", "");
+		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
+		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
+
+		if(actualToken.equals("") || serverAddress.equals("")){
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
+
+		try {
+			HttpParams httpParameters = new BasicHttpParams();
+
+			int timeoutConnection = 10000;	// Set the timeout in milliseconds until a connection is established.
+			HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+			int timeoutSocket = 10000;	// Set the default socket timeout (SO_TIMEOUT) in milliseconds which is the timeout for waiting for data.
+			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+			HttpClient client = new DefaultHttpClient(httpParameters);
+			URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v3/users/"+userID);
+			HttpDelete request = new HttpDelete();
+			request.setURI(website);
+			request.setHeader("Content-Type", "application/json");
+			request.setHeader("Accept", "application/json");
+			request.setHeader("X-Auth-Token", actualToken);
+
+			HttpResponse httpResponse = client.execute(request);
+
+			int status = httpResponse.getStatusLine().getStatusCode();
+
+			if(status == 204){
+				return true;
+			}else{
+				Log.e("RESTClient", "" + status);
+				mainActivity.showSnackbar("Error. User not created");
+				return false;
+			}
+		}
+		catch (IOException e) {
+			mainActivity.showSnackbar("Connection to server failed");
+			return false;
+		} catch (URISyntaxException e) {
+			Log.e("RESTClient", e.toString());
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
+	}
+
+	public Boolean validateToken(){
+
+		String actualToken = myPrefs.getString("actualToken", "");
+		String serverAddress = myPrefs.getString("serverAddress", "");
+		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
+		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
+
+		if(actualToken.equals("") || serverAddress.equals("")){
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
+		}
+
+		try {
+			HttpParams httpParameters = new BasicHttpParams();
+
+			int timeoutConnection = 10000;	// Set the timeout in milliseconds until a connection is established.
+			HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+			int timeoutSocket = 10000;	// Set the default socket timeout (SO_TIMEOUT) in milliseconds which is the timeout for waiting for data.
+			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+			HttpClient client = new DefaultHttpClient(httpParameters);
+			URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v3/auth/tokens");
+			HttpGet request = new HttpGet();
+			request.setURI(website);
+			request.setHeader("Content-Type", "application/json");
+			request.setHeader("Accept", "application/json");
+			request.setHeader("X-Auth-Token", actualToken);
+			request.setHeader("X-Subject-Token", actualToken);
+
+			HttpResponse httpResponse = client.execute(request);
+
+			int status = httpResponse.getStatusLine().getStatusCode();
+
+			if(status == 200){
+				return true;
+			}else if(status == 403) {
+				mainActivity.showSnackbar("Please login with an admin account");
+				mainActivity.changeFragment(mainActivity.TAG_LOGIN);
+				return false;
+			}else{
+				Log.e("RESTClient", "" + status);
+				spEditor.putString("actualToken", null);
+				spEditor.putString("actualTokenExpiresAt", null);
+				spEditor.apply();
+				return false;
+			}
+		}
+		catch (IOException e) {
+			mainActivity.showSnackbar("Connection to server failed");
+			return false;
+		} catch (URISyntaxException e) {
+			Log.e("RESTClient", e.toString());
+			mainActivity.showSnackbar("Unexpected Error");
+			return false;
 		}
 	}
 }
