@@ -32,6 +32,7 @@ public class RESTClient_V2 extends RESTClient {
     MainActivity mainActivity;
     SharedPreferences myPrefs;
     SharedPreferences.Editor spEditor;
+    Context Context;
 
     RESTClient_V2(MainActivity mainActivity){
         this.mainActivity = mainActivity;
@@ -48,7 +49,7 @@ public class RESTClient_V2 extends RESTClient {
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(loginName.equals("") || loginProject.equals("") || serverAddress.equals("")){
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
 
@@ -65,7 +66,7 @@ public class RESTClient_V2 extends RESTClient {
 
 			jsonRequest.put("auth", auth);
 		} catch (JSONException e1) {
-			mainActivity.showSnackbar("Unexpected Error");
+			mainActivity.showSnackbar(Context.getString(R.string.error_0));
 			return false;
 		}
 		
@@ -114,7 +115,7 @@ public class RESTClient_V2 extends RESTClient {
 
                     } catch (JSONException e) {
                         Log.e("RESTClient", ""+status);
-                        mainActivity.showSnackbar("Unexpected Error");
+                        mainActivity.showSnackbar(Context.getString(R.string.error_0));
                         return false;
                     }
 				}
@@ -128,7 +129,7 @@ public class RESTClient_V2 extends RESTClient {
 				}
                 default: {
                     Log.e("RESTClient", ""+status);
-                    mainActivity.showSnackbar("Unexpected Error");
+                    mainActivity.showSnackbar(Context.getString(R.string.error_0));
                     return false;
                 }
 			}
@@ -138,7 +139,7 @@ public class RESTClient_V2 extends RESTClient {
 			 return false;
 		} catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
-			mainActivity.showSnackbar("Unexpected Error");
+			mainActivity.showSnackbar(Context.getString(R.string.error_0));
 			return false;
 		}
 	}
@@ -151,7 +152,7 @@ public class RESTClient_V2 extends RESTClient {
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
 
@@ -191,7 +192,8 @@ public class RESTClient_V2 extends RESTClient {
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
-            mainActivity.showSnackbar("Unexpected Error");
+
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
     }
@@ -204,7 +206,7 @@ public class RESTClient_V2 extends RESTClient {
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
 
@@ -247,7 +249,7 @@ public class RESTClient_V2 extends RESTClient {
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
     }
@@ -266,7 +268,7 @@ public class RESTClient_V2 extends RESTClient {
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
 
@@ -337,12 +339,12 @@ public class RESTClient_V2 extends RESTClient {
 
                 } catch (JSONException e) {
                     Log.e("RESTClient", ""+status+e);
-                    mainActivity.showSnackbar("Unexpected Error");
+                    mainActivity.showSnackbar(Context.getString(R.string.error_0));
                     return false;
                 }
             } else{
                 Log.e("RESTClient", "" + status);
-                mainActivity.showSnackbar("Unexpected Error");
+                mainActivity.showSnackbar(Context.getString(R.string.error_0));
                 return false;
             }
         }
@@ -351,7 +353,7 @@ public class RESTClient_V2 extends RESTClient {
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
     }
@@ -370,7 +372,7 @@ public class RESTClient_V2 extends RESTClient {
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
 
@@ -441,12 +443,12 @@ public class RESTClient_V2 extends RESTClient {
 
                 } catch (JSONException e) {
                     Log.e("RESTClient", ""+status+e);
-                    mainActivity.showSnackbar("Unexpected Error");
+                    mainActivity.showSnackbar(Context.getString(R.string.error_0));
                     return false;
                 }
             } else{
                 Log.e("RESTClient", "" + status);
-                mainActivity.showSnackbar("Unexpected Error");
+                mainActivity.showSnackbar(Context.getString(R.string.error_0));
                 return false;
             }
         }
@@ -455,7 +457,7 @@ public class RESTClient_V2 extends RESTClient {
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
     }
@@ -474,7 +476,7 @@ public class RESTClient_V2 extends RESTClient {
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
 
@@ -529,12 +531,12 @@ public class RESTClient_V2 extends RESTClient {
 
                 } catch (JSONException e) {
                     Log.e("RESTClient", ""+status+e);
-                    mainActivity.showSnackbar("Unexpected Error");
+                    mainActivity.showSnackbar(Context.getString(R.string.error_0));
                     return false;
                 }
             } else{
                 Log.e("RESTClient", "" + status);
-                mainActivity.showSnackbar("Unexpected Error");
+                mainActivity.showSnackbar(Context.getString(R.string.error_0));
                 return false;
             }
         }
@@ -543,7 +545,7 @@ public class RESTClient_V2 extends RESTClient {
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
     }
@@ -562,7 +564,7 @@ public class RESTClient_V2 extends RESTClient {
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
 
@@ -613,11 +615,11 @@ public class RESTClient_V2 extends RESTClient {
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         } catch (JSONException e) {
             Log.e("RESTClient", e.toString());
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
     }
@@ -636,7 +638,7 @@ public class RESTClient_V2 extends RESTClient {
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
 
@@ -688,11 +690,11 @@ public class RESTClient_V2 extends RESTClient {
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         } catch (JSONException e) {
             Log.e("RESTClient", e.toString());
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
     }
@@ -711,7 +713,7 @@ public class RESTClient_V2 extends RESTClient {
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
 
@@ -748,7 +750,7 @@ public class RESTClient_V2 extends RESTClient {
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
-            mainActivity.showSnackbar("Unexpected Error");
+            mainActivity.showSnackbar(Context.getString(R.string.error_0));
             return false;
         }
     }

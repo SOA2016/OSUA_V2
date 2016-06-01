@@ -15,4 +15,6 @@
     <string name="fragment_login_userDomain">DOMAIN</string>
     <string name="fragment_login_loginbutton">LOGIN</string>
 
+    <string name="error_0">Unexpected Error</string>
+
 </resources>
