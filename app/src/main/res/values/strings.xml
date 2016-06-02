@@ -61,26 +61,31 @@
     <string name="error_0">Unexpected Error</string>
     <string name="error_1">An Error occured (ERROR 1)</string>
 
-    <string name="impressum">
-        <b>Publisher</b>:<br/>nHochschule Worms\n
-        <br/>Erenburgerstraße 19\n
-        <br/>67549 Worms\n
-        <br/>Deutschland\n
-        \n
-        <br/><br/><b>Course of Studies</b>: \n
-        <br/>Wirtschaftsinformatik (Master)\n
-        \n
-        <br/><br/><b>Design &amp; Usability</b>: \n
-        <br/>Karsten Würth\n
-        \n
-        <br/><br/><b>Development</b>: \n
-        <br/>Karsten Würth, Roberto Damm\n
-        <br/><br/><b>Other Participants</b>: \n
-        <br/>Riza Kara, Collins Bakop-Banga\n
-        \n
-        <br/><br/>Die OpenStack-Cloud wurde von der Hochschule Worms entwickelt. Die App ermöglicht es Administratoren, Benutzer zu verwalten.
+
+    <string name="impressum"><![CDATA[
+    <h2>Publisher:</h2>
+    <p>Hochschule Worms</p>
+    <p>Erenburgerstraße 19<br>
+    67549 Worms<br>
+    Deutschland</p>
+
+    <h2>Course of Studies:</h2>
+    <p>M. Sc. Wirtschaftsinformatik</p>
+
+    <h2>Design &amp; Usability:</h2>
+    <p>Karsten Würth, Roberto Damm</p>
+
+    <h2>Development</h2>
+    <p>Karsten Würth, Roberto Damm</p>
+
+    <h2>Other Participants</h2>
+    <p>Riza Kara, Collins Bakop-Banga</p>
+
+    <h2>About</h2>
+    <p>Die OpenStack-Cloud wurde von der Hochschule Worms entwickelt. Die App ermöglicht es Administratoren, Benutzer zu verwalten.
         OpenStack-Cloud ist mit der OpenStack-Software verbunden.
-        OpenStack ist ein Open-Source-Software für die Erstellung und Verwaltung von Cloud-Computing -Plattformen für Öffentliche und private Clouds.\n
-</string>
+        OpenStack ist ein Open-Source-Software für die Erstellung und Verwaltung von Cloud-Computing -Plattformen für Öffentliche und private Clouds.</p>
+
+    ]]></string>
 
 </resources>
