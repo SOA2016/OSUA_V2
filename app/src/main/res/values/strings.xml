@@ -32,7 +32,8 @@
 
     <string name="fragment_userList_deleteSuccess">User deleted successfully</string>
     <string name="fragment_userList_deleteFail">User could not be deleted</string>
-    <string name="fragment_userList_loadSuccess">Userlist loaded successfully:</string>
+    <string name="fragment_userList_loadSuccess">Userlist loaded successfully</string>
+    <string name="fragment_userList_loadSuccess_items">Items</string>
     <string name="fragment_userList_loadFail">Userlist could not be loaded</string>
     <string name="fragment_userList_deleteDialog_title">Delete User</string>
     <string name="fragment_userList_deleteDialog_text">Do you really want to delete user</string>

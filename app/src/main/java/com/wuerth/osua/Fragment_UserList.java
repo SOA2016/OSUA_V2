@@ -214,7 +214,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                 ListAdapter adapter = new myListAdapter();
                 listView.setAdapter(adapter);
                 progressBar.setVisibility(View.INVISIBLE);
-                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_loadSuccess) + " " + listView.getCount() + " Items");
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_loadSuccess) + " (" + listView.getCount() + " " + mainActivity.getString(R.string.fragment_userList_loadSuccess_items) + ")");
             }else{
                 //loginButton.setVisibility(View.VISIBLE);
                 //progressBar.setVisibility(View.INVISIBLE);
