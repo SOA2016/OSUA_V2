@@ -408,14 +408,14 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Delete User")
-                    .setMessage(Html.fromHtml(getActivity().getString(R.string.fragment_userList_deleteUser) + " <b>"+user.userName+"</b>?"))
-                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            builder.setTitle(getActivity().getString(R.string.fragment_userList_deleteDialog_title))
+                    .setMessage(Html.fromHtml(getActivity().getString(R.string.fragment_userList_deleteDialog_text) + " <b>"+user.userName+"</b>?"))
+                    .setPositiveButton(getActivity().getString(R.string.fragment_userList_deleteDialog_deleteButton), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             new deleteUserAsynctask(user.userID).execute();
                         }
                     })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getActivity().getString(R.string.fragment_userList_deleteDialog_cancelButton), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User cancelled the dialog
                         }

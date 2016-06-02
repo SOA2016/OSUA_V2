@@ -29,11 +29,15 @@
     <string name="fragment_editUser_updateSuccess">User updated successfully</string>
     <string name="fragment_editUser_updateFail">User could not be updated</string>
 
-    <string name="fragment_userList_deleteUser">"Do you really want to delete user</string>
+
     <string name="fragment_userList_deleteSuccess">User deleted successfully</string>
     <string name="fragment_userList_deleteFail">User could not be deleted</string>
-    <string name="fragment_userList_loadSuccess">Userlist loaded:</string>
-    <string name="fragment_userList_loadFail">Loading Userlist failed</string>
+    <string name="fragment_userList_loadSuccess">Userlist loaded successfully:</string>
+    <string name="fragment_userList_loadFail">Userlist could not be loaded</string>
+    <string name="fragment_userList_deleteDialog_title">Delete User</string>
+    <string name="fragment_userList_deleteDialog_text">Do you really want to delete user</string>
+    <string name="fragment_userList_deleteDialog_deleteButton">Delete</string>
+    <string name="fragment_userList_deleteDialog_cancelButton">Cancel</string>
 
     <string name="mainActivity_logoutDialog_title">Logout</string>
     <string name="mainActivity_logoutDialog_text">Do you really want to logout?</string>
