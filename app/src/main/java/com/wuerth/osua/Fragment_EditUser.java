@@ -28,7 +28,6 @@ import java.util.ArrayList;
 
 public class Fragment_EditUser extends Fragment {
 
-    MainActivity mainActivity;
     RESTClient myRESTClient;
     //EditText userName, userMail;
     SwitchCompat inputUserEnabled;
@@ -39,7 +38,6 @@ public class Fragment_EditUser extends Fragment {
     LinearLayout content;
     ProgressBar progressBar;
     EditText inputUserName, inputUserMail, inputUserPassword;
-    Context Context;
 
     public static Fragment_EditUser newInstance(String userID){
         Fragment_EditUser fragment_editUser = new Fragment_EditUser();
@@ -65,8 +63,7 @@ public class Fragment_EditUser extends Fragment {
 
         setHasOptionsMenu(true);
 
-        mainActivity = (MainActivity) getActivity();
-        myRESTClient = new RESTClient_V3(mainActivity); // Here you should distinguish API V2.0 or V3.0
+        myRESTClient = new RESTClient_V3((MainActivity)getActivity()); // Here you should distinguish API V2.0 or V3.0
 
         inputUserName = (EditText) view.findViewById(R.id.input_userName);
         inputUserMail = (EditText) view.findViewById(R.id.input_userMail);
@@ -85,7 +82,7 @@ public class Fragment_EditUser extends Fragment {
                 inputUserPassword.setVisibility(View.VISIBLE);
                 inputUserPassword.requestFocus();
                 inputUserPassword.requestFocusFromTouch();
-                InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             }
         });
@@ -108,9 +105,9 @@ public class Fragment_EditUser extends Fragment {
         if(id== R.id.action_confirm) {
 
             if(inputUserName.getText().toString().isEmpty()){
-                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_enterUserName));
+                MainActivity.showSnackbar(getActivity().getString(R.string.fragment_editUser_enterUserName));
             }else if(inputUserPassword.getText().toString().isEmpty() && inputUserPassword.isEnabled()){
-                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_enterPassword));
+                MainActivity.showSnackbar(getActivity().getString(R.string.fragment_editUser_enterPassword));
             }else{
                 String userName, userMail, userPassword;
                 Boolean userEnabled;
@@ -147,7 +144,8 @@ public class Fragment_EditUser extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+                MainActivity mainActivity = (MainActivity) getActivity();
+                MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }
@@ -156,6 +154,7 @@ public class Fragment_EditUser extends Fragment {
         protected void onPostExecute(Boolean success) {
 
             if(success) {
+                MainActivity mainActivity = (MainActivity)getActivity();
                 userList = mainActivity.databaseAdapter.getAllUsers("");
                 userItem user = userList.get(0);
 
@@ -182,6 +181,8 @@ public class Fragment_EditUser extends Fragment {
             }else{
                 //loginButton.setVisibility(View.VISIBLE);
                 //progressBar.setVisibility(View.INVISIBLE);
+                MainActivity mainActivity = (MainActivity) getActivity();
+                MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
             }
 
             super.onPostExecute(success);
@@ -205,7 +206,7 @@ public class Fragment_EditUser extends Fragment {
 
         @Override
         protected Boolean doInBackground(String... params) {
-
+            MainActivity mainActivity = (MainActivity) getActivity();
             try{
                 //myRESTClient.postUser();
                 //Toast.makeText(mainActivity, "Called", Toast.LENGTH_LONG).show();
@@ -214,7 +215,7 @@ public class Fragment_EditUser extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+                MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }
@@ -222,11 +223,12 @@ public class Fragment_EditUser extends Fragment {
         @Override
         protected void onPostExecute(Boolean success) {
             //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
+            MainActivity mainActivity = (MainActivity) getActivity();
             if(success) {
-                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateSuccess));
+                MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateSuccess));
                 mainActivity.changeFragment(mainActivity.getString(R.string.fragment_userList), mainActivity);
             }else{
-                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateFail));
+                MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateFail));
             }
 
             super.onPostExecute(success);
