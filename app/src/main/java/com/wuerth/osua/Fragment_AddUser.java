@@ -91,9 +91,9 @@ public class Fragment_AddUser extends Fragment {
 
         if(id== R.id.action_confirm) {
             if(inputUserName.getText().toString().isEmpty()){
-                mainActivity.showSnackbar("Please enter a user-name");
+                mainActivity.showSnackbar(Context.getString(R.string.fragment_addUser_enterUserName));
             }else if(inputUserPassword.getText().toString().isEmpty()){
-                mainActivity.showSnackbar("Please enter a password");
+                mainActivity.showSnackbar(Context.getString(R.string.fragment_addUser_enterPassword));
             }else {
                 String userName, userMail, userPassword;
                 Boolean userEnabled;
@@ -184,10 +184,10 @@ public class Fragment_AddUser extends Fragment {
         protected void onPostExecute(Boolean success) {
             //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
             if(success) {
-                mainActivity.showSnackbar("User created successfully");
+                mainActivity.showSnackbar(Context.getString(R.string.fragment_addUser_creationSuccess));
                 mainActivity.changeFragment(mainActivity.TAG_USERLIST);
             }else{
-                mainActivity.showSnackbar("User couldn't be created");
+                mainActivity.showSnackbar(Context.getString(R.string.fragment_addUser_creationFail));
             }
 
             super.onPostExecute(success);
