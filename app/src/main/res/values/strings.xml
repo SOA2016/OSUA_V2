@@ -62,7 +62,8 @@
     <string name="error_1">An Error occured (ERROR 1)</string>
 
 
-    <string name="impressum"><![CDATA[
+    <string name="imprint_title">IMPRINT</string>
+    <string name="imprint_text"><![CDATA[
     <h2>Publisher:</h2>
     <p>Hochschule Worms</p>
     <p>Erenburgerstraße 19<br>
