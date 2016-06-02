@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,22 +75,33 @@ public class Fragment_Settings extends Fragment {
 
                 //*
                 // Changed by Stephan Strissel
-                // long timetoken is broken, setting it to 0
+                // try to cast timetoken to long
                 // */
-                MainActivity.showSnackbar("Timetoken broken, see Comments in Fragment_Settings.java");
-                //long timetoken = Long.valueOf(timeToken);
                 long timetoken = 0;
-                long actualtime = Long.valueOf(actualTime);
-                if (timetoken > actualtime) {
+                try {
+                    timetoken = Double.valueOf(timeToken).longValue();
+                }   catch(Exception e){
+                        Log.e("Settings", e.toString());
+                        MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+                        timetoken = 0;
+                }
 
+                long actualtime = Long.valueOf(actualTime);
+                if (timetoken < actualtime) {
 
                     tokenExpiresAt.setText(t);
+                    tokenExpiresAtLabel.setVisibility(View.VISIBLE);
+                    tokenExpiresAt.setVisibility(View.VISIBLE);
+                    serverAddressLabel.setVisibility(View.VISIBLE);
+                    serverAddress.setVisibility(View.VISIBLE);
 
                 } else {
+
                     tokenExpiresAtLabel.setVisibility(View.GONE);
                     tokenExpiresAt.setVisibility(View.GONE);
                     serverAddressLabel.setVisibility(View.GONE);
                     serverAddress.setVisibility(View.GONE);
+
                 }
 
             }
