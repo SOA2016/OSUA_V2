@@ -234,7 +234,7 @@ public class RESTClient_V2 extends RESTClient {
                 return true;
             }else if(status == 403) {
                 mainActivity.showSnackbar("Please login with an admin account");
-                mainActivity.changeFragment(mainActivity.getString(R.string.fragment_login), mainActivity);
+                mainActivity.changeFragment(mainActivity.TAG_LOGIN, mainActivity);
                 return false;
             }else{
                 Log.e("RESTClient", "" + status);

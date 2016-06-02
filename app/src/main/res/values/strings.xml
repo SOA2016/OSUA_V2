@@ -5,12 +5,12 @@
     static TAG has to be edited in MainActivity and should be equal to fragment,
     because FragmentManager can't handle strings from string.xml / string.xml is not loaded at Runtime of MainActivity.onCreate()
     -->
-    <string name="fragment_login">Login</string>
+  <!--  <string name="fragment_login">Login</string>
     <string name="fragment_userList">Userlist</string>
     <string name="fragment_editUser">EditUser</string>
     <string name="fragment_addUser">AddUser</string>
     <string name="fragment_settings">Settings</string>
-
+-->
     <string name="action_settings">Settings</string>
     <string name="action_logout">Logout</string>
     <string name="action_filter">Filter</string>

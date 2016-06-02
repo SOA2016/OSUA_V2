@@ -226,7 +226,7 @@ public class Fragment_EditUser extends Fragment {
             MainActivity mainActivity = (MainActivity) getActivity();
             if(success) {
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateSuccess));
-                mainActivity.changeFragment(mainActivity.getString(R.string.fragment_userList), mainActivity);
+                mainActivity.changeFragment(mainActivity.TAG_USERLIST, mainActivity);
             }else{
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateFail));
             }

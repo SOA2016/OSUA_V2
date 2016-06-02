@@ -25,7 +25,6 @@ public class Fragment_Settings extends Fragment {
     TextView tokenExpiresAt, serverAddress;
     SharedPreferences myPrefs;
     MainActivity mainActivity;
-    Context Context;
 
     public Fragment_Settings() {
     }
@@ -48,7 +47,6 @@ public class Fragment_Settings extends Fragment {
         tokenExpiresAt = (TextView) view.findViewById(R.id.tokenExpiresAt);
         TextView serverAddressLabel = (TextView) view.findViewById(R.id.serverAddressLabel);
         serverAddress = (TextView) view.findViewById(R.id.serverAddress);
-
         if(!myPrefs.getString("actualTokenExpiresAt", "").equals("")) {
 
             String ret = myPrefs.getString("actualTokenExpiresAt", "");
@@ -74,7 +72,13 @@ public class Fragment_Settings extends Fragment {
                 timeToken = timeToken.replace(":", "");
                 // b= b.substring(0, b.length()-4 );
 
-                long timetoken = Long.valueOf(timeToken);
+                //*
+                // Changed by Stephan Strissel
+                // long timetoken is broken, setting it to 0
+                // */
+                MainActivity.showSnackbar("Timetoken broken, see Comments in Fragment_Settings.java");
+                //long timetoken = Long.valueOf(timeToken);
+                long timetoken = 0;
                 long actualtime = Long.valueOf(actualTime);
                 if (timetoken > actualtime) {
 
@@ -92,7 +96,8 @@ public class Fragment_Settings extends Fragment {
 
             int serverPrefix = myPrefs.getInt("serverPrefix", 0);
             String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
-            serverAddress.setText(prefixList[serverPrefix]+myPrefs.getString("serverAddress", ""));
+            String fullServerAddressText = prefixList[serverPrefix]+myPrefs.getString("serverAddress", "");
+            serverAddress.setText(fullServerAddressText);
         }else{
             tokenExpiresAtLabel.setVisibility(View.GONE);
             tokenExpiresAt.setVisibility(View.GONE);

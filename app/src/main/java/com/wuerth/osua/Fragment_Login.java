@@ -138,7 +138,7 @@ public class Fragment_Login extends Fragment {
             if(success) {
                 //Toast.makeText(mainActivity, "Expires at: " + myPrefs.getString("actualTokenExpiresAt", "No Token!"), Toast.LENGTH_LONG).show();
                 //Toast.makeText(mainActivity, "Token: " + myPrefs.getString("actualToken", "No Token!"), Toast.LENGTH_LONG).show();
-                mainActivity.changeFragment(mainActivity.getString(R.string.fragment_userList), mainActivity);
+                mainActivity.changeFragment(mainActivity.TAG_USERLIST, mainActivity);
             }else{
                 loginButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);

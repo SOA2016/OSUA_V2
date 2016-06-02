@@ -183,7 +183,7 @@ public class Fragment_AddUser extends Fragment {
             //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
             if(success) {
                 mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationSuccess));
-                mainActivity.changeFragment(mainActivity.getString(R.string.fragment_userList), mainActivity);
+                mainActivity.changeFragment(mainActivity.TAG_USERLIST, mainActivity);
             }else{
                 mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationFail));
             }

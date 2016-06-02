@@ -384,7 +384,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         Fragment_EditUser newFragment = Fragment_EditUser.newInstance(userList.get(position).userID);
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment, newFragment);
-        transaction.addToBackStack(mainActivity.getString(R.string.fragment_editUser));
+        transaction.addToBackStack(mainActivity.TAG_LOGIN);
         transaction.commit();
     }
 
@@ -463,7 +463,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
             //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
             if(params.success) {
                 params.mainActivity.showSnackbar(params.mainActivity.getString(R.string.fragment_userList_deleteSuccess));
-                params.mainActivity.changeFragment(params.mainActivity.getString(R.string.fragment_userList), params.mainActivity);
+                params.mainActivity.changeFragment(params.mainActivity.TAG_LOGIN, params.mainActivity);
             }else {
                 params.mainActivity.showSnackbar(params.mainActivity.getString(R.string.fragment_userList_deleteFail));
             }
