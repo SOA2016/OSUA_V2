@@ -4,16 +4,16 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 
-    <item android:id="@+id/action_logout" android:title="Logout"
+    <item android:id="@+id/action_logout" android:title="@string/action_logout"
         android:orderInCategory="99" app:showAsAction="never" />
 
-    <item android:id="@+id/action_filter" android:title="Filter" android:icon="@drawable/ic_filter_list_white_24dp"
+    <item android:id="@+id/action_filter" android:title="@string/action_filter" android:icon="@drawable/ic_filter_list_white_24dp"
         android:orderInCategory="98" app:showAsAction="always" />
 
-    <item android:id="@+id/action_search" android:title="Search" android:icon="@drawable/ic_search_white_24dp"
+    <item android:id="@+id/action_search" android:title="@string/action_search" android:icon="@drawable/ic_search_white_24dp"
         android:orderInCategory="97" app:showAsAction="always" />
 
-    <item android:id="@+id/action_confirm" android:title="Confirm" android:icon="@drawable/ic_done_white_24dp"
+    <item android:id="@+id/action_confirm" android:title="@string/action_confirm" android:icon="@drawable/ic_done_white_24dp"
         android:orderInCategory="96" app:showAsAction="always"/>
 
 

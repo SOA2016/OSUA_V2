@@ -107,7 +107,7 @@ public class Fragment_Filter extends DialogFragment {
                         Fragment_UserList newFragment = Fragment_UserList.newInstance(mainActivity.searchView.getQuery().toString());
                         FragmentTransaction transaction = manager.beginTransaction();
                         transaction.replace(R.id.fragment, newFragment);
-                        transaction.addToBackStack(mainActivity.TAG_USERLIST);
+                        transaction.addToBackStack(mainActivity.getString(R.string.fragment_userList));
                         transaction.commit();
                     }
                 });
