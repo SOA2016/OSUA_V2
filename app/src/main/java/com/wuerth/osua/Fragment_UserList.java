@@ -384,7 +384,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         Fragment_EditUser newFragment = Fragment_EditUser.newInstance(userList.get(position).userID);
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment, newFragment);
-        transaction.addToBackStack(mainActivity.TAG_LOGIN);
+        transaction.addToBackStack(mainActivity.TAG_EDIT_USER);
         transaction.commit();
     }
 
