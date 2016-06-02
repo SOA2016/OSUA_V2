@@ -105,7 +105,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
         <EditText
-            android:id="@+id/input_domain"
+            android:id="@+id/input_loginDomain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"

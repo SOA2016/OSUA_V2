@@ -66,6 +66,9 @@ public class Fragment_Login extends Fragment {
         final EditText loginProject = (EditText) view.findViewById(R.id.input_loginProject);
         loginProject.setText(myPrefs.getString("loginProject", ""));
 
+        final EditText loginDomain = (EditText) view.findViewById(R.id.input_loginDomain);
+        loginProject.setText(myPrefs.getString("loginProject", ""));
+
         final EditText loginPassword = (EditText) view.findViewById(R.id.input_loginPassword);
 
         final Spinner prefixSpinner = (Spinner) view.findViewById(R.id.input_loginServerSpinner);
@@ -83,13 +86,13 @@ public class Fragment_Login extends Fragment {
             public void onClick(View view) {
 
                 if(loginServer.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar("Please enter your server-address");
+                    mainActivity.showSnackbar(Context.getString(R.string.fragment_login_enterServerAddress));
                 }else if(loginName.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar("Please enter your user-name");
+                    mainActivity.showSnackbar(Context.getString(R.string.fragment_login_enterUserName));
                 }else if(loginProject.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar("Please enter your user-project");
+                    mainActivity.showSnackbar(Context.getString(R.string.fragment_login_enterUserProject));
                 }else if(loginPassword.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar("Please enter your password");
+                    mainActivity.showSnackbar(Context.getString(R.string.fragment_login_enterPassword));
                 }else {
                     // Save Input to as Key-Value-Pair
 
@@ -97,6 +100,7 @@ public class Fragment_Login extends Fragment {
                     spEditor.putString("loginName", loginName.getText().toString());
                     spEditor.putString("loginProject", loginProject.getText().toString());
                     spEditor.putInt("serverPrefix", prefixSpinner.getSelectedItemPosition());
+                    spEditor.putString("loginDomain", loginDomain.getText().toString());
                     spEditor.apply();
 
                     loginButton.setVisibility(View.INVISIBLE);
