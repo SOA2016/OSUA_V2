@@ -19,6 +19,12 @@
     <string name="fragment_addUser_enterPassword">Please enter a password</string>
     <string name="fragment_addUser_creationSuccess">User created successfully</string>
     <string name="fragment_addUser_creationFail">User couldn't be created</string>
+
+    <string name="fragment_editUser_enterUserName">Please enter a user-name</string>
+    <string name="fragment_editUser_enterPassword">Please enter a password</string>
+    <string name="fragment_editUser_updateSuccess">User updated successfully</string>
+    <string name="fragment_editUser_updateFail">User couldn't be updated</string>
+
     <string name="error_0">Unexpected Error</string>
 
 </resources>

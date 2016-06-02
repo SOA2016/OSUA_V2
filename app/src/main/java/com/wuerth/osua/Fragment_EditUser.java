@@ -108,9 +108,9 @@ public class Fragment_EditUser extends Fragment {
         if(id== R.id.action_confirm) {
 
             if(inputUserName.getText().toString().isEmpty()){
-                mainActivity.showSnackbar("Please enter a user-name");
+                mainActivity.showSnackbar(Context.getString(R.string.fragment_editUser_enterUserName));
             }else if(inputUserPassword.getText().toString().isEmpty() && inputUserPassword.isEnabled()){
-                mainActivity.showSnackbar("Please enter a password");
+                mainActivity.showSnackbar(Context.getString(R.string.fragment_editUser_enterPassword));
             }else{
                 String userName, userMail, userPassword;
                 Boolean userEnabled;
@@ -223,10 +223,10 @@ public class Fragment_EditUser extends Fragment {
         protected void onPostExecute(Boolean success) {
             //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
             if(success) {
-                mainActivity.showSnackbar("User updated successfully");
+                mainActivity.showSnackbar(Context.getString(R.string.fragment_editUser_updateSuccess));
                 mainActivity.changeFragment(mainActivity.TAG_USERLIST);
             }else{
-                mainActivity.showSnackbar("User couldn't be updated");
+                mainActivity.showSnackbar(Context.getString(R.string.fragment_editUser_updateFail));
             }
 
             super.onPostExecute(success);
