@@ -108,9 +108,9 @@ public class Fragment_EditUser extends Fragment {
         if(id== R.id.action_confirm) {
 
             if(inputUserName.getText().toString().isEmpty()){
-                mainActivity.showSnackbar(Context.getString(R.string.fragment_editUser_enterUserName));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_enterUserName));
             }else if(inputUserPassword.getText().toString().isEmpty() && inputUserPassword.isEnabled()){
-                mainActivity.showSnackbar(Context.getString(R.string.fragment_editUser_enterPassword));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_enterPassword));
             }else{
                 String userName, userMail, userPassword;
                 Boolean userEnabled;
@@ -147,7 +147,7 @@ public class Fragment_EditUser extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(Context.getString(R.string.error_0));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }
@@ -214,7 +214,7 @@ public class Fragment_EditUser extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(Context.getString(R.string.error_0));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }
@@ -223,10 +223,10 @@ public class Fragment_EditUser extends Fragment {
         protected void onPostExecute(Boolean success) {
             //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
             if(success) {
-                mainActivity.showSnackbar(Context.getString(R.string.fragment_editUser_updateSuccess));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateSuccess));
                 mainActivity.changeFragment(mainActivity.TAG_USERLIST);
             }else{
-                mainActivity.showSnackbar(Context.getString(R.string.fragment_editUser_updateFail));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateFail));
             }
 
             super.onPostExecute(success);

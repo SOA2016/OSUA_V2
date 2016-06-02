@@ -46,7 +46,6 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
     String searchQuery;
     int firstItem;
     SwipeRefreshLayout userListRefresh;
-    Context Context;
 
     public Fragment_UserList() {
     }
@@ -199,7 +198,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(Context.getString(R.string.error_0));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }
@@ -408,7 +407,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
             // Use the Builder class for convenient dialog construction
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Delete User")
-                    .setMessage(Html.fromHtml("Do you relly want to delete user <b>"+user.userName+"</b>?"))
+                    .setMessage(Html.fromHtml(mainActivity.getString(R.string.fragment_userList_deleteUser) + " <b>"+user.userName+"</b>?"))
                     .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             new deleteUserAsynctask(user.userID).execute();
@@ -451,7 +450,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
              }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(Context.getString(R.string.error_0));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }
@@ -460,10 +459,10 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         protected void onPostExecute(Boolean success) {
             //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
             if(success) {
-                mainActivity.showSnackbar("User deleted successfully");
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_deleteSuccess));
                 mainActivity.changeFragment(mainActivity.TAG_USERLIST);
             }else{
-                mainActivity.showSnackbar("User couldn't be deleted");
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_deleteFail));
             }
 
             super.onPostExecute(success);

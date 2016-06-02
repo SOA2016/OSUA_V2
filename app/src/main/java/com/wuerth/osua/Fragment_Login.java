@@ -1,6 +1,5 @@
 package com.wuerth.osua;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.content.Context;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -86,13 +86,13 @@ public class Fragment_Login extends Fragment {
             public void onClick(View view) {
 
                 if(loginServer.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar(Context.getString(R.string.fragment_login_enterServerAddress));
+                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterServerAddress));
                 }else if(loginName.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar(Context.getString(R.string.fragment_login_enterUserName));
+                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterUserName));
                 }else if(loginProject.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar(Context.getString(R.string.fragment_login_enterUserProject));
+                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterUserProject));
                 }else if(loginPassword.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar(Context.getString(R.string.fragment_login_enterPassword));
+                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterPassword));
                 }else {
                     // Save Input to as Key-Value-Pair
 
@@ -127,7 +127,7 @@ public class Fragment_Login extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(Context.getString(R.string.error_0));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }

@@ -25,6 +25,7 @@ public class Fragment_Settings extends Fragment {
     TextView tokenExpiresAt, serverAddress;
     SharedPreferences myPrefs;
     MainActivity mainActivity;
+    Context Context;
 
     public Fragment_Settings() {
     }
@@ -100,24 +101,7 @@ public class Fragment_Settings extends Fragment {
         }
 
         TextView impressum = (TextView) view.findViewById(R.id.impressum);
-        impressum.setText(Html.fromHtml("<b>Publisher</b>:<br>\nHochschule Worms\n" +
-                "<br>Erenburgerstraße 19\n" +
-                "<br>67549 Worms\n" +
-                "<br>Deutschland\n" +
-                "\n" +
-                "<br><br><b>Course of Studies</b>: \n" +
-                "<br>Wirtschaftsinformatik (Master)\n" +
-                "\n" +
-                "<br><br><b>Design & Usability</b>: \n" +
-                "<br>Karsten Würth\n" +
-                "\n" +
-                "<br><br><b>Development</b>: \n" +
-                "<br>Karsten Würth, Roberto Damm\n" +
-                "<br><br><b>Other Participants</b>: \n" +
-                "<br>Riza Kara, Collins Bakop-Banga\n" +
-                "\n" +
-                "<br><br>Die OpenStack-Cloud wurde von der Hochschule Worms entwickelt. Die App ermöglicht es Administratoren, Benutzer zu verwalten. OpenStack-Cloud ist mit der OpenStack-Software verbunden. OpenStack ist ein Open-Source-Software für die Erstellung und Verwaltung von Cloud-Computing -Plattformen für Öffentliche und private Clouds.\n"));
-
+        impressum.setText(Html.fromHtml(Context.getString(R.string.impressum)));
         return view;
     }
 }

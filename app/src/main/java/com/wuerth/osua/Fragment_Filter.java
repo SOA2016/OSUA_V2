@@ -40,7 +40,6 @@ public class Fragment_Filter extends DialogFragment {
     AlertDialog alertDialog;
     RESTClient myRESTClient;
     ProgressBar progressBar;
-    Context Context;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -141,7 +140,7 @@ public class Fragment_Filter extends DialogFragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(Context.getString(R.string.error_0));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }

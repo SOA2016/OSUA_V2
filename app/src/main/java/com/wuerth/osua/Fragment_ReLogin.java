@@ -79,7 +79,7 @@ public class Fragment_ReLogin extends DialogFragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(Context.getString(R.string.error_0));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }

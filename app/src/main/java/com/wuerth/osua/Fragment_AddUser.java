@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.content.Context;
 
 import java.util.ArrayList;
 
@@ -35,7 +34,6 @@ public class Fragment_AddUser extends Fragment {
     ProgressBar progressBar;
     EditText inputUserName, inputUserMail, inputUserPassword;
     SwitchCompat inputUserEnabled;
-    Context Context;
 
     public static Fragment_AddUser newInstance(){
         Fragment_AddUser fragment_editUser = new Fragment_AddUser();
@@ -91,9 +89,9 @@ public class Fragment_AddUser extends Fragment {
 
         if(id== R.id.action_confirm) {
             if(inputUserName.getText().toString().isEmpty()){
-                mainActivity.showSnackbar(Context.getString(R.string.fragment_addUser_enterUserName));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_enterUserName));
             }else if(inputUserPassword.getText().toString().isEmpty()){
-                mainActivity.showSnackbar(Context.getString(R.string.fragment_addUser_enterPassword));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_enterPassword));
             }else {
                 String userName, userMail, userPassword;
                 Boolean userEnabled;
@@ -122,7 +120,7 @@ public class Fragment_AddUser extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(Context.getString(R.string.error_0));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }
@@ -175,7 +173,7 @@ public class Fragment_AddUser extends Fragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(Context.getString(R.string.error_0));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }
@@ -184,10 +182,10 @@ public class Fragment_AddUser extends Fragment {
         protected void onPostExecute(Boolean success) {
             //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
             if(success) {
-                mainActivity.showSnackbar(Context.getString(R.string.fragment_addUser_creationSuccess));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationSuccess));
                 mainActivity.changeFragment(mainActivity.TAG_USERLIST);
             }else{
-                mainActivity.showSnackbar(Context.getString(R.string.fragment_addUser_creationFail));
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationFail));
             }
 
             super.onPostExecute(success);
