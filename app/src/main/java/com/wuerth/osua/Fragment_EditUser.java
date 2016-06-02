@@ -224,7 +224,7 @@ public class Fragment_EditUser extends Fragment {
             //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
             if(success) {
                 mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateSuccess));
-                mainActivity.changeFragment(mainActivity.TAG_USERLIST);
+                mainActivity.changeFragment(mainActivity.TAG_USERLIST, mainActivity);
             }else{
                 mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateFail));
             }

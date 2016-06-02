@@ -101,7 +101,7 @@ public class Fragment_Settings extends Fragment {
         }
 
         TextView impressum = (TextView) view.findViewById(R.id.impressum);
-        impressum.setText(Html.fromHtml(Context.getString(R.string.impressum)));
+        impressum.setText(Html.fromHtml(mainActivity.getString(R.string.impressum)));
         return view;
     }
 }

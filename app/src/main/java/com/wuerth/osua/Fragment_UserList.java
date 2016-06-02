@@ -39,7 +39,7 @@ import java.util.ArrayList;
 public class Fragment_UserList extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
 
     private ListView listView;
-    RESTClient myRESTClient;
+    static RESTClient myRESTClient;
     MainActivity mainActivity;
     ProgressBar progressBar;
     ArrayList<userItem> userList;
@@ -214,9 +214,11 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                 ListAdapter adapter = new myListAdapter();
                 listView.setAdapter(adapter);
                 progressBar.setVisibility(View.INVISIBLE);
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_loadSuccess) + " " + listView.getCount() + " Items");
             }else{
                 //loginButton.setVisibility(View.VISIBLE);
                 //progressBar.setVisibility(View.INVISIBLE);
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_loadFail));
             }
 
             super.onPostExecute(success);
@@ -395,7 +397,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         return true;
     }
 
-    public class FireMissilesDialogFragment extends DialogFragment {
+    public static class FireMissilesDialogFragment extends DialogFragment {
         userItem user;
 
         public FireMissilesDialogFragment (userItem user){
@@ -407,7 +409,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
             // Use the Builder class for convenient dialog construction
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Delete User")
-                    .setMessage(Html.fromHtml(mainActivity.getString(R.string.fragment_userList_deleteUser) + " <b>"+user.userName+"</b>?"))
+                    .setMessage(Html.fromHtml(getActivity().getString(R.string.fragment_userList_deleteUser) + " <b>"+user.userName+"</b>?"))
                     .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             new deleteUserAsynctask(user.userID).execute();
@@ -433,7 +435,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         }
     }
 
-    public class deleteUserAsynctask extends AsyncTask<String, Void, Boolean> {
+    public static class deleteUserAsynctask extends AsyncTask<returnParam, Void, returnParam> {
         String userID;
 
         public deleteUserAsynctask(String userID){
@@ -441,31 +443,31 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         }
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected returnParam doInBackground(returnParam... params) {
 
             try{
                 //myRESTClient.postUser();
                 //Toast.makeText(mainActivity, "Called", Toast.LENGTH_LONG).show();
-                return myRESTClient.deleteUser(userID);
-             }
-            catch(Exception e){
+                params[0].success = myRESTClient.deleteUser(userID);
+                return params[0];
+             } catch (Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
-                return false;
+                params[0].mainActivity.showSnackbar (params[0].mainActivity.getString(R.string.error_0));
+                params[0].success = false;
+                return params[0];
             }
         }
 
         @Override
-        protected void onPostExecute(Boolean success) {
+        protected void onPostExecute(returnParam params) {
             //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
-            if(success) {
-                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_deleteSuccess));
-                mainActivity.changeFragment(mainActivity.TAG_USERLIST);
-            }else{
-                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_deleteFail));
+            if(params.success) {
+                params.mainActivity.showSnackbar(params.mainActivity.getString(R.string.fragment_userList_deleteSuccess));
+                params.mainActivity.changeFragment(params.mainActivity.TAG_USERLIST, params.mainActivity);
+            }else {
+                params.mainActivity.showSnackbar(params.mainActivity.getString(R.string.fragment_userList_deleteFail));
             }
 
-            super.onPostExecute(success);
         }
 
     }

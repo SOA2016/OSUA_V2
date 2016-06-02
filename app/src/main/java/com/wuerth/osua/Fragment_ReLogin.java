@@ -53,7 +53,7 @@ public class Fragment_ReLogin extends DialogFragment {
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mainActivity.changeFragment(mainActivity.TAG_LOGIN);
+                        mainActivity.changeFragment(mainActivity.TAG_LOGIN, mainActivity);
                     }
                 });
         return builder.create();
@@ -92,7 +92,7 @@ public class Fragment_ReLogin extends DialogFragment {
                 //Toast.makeText(mainActivity, "Token: " + myPrefs.getString("actualToken", "No Token!"), Toast.LENGTH_LONG).show();
                 //mainActivity.changeFragment(mainActivity.TAG_USERLIST);
             }else{
-                mainActivity.changeFragment(mainActivity.TAG_LOGIN);
+                mainActivity.changeFragment(mainActivity.TAG_LOGIN, mainActivity);
             }
 
             super.onPostExecute(success);

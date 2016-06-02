@@ -32,8 +32,14 @@
     <string name="fragment_userList_deleteUser">"Do you really want to delete user</string>
     <string name="fragment_userList_deleteSuccess">User deleted successfully</string>
     <string name="fragment_userList_deleteFail">User could not be deleted</string>
+    <string name="fragment_userList_loadSuccess">Userlist loaded:</string>
+    <string name="fragment_userList_loadFail">Loading Userlist failed</string>
+
+    <string name="mainActivity_logoutDialog_title">Logout</string>
+    <string name="mainActivity_logoutDialog_text">Do you really want to logout?</string>
 
     <string name="error_0">Unexpected Error</string>
+    <string name="error_1">An Error occured (ERROR 1)</string>
 
     <string name="impressum">
         <b>Publisher</b>:<br/>nHochschule Worms\n

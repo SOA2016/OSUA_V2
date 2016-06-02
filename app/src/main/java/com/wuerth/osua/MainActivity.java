@@ -36,29 +36,32 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Activity;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener,Toolbar.OnMenuItemClickListener, MenuItemCompat.OnActionExpandListener {
 
-    final String TAG_LOGIN = "Login",
+    final static String TAG_LOGIN = "Login",
             TAG_USERLIST = "Userlist",
             TAG_EDIT_USER = "Edit User",
             TAG_ADD_USER = "Add User",
             TAG_SETTINGS = "Settings";
 
+    /* FragmentManager must not be static */
     private FragmentManager manager;
     ArrayList<Integer> mSelectedItems;
     DatabaseAdapter databaseAdapter;
 
-    FloatingActionButton fab;
+    static FloatingActionButton fab;
     Toolbar toolbar;
-    Toolbar toolbarSearch;
+    static Toolbar toolbarSearch;
     Boolean search = false;
-    MenuItem menuItemSearch;
+    static MenuItem menuItemSearch;
     SearchView searchView;
     LinearLayout fragment;
-    RESTClient RESTClient;
+    static RESTClient RESTClient;
+    MainActivity mainActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         databaseAdapter = new DatabaseAdapter(this);
 
-        changeFragment(TAG_LOGIN);
+        changeFragment(TAG_LOGIN, mainActivity);
 
         /*Fragment_Login newFragment = Fragment_Login.newInstance();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
 
-                changeFragment(TAG_ADD_USER);
+                changeFragment(TAG_ADD_USER, mainActivity);
             }
         });
     }
@@ -247,14 +250,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-            changeFragment(TAG_SETTINGS);
+            changeFragment(TAG_SETTINGS, mainActivity);
 
             return true;
         }
 
         if(id == R.id.action_logout) {
-
-            new deleteTokenAsynctask().execute();
+            returnParam params = new returnParam(false, mainActivity);
+            new deleteTokenAsynctask().execute(params);
 
             return true;
         }
@@ -355,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         if(toolbarSearch.getVisibility() == View.VISIBLE){
             toolbarSearch.setVisibility(View.INVISIBLE);
             if(getCurrentFragment().equals(TAG_USERLIST))
-                changeFragment(TAG_USERLIST);
+                changeFragment(TAG_USERLIST, mainActivity);
         }else {
             switch (getCurrentFragment()) {
                 case TAG_LOGIN: {
@@ -373,17 +376,22 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
     }
 
-    public class FireMissilesDialogFragment extends DialogFragment {
+
+    /*
+    Method is fired when User presses hardware backbutton on phone to exit app
+     */
+    public static class FireMissilesDialogFragment extends DialogFragment {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Logout")
-                    .setMessage(Html.fromHtml("Do you really want to logout?"))
+            builder.setTitle(this.getString(R.string.mainActivity_logoutDialog_title))
+                    .setMessage(Html.fromHtml(this.getString(R.string.mainActivity_logoutDialog_text)))
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            new deleteTokenAsynctask().execute();
+                            returnParam param = new returnParam(false, (MainActivity)getActivity());
+                            new deleteTokenAsynctask().execute(param);
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -436,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         //toolbarSearch.setVisibility(View.INVISIBLE);
         //searchView.expandActionView();
         toolbarSearch.setVisibility(View.INVISIBLE);
-        changeFragment(TAG_USERLIST);
+        changeFragment(TAG_USERLIST, mainActivity);
         //Toast.makeText(this, "hola", Toast.LENGTH_LONG).show();
         search = false;
         //supportInvalidateOptionsMenu();
@@ -455,13 +463,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         return false;
     }
 
-    public void changeFragment(String TAG) {
+    public void changeFragment(String TAG, Activity ac) {
 
         //searchView.setQuery("", true);
 
-        if (this.getCurrentFocus() != null) {
-            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        if (ac.getCurrentFocus() != null) {
+            InputMethodManager inputManager = (InputMethodManager) ac.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(ac.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
 
         toolbarSearch.setVisibility(View.INVISIBLE);
@@ -510,7 +518,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 break;
             }
             default: {
-                Toast.makeText(this, "Es ist ein Fehler aufgetreten. (ERROR 1)", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ac, ac.getString(R.string.error_1), Toast.LENGTH_SHORT).show();
                 break;
             }
         }
@@ -519,48 +527,47 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        new deleteTokenAsynctask().execute();
+        returnParam params = new returnParam(false, mainActivity);
+        new deleteTokenAsynctask().execute(params);
 
     }
 
-    public void showSnackbar (String message){
+    public static void showSnackbar (String message){
         Snackbar.make(fab, message, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
-    public class deleteTokenAsynctask extends AsyncTask<String, Void, Boolean> {
-
+    public static class deleteTokenAsynctask extends AsyncTask<returnParam, Void, returnParam> {
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected returnParam doInBackground(returnParam... params) {
 
             try{
                 //myRESTClient.postUser();
                 //Toast.makeText(mainActivity, "Called", Toast.LENGTH_LONG).show();
-                return RESTClient.deleteToken();
+                params[0].success= RESTClient.deleteToken();
+                return params[0];
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
                 showSnackbar("Unexpected Error");
-                return false;
+                params[0].success=false;
+                return params[0];
             }
         }
-
         @Override
-        protected void onPostExecute(Boolean success) {
+        protected void onPostExecute(returnParam param) {
             //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
             try {
-                changeFragment(TAG_LOGIN);
+                param.mainActivity.changeFragment(TAG_LOGIN, param.mainActivity);
             } catch (Exception e){
                 // No Activity -> App destoryed
             }
 
-            if(success) {
+            if(param.success) {
                 Log.d("deleteToken", "success");
             }else{
                 Log.d("deleteToken", "failed");
             }
-
-            super.onPostExecute(success);
         }
 
     }
