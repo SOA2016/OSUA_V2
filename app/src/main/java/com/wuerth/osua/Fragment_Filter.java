@@ -63,7 +63,7 @@ public class Fragment_Filter extends DialogFragment {
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(view)
         // Add action buttons
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(mainActivity.getString(R.string.fragment_filter_cancelButton), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //LoginDialogFragment.this.getDialog().cancel();
                     }
@@ -210,9 +210,9 @@ public class Fragment_Filter extends DialogFragment {
 
             TextView itemUserCount = (TextView) item.findViewById(R.id.itemUsers);
             Integer projectUserCount = mainActivity.databaseAdapter.getProjectUserCount(project.projectID);
-            String addon = "User";
+            String addon = mainActivity.getString(R.string.fragment_filter_users_singular);
             if(projectUserCount != 1)
-                addon = addon + "s";
+                addon = mainActivity.getString(R.string.fragment_filter_users_plural);
             itemUserCount.setText(projectUserCount.toString() + " " + addon);
 
             String disabledProjects = myPrefs.getString("filterDisabledProjects", "");

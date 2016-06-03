@@ -60,6 +60,10 @@
     <string name="mainActivity_logoutDialog_title">Logout</string>
     <string name="mainActivity_logoutDialog_text">Do you really want to logout?</string>
 
+    <string name="fragment_filter_cancelButton">Cancel</string>
+    <string name="fragment_filter_users_singular">User</string>
+    <string name="fragment_filter_users_plural">Users</string>
+
     <string name="error_0">Unexpected Error</string>
     <string name="error_1">An Error occured (ERROR 1)</string>
 
