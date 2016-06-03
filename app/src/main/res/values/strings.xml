@@ -37,12 +37,12 @@
     <string name="fragment_login_enterUserProject">Please enter your user-project</string>
     <string name="fragment_login_enterPassword">Please enter your password</string>
 
-    <string name="fragment_addUser_enterUserName">Please enter a user-name</string>
+    <string name="fragment_addUser_enterUserName">Please enter an user-name</string>
     <string name="fragment_addUser_enterPassword">Please enter a password</string>
     <string name="fragment_addUser_creationSuccess">User created successfully</string>
     <string name="fragment_addUser_creationFail">User could not be created</string>
 
-    <string name="fragment_editUser_enterUserName">Please enter a user-name</string>
+    <string name="fragment_editUser_enterUserName">Please enter an user-name</string>
     <string name="fragment_editUser_enterPassword">Please enter a password</string>
     <string name="fragment_editUser_updateSuccess">User updated successfully</string>
     <string name="fragment_editUser_updateFail">User could not be updated</string>
@@ -54,7 +54,7 @@
     <string name="fragment_userList_loadSuccess_items">Items</string>
     <string name="fragment_userList_loadFail">Userlist could not be loaded</string>
     <string name="fragment_userList_deleteDialog_title">Delete User</string>
-    <string name="fragment_userList_deleteDialog_text">Do you really want to delete user</string>
+    <string name="fragment_userList_deleteDialog_text">Do you really want to delete user?</string>
     <string name="fragment_userList_deleteDialog_deleteButton">Delete</string>
     <string name="fragment_userList_deleteDialog_cancelButton">Cancel</string>
 

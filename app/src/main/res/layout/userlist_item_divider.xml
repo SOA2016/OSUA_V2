@@ -15,9 +15,10 @@
             android:padding="10dp">
 
             <ImageView
+                android:id="@+id/userCircle"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/circle_list"
+                android:background="@drawable/circle_white"
                 android:layout_centerInParent="true"/>
 
             <TextView

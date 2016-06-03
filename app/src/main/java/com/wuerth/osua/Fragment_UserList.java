@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v4.app.DialogFragment;
@@ -30,6 +31,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.ShapeDrawable;
+
+
 
 import java.util.ArrayList;
 
@@ -279,12 +287,13 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
 
             TextView letter = (TextView) item.findViewById(R.id.userLetter);
             letter.setText(user.userName.substring(0,1));
-            ImageView circleUserList = (ImageView) item.findViewById(R.id.circleUserList);
+
+            ImageView userCircle = (ImageView) item.findViewById(R.id.userCircle);
 
             int color;
             switch(user.userName.substring(0,1).toLowerCase()){
                 case "a":
-                    color = getResources().getColor(R.color.a);
+                   color = getResources().getColor(R.color.a);
                     break;
                 case "b":
                     color = getResources().getColor(R.color.b);
@@ -365,9 +374,9 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                     color = getResources().getColor(R.color.colorAccent);
             }
 
-            //circleUserList.setColorFilter(
-            //        color,
-            //        android.graphics.PorterDuff.Mode.SRC_IN);
+            Drawable newCircle = getResources().getDrawable(R.drawable.circle_white).mutate();
+            newCircle.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+            userCircle.setBackground(newCircle);
 
             TextView mail = (TextView) item.findViewById(R.id.userMail);
             mail.setText(user.userMail);
