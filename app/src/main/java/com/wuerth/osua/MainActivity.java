@@ -550,7 +550,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                showSnackbar(mainActivity.getString(R.string.error_0));
+                showSnackbar(params[0].mainActivity.getString(R.string.error_0));
                 params[0].success=false;
                 return params[0];
             }

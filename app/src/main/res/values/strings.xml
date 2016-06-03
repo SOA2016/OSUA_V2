@@ -75,7 +75,7 @@
     <string name="error_1">An Error occured (ERROR 1)</string>
     <string name="error_2">Connection to server failed</string>
     <string name="error_3">Token could not be deleted</string>
-    <string name="error_4">Server timeout. Token couldn't be deleted</string>
+    <string name="error_4">Server timeout. Token could not be deleted</string>
 
     <string name="error_400">Please enter username and password</string>
     <string name="error_401">Incorrect username or password</string>
