@@ -204,11 +204,9 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                         RESTClient tempRESTClient = new RESTClient_V2(mainActivity);
                         tempRESTClient.getProjects();
                         // delete/comment this after implementation in V3...
-
-                        mainActivity.showSnackbar("Userlist retrieved");
                         return true;
                     } else {
-                        mainActivity.showSnackbar("Could not retrieve Userlist");
+                        return false;
                     }
             }
             catch(Exception e){

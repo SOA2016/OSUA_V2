@@ -120,26 +120,26 @@ public class RESTClient_V2 extends RESTClient {
                     }
 				}
 				case 400: {
-					mainActivity.showSnackbar("Please enter username and password");
+					mainActivity.showSnackbar(mainActivity.getString(R.string.error_400));
 					return false;
 				}
 				case 401: {
-					mainActivity.showSnackbar("Incorrect username or password");
+					mainActivity.showSnackbar(mainActivity.getString(R.string.error_401));
 					return false;
 				}
                 default: {
                     Log.e("RESTClient", ""+status);
-                    mainActivity.showSnackbar(Context.getString(R.string.error_0));
+                    mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                     return false;
                 }
 			}
 		}
 		 catch (IOException e) {
-			 mainActivity.showSnackbar("Connection to server failed");
+			 mainActivity.showSnackbar(mainActivity.getString(R.string.error_2));
 			 return false;
 		} catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
-			mainActivity.showSnackbar(Context.getString(R.string.error_0));
+			mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
 			return false;
 		}
 	}
@@ -152,7 +152,7 @@ public class RESTClient_V2 extends RESTClient {
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
-            mainActivity.showSnackbar(Context.getString(R.string.error_0));
+            mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
             return false;
         }
 
@@ -183,17 +183,17 @@ public class RESTClient_V2 extends RESTClient {
                 return true;
             }else{
                 Log.e("RESTClient", "" + status);
-                mainActivity.showSnackbar("Error. Token couldn't be deleted");
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_3));
                 return false;
             }
         }
         catch (IOException e) {
-            mainActivity.showSnackbar("Server timeout. Token couldn't be deleted");
+            mainActivity.showSnackbar(mainActivity.getString(R.string.error_4));
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
 
-            mainActivity.showSnackbar(Context.getString(R.string.error_0));
+            mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
             return false;
         }
     }
@@ -206,7 +206,7 @@ public class RESTClient_V2 extends RESTClient {
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
-            mainActivity.showSnackbar(Context.getString(R.string.error_0));
+            mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
             return false;
         }
 
@@ -233,7 +233,7 @@ public class RESTClient_V2 extends RESTClient {
             if(status == 200){
                 return true;
             }else if(status == 403) {
-                mainActivity.showSnackbar("Please login with an admin account");
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
                 mainActivity.changeFragment(mainActivity.TAG_LOGIN, mainActivity);
                 return false;
             }else{
@@ -245,7 +245,7 @@ public class RESTClient_V2 extends RESTClient {
             }
         }
         catch (IOException e) {
-            mainActivity.showSnackbar("Connection to server failed");
+            mainActivity.showSnackbar(mainActivity.getString(R.string.error_2));
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
@@ -258,7 +258,7 @@ public class RESTClient_V2 extends RESTClient {
 
         if(!validateToken()) {
             Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
-            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
+            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), MainActivity.TAG_RELOGIN);
             return false;
         }
 
@@ -349,7 +349,7 @@ public class RESTClient_V2 extends RESTClient {
             }
         }
         catch (IOException e) {
-            mainActivity.showSnackbar("Connection to server failed");
+            mainActivity.showSnackbar(mainActivity.getString(R.string.error_2));
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
@@ -453,7 +453,7 @@ public class RESTClient_V2 extends RESTClient {
             }
         }
         catch (IOException e) {
-            mainActivity.showSnackbar("Connection to server failed");
+            mainActivity.showSnackbar(mainActivity.getString(R.string.error_2));
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
@@ -466,7 +466,7 @@ public class RESTClient_V2 extends RESTClient {
 
         if(!validateToken()) {
             Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
-            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
+            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), MainActivity.TAG_RELOGIN);
             return false;
         }
 
@@ -541,7 +541,7 @@ public class RESTClient_V2 extends RESTClient {
             }
         }
         catch (IOException e) {
-            mainActivity.showSnackbar("Connection to server failed");
+            mainActivity.showSnackbar(mainActivity.getString(R.string.error_2));
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
@@ -554,7 +554,7 @@ public class RESTClient_V2 extends RESTClient {
 
         if(!validateToken()) {
             Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
-            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
+            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), MainActivity.TAG_RELOGIN);
             return false;
         }
 
@@ -602,16 +602,16 @@ public class RESTClient_V2 extends RESTClient {
             int status = httpResponse.getStatusLine().getStatusCode();
 
             if(status == 200){
-                mainActivity.showSnackbar("User created successfully");
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationSuccess));
                 return true;
             } else{
                 Log.e("RESTClient", "" + status);
-                mainActivity.showSnackbar("Error. User not created");
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationFail));
                 return false;
             }
         }
         catch (IOException e) {
-            mainActivity.showSnackbar("Connection to server failed");
+            mainActivity.showSnackbar(mainActivity.getString(R.string.error_2));
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
@@ -628,7 +628,7 @@ public class RESTClient_V2 extends RESTClient {
 
         if(!validateToken()) {
             Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
-            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
+            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), MainActivity.TAG_RELOGIN);
             return false;
         }
 
@@ -677,16 +677,16 @@ public class RESTClient_V2 extends RESTClient {
             int status = httpResponse.getStatusLine().getStatusCode();
 
             if(status == 200){
-                mainActivity.showSnackbar("User updated successfully");
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateSuccess));
                 return true;
             } else{
                 Log.e("RESTClient", "" + status);
-                mainActivity.showSnackbar("Error. User couldn't be updated");
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateFail));
                 return false;
             }
         }
         catch (IOException e) {
-            mainActivity.showSnackbar("Connection to server failed");
+            mainActivity.showSnackbar(mainActivity.getString(R.string.error_2));
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());
@@ -703,7 +703,7 @@ public class RESTClient_V2 extends RESTClient {
 
         if(!validateToken()) {
             Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
-            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
+            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), MainActivity.TAG_RELOGIN);
             return false;
         }
 
@@ -738,15 +738,16 @@ public class RESTClient_V2 extends RESTClient {
             int status = httpResponse.getStatusLine().getStatusCode();
 
             if(status == 204){
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationSuccess));
                 return true;
             }else{
                 Log.e("RESTClient", "" + status);
-                mainActivity.showSnackbar("Error. User not created");
+                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationFail));
                 return false;
             }
         }
         catch (IOException e) {
-            mainActivity.showSnackbar("Connection to server failed");
+            mainActivity.showSnackbar(mainActivity.getString(R.string.error_2));
             return false;
         } catch (URISyntaxException e) {
             Log.e("RESTClient", e.toString());

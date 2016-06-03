@@ -45,13 +45,13 @@ public class Fragment_ReLogin extends DialogFragment {
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(view)
                 // Add action buttons
-                .setPositiveButton("Login", new DialogInterface.OnClickListener() {
+                .setPositiveButton(mainActivity.getString(R.string.fragment_relogin_loginButton), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         new myWorker().execute(inputUserPassword.getText().toString());
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(mainActivity.getString(R.string.fragment_relogin_cancelButton), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         mainActivity.changeFragment(MainActivity.TAG_LOGIN, mainActivity);
                     }

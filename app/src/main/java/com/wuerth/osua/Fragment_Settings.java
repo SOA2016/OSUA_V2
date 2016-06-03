@@ -131,7 +131,7 @@ public class Fragment_Settings extends Fragment {
             public void onClick(View view) {
                 mainActivity.databaseAdapter.deleteUserList();
                 mainActivity.databaseAdapter.deleteProjectList();
-                MainActivity.showSnackbar("Userlist/Projects flushed.");
+                MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_settings_flushed));
             }
         });
         return view;

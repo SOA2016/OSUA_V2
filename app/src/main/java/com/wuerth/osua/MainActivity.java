@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             TAG_USERLIST = "Userlist",
             TAG_EDIT_USER = "Edit User",
             TAG_ADD_USER = "Add User",
-            TAG_SETTINGS = "Settings";
+            TAG_SETTINGS = "Settings",
+            TAG_RELOGIN = "Relogin";
 
     /* FragmentManager must not be static */
     private FragmentManager manager;
@@ -549,7 +550,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                showSnackbar("Unexpected Error");
+                showSnackbar(mainActivity.getString(R.string.error_0));
                 params[0].success=false;
                 return params[0];
             }
