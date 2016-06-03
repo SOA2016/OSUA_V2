@@ -191,22 +191,38 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
 
             try{
                 //if(myRESTClient.validateToken())    // First validate token to prevent login from non-admin)
-                    if(myRESTClient.getUsers()){}
+                    if(myRESTClient.getUsers()) {
+
+                        // by Stephan Strissel
+                        // temporary fix to retrieve Projects for Userlist (not implemented yet in V3)
+                        // without Project-List no Userlist will be shown
+                        //
+                        //uncomment this after implementation in V3:
                         //myRESTClient.getProjects();
 
-                return true;
+                        // delete/comment this after implementation in V3...
+                        RESTClient tempRESTClient = new RESTClient_V2(mainActivity);
+                        tempRESTClient.getProjects();
+                        // delete/comment this after implementation in V3...
+
+                        mainActivity.showSnackbar("Userlist retrieved");
+                        return true;
+                    } else {
+                        mainActivity.showSnackbar("Could not retrieve Userlist");
+                    }
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
                 mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
-                return false;
+
             }
+            return false;
         }
 
         @Override
         protected void onPostExecute(Boolean success) {
 
-            userListRefresh.setRefreshing(false);
+
 
             if(success) {
                 DatabaseAdapter databaseAdapter = new DatabaseAdapter(mainActivity);
@@ -221,6 +237,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                 mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_loadFail));
             }
 
+            userListRefresh.setRefreshing(false);
             super.onPostExecute(success);
         }
 

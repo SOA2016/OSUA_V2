@@ -23,6 +23,8 @@
         <item></item>
     </string-array>
 
+    <string name="fragment_settings_flushButton">Flush local Userlist/Projects</string>
+
     <string name="fragment_login_userName">USER-NAME</string>
     <string name="fragment_login_userProject">USER-PROJECT</string>
     <string name="fragment_login_userPassword">USER-PASSWORD</string>

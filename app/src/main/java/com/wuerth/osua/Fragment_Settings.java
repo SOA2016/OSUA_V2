@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class Fragment_Settings extends Fragment {
     TextView tokenExpiresAt, serverAddress;
     SharedPreferences myPrefs;
     MainActivity mainActivity;
+    Button flushButton;
 
     public Fragment_Settings() {
     }
@@ -96,7 +98,6 @@ public class Fragment_Settings extends Fragment {
                     serverAddress.setVisibility(View.VISIBLE);
 
                 } else {
-
                     tokenExpiresAtLabel.setVisibility(View.GONE);
                     tokenExpiresAt.setVisibility(View.GONE);
                     serverAddressLabel.setVisibility(View.GONE);
@@ -119,6 +120,21 @@ public class Fragment_Settings extends Fragment {
 
         TextView impressum = (TextView) view.findViewById(R.id.impressum);
         impressum.setText(Html.fromHtml(mainActivity.getString(R.string.imprint_text)));
+
+        flushButton = (Button) view.findViewById(R.id.loginButton);
+        flushButton.requestFocus();
+        flushButton.requestFocusFromTouch();
+
+        flushButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                mainActivity.databaseAdapter.deleteUserList();
+                mainActivity.databaseAdapter.deleteProjectList();
+                MainActivity.showSnackbar("Userlist/Projects flushed.");
+            }
+        });
         return view;
+
     }
 }

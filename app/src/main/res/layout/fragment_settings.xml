@@ -76,5 +76,18 @@
             android:textColor="#333333"
             android:paddingLeft="4dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="90dp"
+            android:layout_height="48dp"
+            android:text="@string/fragment_settings_flushButton"
+            android:textColor="@android:color/white"
+            android:layout_centerInParent="true"
+            android:id="@+id/loginButton"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            style="@style/buttonStyle"
+            android:theme="@style/buttonStyle"/>
     </LinearLayout>
 </ScrollView>
