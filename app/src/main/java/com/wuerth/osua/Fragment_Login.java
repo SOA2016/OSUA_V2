@@ -72,10 +72,6 @@ public class Fragment_Login extends Fragment {
 
         final EditText loginPassword = (EditText) view.findViewById(R.id.input_loginPassword);
 
-        final Spinner prefixSpinner = (Spinner) view.findViewById(R.id.input_loginServerSpinner);
-        prefixSpinner.setSelection(myPrefs.getInt("serverPrefix", 0));
-
-
         /* Hide and Show Advanced Settings */
         advancedCheckbox = (CheckBox) view.findViewById(R.id.checkboxAdvancedSettings);
         final CardView advancedSettings = (CardView) view.findViewById(R.id.advanced_settings);
@@ -132,11 +128,25 @@ public class Fragment_Login extends Fragment {
 
                 if (try_to_login)
                 {
+
+
+                    /* serverAddress Prefix Autocorrect */
+                    loginServer.getText().toString();
+                    boolean serverAddressCorrect = false;
+                    for(String prefix : getResources().getStringArray((R.array.serverPrefixes))) {
+                        if (loginServer.getText().toString().substring(0,prefix.length()).equals(prefix)){
+                            serverAddressCorrect = true;
+                            break;
+                        }
+                    }
+                    if (!serverAddressCorrect){
+                        loginServer.setText("https://" + loginServer.getText().toString());
+                    }
+
                     // Save Input to as Key-Value-Pair
                     spEditor.putString("serverAddress", loginServer.getText().toString());
                     spEditor.putString("loginName", loginName.getText().toString());
                     spEditor.putString("loginProject", loginProject.getText().toString());
-                    spEditor.putInt("serverPrefix", prefixSpinner.getSelectedItemPosition());
                     spEditor.putString("loginProjectDomain", loginProjectDomain.getText().toString());
                     spEditor.putString("loginUserDomain", loginUserDomain.getText().toString());
                     spEditor.apply();

@@ -107,7 +107,6 @@ public class RESTClient_V3 extends RESTClient {
 		String serverAddress = myPrefs.getString("serverAddress", "");
 		String loginUserDomain = myPrefs.getString("loginUserDomain", "");
         String loginProjectDomain = myPrefs.getString("loginProjectDomain", "");
-		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
 		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         /* If you specify the user name, you must also specify the domain, by ID or name. */
@@ -205,7 +204,7 @@ public class RESTClient_V3 extends RESTClient {
 			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
 			HttpClient client = new DefaultHttpClient(httpParameters);
-			URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v3/auth/tokens");
+			URI website = new URI(serverAddress + "/v3/auth/tokens");
 			HttpPost request = new HttpPost();
 
 			request.setURI(website);
