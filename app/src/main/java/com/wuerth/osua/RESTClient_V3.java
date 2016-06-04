@@ -897,7 +897,7 @@ public class RESTClient_V3 extends RESTClient {
 			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
 			HttpClient client = new DefaultHttpClient(httpParameters);
-			URI website = new URI(serverAddress + "/v3/auth/tokens");
+			URI website = new URI( serverAddress + "/v3/auth/tokens");
 			HttpGet request = new HttpGet();
 			request.setURI(website);
 			request.setHeader("Content-Type", "application/json");

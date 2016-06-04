@@ -2,28 +2,22 @@ package com.wuerth.osua;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class Fragment_Settings extends Fragment {
-
     TextView tokenExpiresAt, serverAddress;
     SharedPreferences myPrefs;
     MainActivity mainActivity;
@@ -52,46 +46,27 @@ public class Fragment_Settings extends Fragment {
         serverAddress = (TextView) view.findViewById(R.id.serverAddress);
         if(!myPrefs.getString("actualTokenExpiresAt", "").equals("")) {
 
-            String ret = myPrefs.getString("actualTokenExpiresAt", "");
 
-            if (ret.contains("T") && ret.contains("Z")) {
+            /*
+             Stephan Strissel
+             implemented new time comparsion
+             */
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
+            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-                String z = ret.replace("T", " ");
-                String t = z.replace("Z", "");
+            Date tokentime = new Date();
+            Date actualtime = new Date();
+            try {
+                tokentime = simpleDateFormat.parse(myPrefs.getString("actualTokenExpiresAt", ""));
+            } catch (Exception e) {
+                MainActivity.showSnackbar("Failed to convert timetoken");
+            }
 
-                java.util.Date date = new java.util.Date();
+            long difference = tokentime.getTime() - actualtime.getTime();
+            tokenExpiresAt.setText(tokentime.toString() + " (+" + (difference/60) + " " + mainActivity.getString(R.string.fragment_settings_minutes) + ")");
+            serverAddress.setText(myPrefs.getString("serverAddress", ""));
 
-                Timestamp time = new Timestamp(date.getTime());
-                String actualTime;
-                String timeConvert = time.toString();
-                actualTime = timeConvert.replaceAll("-", "");
-                actualTime = actualTime.replaceAll(":", "");
-                actualTime = actualTime.replaceAll(" ", "");
-                actualTime = actualTime.substring(0, actualTime.length() - 4);
-
-                String timeToken;
-                timeToken = t.replace(" ", "");
-                timeToken = timeToken.replace("-", "");
-                timeToken = timeToken.replace(":", "");
-                // b= b.substring(0, b.length()-4 );
-
-                //*
-                // Changed by Stephan Strissel
-                // try to cast timetoken to long
-                // */
-                long timetoken = 0;
-                try {
-                    timetoken = Double.valueOf(timeToken).longValue();
-                }   catch(Exception e){
-                        Log.e("Settings", e.toString());
-                        MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
-                        timetoken = 0;
-                }
-
-                long actualtime = Long.valueOf(actualTime);
-                if (timetoken < actualtime) {
-
-                    tokenExpiresAt.setText(t);
+            if (difference > 0) {
                     tokenExpiresAtLabel.setVisibility(View.VISIBLE);
                     tokenExpiresAt.setVisibility(View.VISIBLE);
                     serverAddressLabel.setVisibility(View.VISIBLE);
@@ -105,13 +80,7 @@ public class Fragment_Settings extends Fragment {
 
                 }
 
-            }
-
-            int serverPrefix = myPrefs.getInt("serverPrefix", 0);
-            String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
-            String fullServerAddressText = prefixList[serverPrefix]+myPrefs.getString("serverAddress", "");
-            serverAddress.setText(fullServerAddressText);
-        }else{
+        } else {
             tokenExpiresAtLabel.setVisibility(View.GONE);
             tokenExpiresAt.setVisibility(View.GONE);
             serverAddressLabel.setVisibility(View.GONE);
