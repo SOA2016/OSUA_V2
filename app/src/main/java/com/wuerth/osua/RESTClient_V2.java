@@ -45,7 +45,6 @@ public class RESTClient_V2 extends RESTClient {
         String loginName = myPrefs.getString("loginName", "");
         String loginProject = myPrefs.getString("loginProject", "");
         String serverAddress = myPrefs.getString("serverAddress", "");
-        int serverPrefix = myPrefs.getInt("serverPrefix", 0);
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(loginName.equals("") || loginProject.equals("") || serverAddress.equals("")){
@@ -80,7 +79,7 @@ public class RESTClient_V2 extends RESTClient {
 			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
 			HttpClient client = new DefaultHttpClient(httpParameters);
-			URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v2.0/tokens");
+			URI website = new URI(serverAddress + "/v2.0/tokens");
 			HttpPost request = new HttpPost();
 
 			request.setURI(website);
@@ -202,7 +201,6 @@ public class RESTClient_V2 extends RESTClient {
 
         String actualToken = myPrefs.getString("actualToken", "");
         String serverAddress = myPrefs.getString("serverAddress", "");
-        int serverPrefix = myPrefs.getInt("serverPrefix", 0);
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
@@ -219,7 +217,7 @@ public class RESTClient_V2 extends RESTClient {
             HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
             HttpClient client = new DefaultHttpClient(httpParameters);
-            URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v2.0/tokens/"+actualToken);
+            URI website = new URI(serverAddress + "/v2.0/tokens/"+actualToken);
             HttpGet request = new HttpGet();
             request.setURI(website);
             request.setHeader("Content-Type", "application/json");
@@ -264,7 +262,6 @@ public class RESTClient_V2 extends RESTClient {
 
         String actualToken = myPrefs.getString("actualToken", "");
         String serverAddress = myPrefs.getString("serverAddress", "");
-        int serverPrefix = myPrefs.getInt("serverPrefix", 0);
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
@@ -281,7 +278,7 @@ public class RESTClient_V2 extends RESTClient {
             HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
             HttpClient client = new DefaultHttpClient(httpParameters);
-            URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v2.0/users");
+            URI website = new URI(serverAddress + "/v2.0/users");
             HttpGet request = new HttpGet();
             request.setURI(website);
             request.setHeader("Content-Type", "application/json");
@@ -368,7 +365,6 @@ public class RESTClient_V2 extends RESTClient {
 
         String actualToken = myPrefs.getString("actualToken", "");
         String serverAddress = myPrefs.getString("serverAddress", "");
-        int serverPrefix = myPrefs.getInt("serverPrefix", 0);
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
@@ -385,7 +381,7 @@ public class RESTClient_V2 extends RESTClient {
             HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
             HttpClient client = new DefaultHttpClient(httpParameters);
-            URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v2.0/users/"+ID);
+            URI website = new URI(serverAddress + "/v2.0/users/"+ID);
             HttpGet request = new HttpGet();
             request.setURI(website);
             request.setHeader("Content-Type", "application/json");
@@ -472,7 +468,6 @@ public class RESTClient_V2 extends RESTClient {
 
         String actualToken = myPrefs.getString("actualToken", "");
         String serverAddress = myPrefs.getString("serverAddress", "");
-        int serverPrefix = myPrefs.getInt("serverPrefix", 0);
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
@@ -489,7 +484,7 @@ public class RESTClient_V2 extends RESTClient {
             HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
             HttpClient client = new DefaultHttpClient(httpParameters);
-            URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v2.0/tenants");
+            URI website = new URI(serverAddress + "/v2.0/tenants");
             HttpGet request = new HttpGet();
             request.setURI(website);
             request.setHeader("Content-Type", "application/json");
@@ -560,7 +555,6 @@ public class RESTClient_V2 extends RESTClient {
 
         String actualToken = myPrefs.getString("actualToken", "");
         String serverAddress = myPrefs.getString("serverAddress", "");
-        int serverPrefix = myPrefs.getInt("serverPrefix", 0);
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
@@ -577,7 +571,7 @@ public class RESTClient_V2 extends RESTClient {
             HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
             HttpClient client = new DefaultHttpClient(httpParameters);
-            URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v2.0/users/");
+            URI website = new URI(serverAddress + "/v2.0/users/");
             HttpPost request = new HttpPost();
             request.setURI(website);
             request.setHeader("Content-Type", "application/json");
@@ -634,7 +628,6 @@ public class RESTClient_V2 extends RESTClient {
 
         String actualToken = myPrefs.getString("actualToken", "");
         String serverAddress = myPrefs.getString("serverAddress", "");
-        int serverPrefix = myPrefs.getInt("serverPrefix", 0);
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
@@ -651,7 +644,7 @@ public class RESTClient_V2 extends RESTClient {
             HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
             HttpClient client = new DefaultHttpClient(httpParameters);
-            URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v2.0/users/"+userID);
+            URI website = new URI(serverAddress + "/v2.0/users/"+userID);
             HttpPut request = new HttpPut();
             request.setURI(website);
             request.setHeader("Content-Type", "application/json");
@@ -709,7 +702,6 @@ public class RESTClient_V2 extends RESTClient {
 
         String actualToken = myPrefs.getString("actualToken", "");
         String serverAddress = myPrefs.getString("serverAddress", "");
-        int serverPrefix = myPrefs.getInt("serverPrefix", 0);
         String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         if(actualToken.equals("") || serverAddress.equals("")){
@@ -726,7 +718,7 @@ public class RESTClient_V2 extends RESTClient {
             HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
             HttpClient client = new DefaultHttpClient(httpParameters);
-            URI website = new URI(prefixList[serverPrefix]+serverAddress + "/v2.0/users/"+userID);
+            URI website = new URI(serverAddress + "/v2.0/users/"+userID);
             HttpDelete request = new HttpDelete();
             request.setURI(website);
             request.setHeader("Content-Type", "application/json");
