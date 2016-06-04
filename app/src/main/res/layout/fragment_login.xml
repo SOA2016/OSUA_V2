@@ -17,6 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardBackgroundColor="@color/white"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            card_view:cardElevation="4dp"
             card_view:cardCornerRadius="4dp">
 
             <LinearLayout
@@ -81,6 +84,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardBackgroundColor="@color/white"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            card_view:cardElevation="4dp"
             card_view:cardCornerRadius="4dp">
 
             <LinearLayout
@@ -203,6 +209,9 @@
         card_view:cardBackgroundColor="@color/white"
         android:visibility="gone"
         android:id="@+id/advanced_settings"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        card_view:cardElevation="4dp"
         card_view:cardCornerRadius="4dp">
 
     <LinearLayout
