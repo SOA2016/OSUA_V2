@@ -105,37 +105,88 @@ public class RESTClient_V3 extends RESTClient {
 		String loginName = myPrefs.getString("loginName", "");
 		String loginProject = myPrefs.getString("loginProject", "");
 		String serverAddress = myPrefs.getString("serverAddress", "");
+		String loginUserDomain = myPrefs.getString("loginUserDomain", "");
+        String loginProjectDomain = myPrefs.getString("loginProjectDomain", "");
 		int serverPrefix = myPrefs.getInt("serverPrefix", 0);
 		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
-		if(loginName.equals("") || loginProject.equals("") || serverAddress.equals("")){
+        /* If you specify the user name, you must also specify the domain, by ID or name. */
+        /* UserDomain is mandatory and will be set by default */
+        if (loginUserDomain.equals("")) {
+           loginUserDomain = "default";
+        }
+
+        /* If you specify the project, you must also specify the project-domain, by ID or name. */
+        if (!loginProject.equals("") && loginProjectDomain.equals("")) {
+            MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+            return false;
+        }
+
+        /* loginName, serverAdress and Password a mandatory */
+		if(loginName.equals("") || serverAddress.equals("") || loginPassword.equals("")){
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
 			return false;
 		}
 
 		JSONObject jsonRequest = new JSONObject();
+
 		JSONObject identity = new JSONObject();
+
 		JSONObject auth = new JSONObject();
 		JSONObject password = new JSONObject();
 		JSONObject user = new JSONObject();
-		JSONObject domain = new JSONObject();
+
+		JSONObject userdomain = new JSONObject();
+        JSONObject domain = new JSONObject();
+
+		JSONObject project = new JSONObject();
+        JSONObject scope = new JSONObject();
 
 		JSONArray methods = new JSONArray();
-		methods.put("password");
 
 		try {
-			domain.put("id", "default");
 
+            userdomain.put("name", loginUserDomain);
+            domain.put("name", loginProjectDomain);
+
+            /* You cannot simultaneously scope a token to a project and domain.*/
+            if (!loginProject.equals("")) {
+                /* scope to project */
+                /* If you specify the project by name, you must also specify the project domain to uniquely identify the project. */
+                project.put("name", loginProject);
+                project.put("domain", domain);
+                scope.put("project", project);
+                auth.put("scope", scope);
+                MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_loginScopedProject));
+            } else if (!loginProjectDomain.equals("")) {
+                /* scope to domain */
+                MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_loginScopedDomain));
+                scope.put("domain", domain);
+                auth.put("scope", domain);
+            } else {
+                /* unscoped request */
+                MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_loginUnscoped));
+            }
+
+
+
+            /* Username+Password */
 			user.put("name", loginName);
 			user.put("password", loginPassword);
-			user.put("domain", domain);
-
 			password.put("user", user);
+            user.put("domain", userdomain);
 
+            /* Methods */
+            methods.put("password");
+
+            /* Add Username+Password and Methods to identity */
 			identity.put("methods", methods);
 			identity.put("password", password);
-			
+
+            /* Add Identity to auth*/
 			auth.put("identity", identity);
+
+            /* Add auth to jsonRequest */
 			jsonRequest.put("auth", auth);
 		} catch (JSONException e1) {
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));

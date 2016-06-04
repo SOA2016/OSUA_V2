@@ -424,6 +424,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
     public static class FireMissilesDialogFragment extends DialogFragment {
         userItem user;
 
+
         public FireMissilesDialogFragment (userItem user){
             this.user = user;
         }

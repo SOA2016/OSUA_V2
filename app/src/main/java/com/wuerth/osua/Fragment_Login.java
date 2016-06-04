@@ -34,7 +34,6 @@ public class Fragment_Login extends Fragment {
     ProgressBar progressBar;
     Button loginButton;
     RESTClient myRESTClient;
-    Context Context;
 
     public Fragment_Login() {
     }
@@ -51,7 +50,7 @@ public class Fragment_Login extends Fragment {
 
         mainActivity = (MainActivity) getActivity();
         manager = getActivity().getSupportFragmentManager();
-        myPrefs = mainActivity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        myPrefs = mainActivity.getSharedPreferences("MyPrefs", MainActivity.MODE_PRIVATE);
         spEditor = myPrefs.edit();
         myRESTClient = new RESTClient_V3(mainActivity); // Here you should distinguish API V2.0 or V3.0
 
@@ -66,8 +65,11 @@ public class Fragment_Login extends Fragment {
         final EditText loginProject = (EditText) view.findViewById(R.id.input_loginProject);
         loginProject.setText(myPrefs.getString("loginProject", ""));
 
-        final EditText loginDomain = (EditText) view.findViewById(R.id.input_loginDomain);
-        loginProject.setText(myPrefs.getString("loginProject", ""));
+        final EditText loginProjectDomain = (EditText) view.findViewById(R.id.input_loginProjectDomain);
+        loginProjectDomain.setText(myPrefs.getString("loginProjectDomain", ""));
+
+        final EditText loginUserDomain = (EditText) view.findViewById(R.id.input_loginUserDomain);
+        loginUserDomain.setText(myPrefs.getString("loginUserDomain", ""));
 
         final EditText loginPassword = (EditText) view.findViewById(R.id.input_loginPassword);
 
@@ -85,22 +87,44 @@ public class Fragment_Login extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(loginServer.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterServerAddress));
-                }else if(loginName.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterUserName));
-                }else if(loginProject.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterUserProject));
-                }else if(loginPassword.getText().toString().isEmpty()){
-                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterPassword));
-                }else {
-                    // Save Input to as Key-Value-Pair
+                /* decide whether or not login is possible (scoped, unscoped, etc.)
+                * unscoped login is not possible, because you have to provide the userID instead of the username
+                * If you specify the user name, you must also specify the domain, by ID or name.
+                * */
+                boolean try_to_login = true;
 
+                if(loginServer.getText().toString().isEmpty()) {
+                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterServerAddress));
+                    try_to_login = false; /* abort login */
+                }
+                if(loginName.getText().toString().isEmpty()) {
+                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterUserName));
+                    try_to_login = false; /* abort login */
+                }
+                if(loginPassword.getText().toString().isEmpty()) {
+                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterPassword));
+                    try_to_login = false; /* abort login */
+                }
+                /* when a project is specified, a project-domain has to be specified, too */
+                if(!loginProject.getText().toString().isEmpty() && loginProjectDomain.getText().toString().isEmpty()) {
+                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterProjectDomain));
+                    try_to_login = false; /* abort login */
+                }
+                if(loginUserDomain.getText().toString().isEmpty()) {
+                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterUserDomain));
+                    /*continue with default domain*/
+                }
+
+
+                if (try_to_login)
+                {
+                    // Save Input to as Key-Value-Pair
                     spEditor.putString("serverAddress", loginServer.getText().toString());
                     spEditor.putString("loginName", loginName.getText().toString());
                     spEditor.putString("loginProject", loginProject.getText().toString());
                     spEditor.putInt("serverPrefix", prefixSpinner.getSelectedItemPosition());
-                    spEditor.putString("loginDomain", loginDomain.getText().toString());
+                    spEditor.putString("loginProjectDomain", loginProjectDomain.getText().toString());
+                    spEditor.putString("loginUserDomain", loginUserDomain.getText().toString());
                     spEditor.apply();
 
                     loginButton.setVisibility(View.INVISIBLE);

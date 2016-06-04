@@ -14,6 +14,17 @@
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/fragment_login_connection"
+            android:textStyle="bold"
+            android:paddingLeft="4dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -54,6 +65,17 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/fragment_login_login"
+            android:textStyle="bold"
+            android:paddingLeft="4dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -78,25 +100,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="@string/fragment_login_userProject"
-            android:textStyle="bold"
-            android:paddingLeft="4dp"
-            android:textColor="#cecece"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
-
-        <EditText
-            android:id="@+id/input_loginProject"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:theme="@style/ColorEditTextStyle"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
             android:text="@string/fragment_login_userDomain"
             android:textStyle="bold"
             android:paddingLeft="4dp"
@@ -105,13 +108,11 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
         <EditText
-            android:id="@+id/input_loginDomain"
+            android:id="@+id/input_loginUserDomain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="default"
-            android:focusable="false"
-            android:editable="false"
+            android:hint="default"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:theme="@style/ColorEditTextStyle"/>
 
@@ -135,36 +136,87 @@
             android:inputType="textPassword"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
-                <ProgressBar
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:id="@+id/progressBar"
-                    android:foregroundGravity="center"
-                    android:indeterminate="true"
-                    android:layout_centerInParent="true"
-                    android:visibility="invisible"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="10dp"
-                    />
+            <ProgressBar
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/progressBar"
+                android:foregroundGravity="center"
+                android:indeterminate="true"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                />
 
-                <android.support.v7.widget.AppCompatButton
-                    android:layout_width="90dp"
-                    android:layout_height="48dp"
-                    android:text="@string/fragment_login_loginbutton"
-                    android:textColor="@android:color/white"
-                    android:layout_centerInParent="true"
-                    android:id="@+id/loginButton"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="10dp"
-                    style="@style/buttonStyle"
-                    android:theme="@style/buttonStyle"/>
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="90dp"
+                android:layout_height="48dp"
+                android:text="@string/fragment_login_loginbutton"
+                android:textColor="@android:color/white"
+                android:layout_centerInParent="true"
+                android:id="@+id/loginButton"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                style="@style/buttonStyle"
+                android:theme="@style/buttonStyle"/>
 
-            </RelativeLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/fragment_login_scope"
+            android:textStyle="bold"
+            android:paddingLeft="4dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/fragment_login_userProject"
+            android:textStyle="bold"
+            android:paddingLeft="4dp"
+            android:textColor="#cecece"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+        <EditText
+            android:id="@+id/input_loginProject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:theme="@style/ColorEditTextStyle"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/fragment_login_projectDomain"
+            android:textStyle="bold"
+            android:paddingLeft="4dp"
+            android:textColor="#cecece"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+        <EditText
+            android:id="@+id/input_loginProjectDomain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:theme="@style/ColorEditTextStyle"/>
+
+
     </LinearLayout>
 </ScrollView>
