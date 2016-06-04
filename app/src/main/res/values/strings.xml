@@ -17,6 +17,8 @@
     <string name="action_search">Search</string>
     <string name="action_confirm">Confirm</string>
 
+    <string name="default_userDomain">default</string>
+
     <string-array name="serverPrefixes">
         <item>http://</item>
         <item>https://</item>
@@ -30,7 +32,7 @@
     <string name="fragment_login_userProject">PROJECT</string>
     <string name="fragment_login_userPassword">USER-PASSWORD</string>
     <string name="fragment_login_serverAddress">SERVER-ADDRESS</string>
-    <string name="fragment_login_connection">CONNECTION</string>
+    <string name="fragment_login_connection">SERVER</string>
     <string name="fragment_login_userDomain">USER-DOMAIN</string>
     <string name="fragment_login_projectDomain">DOMAIN</string>
     <string name="fragment_login_loginbutton">LOGIN</string>
@@ -45,6 +47,7 @@
     <string name="fragment_login_loginUnscoped">Unscoped login</string>
     <string name="fragment_login_loginScopedDomain">Login scoped to domain</string>
     <string name="fragment_login_loginScopedProject">Login scoped to project</string>
+    <string name="fragment_login_advancedSettings">Advanced Settings</string>
 
     <string name="fragment_addUser_enterUserName">Please enter an user-name</string>
     <string name="fragment_addUser_enterPassword">Please enter a password</string>

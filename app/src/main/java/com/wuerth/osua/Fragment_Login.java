@@ -9,22 +9,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Toast;
-import android.content.Context;
+import android.support.v7.widget.CardView;
+
+
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class Fragment_Login extends Fragment {
-
     private ListView listView;
     MainActivity mainActivity;
     SharedPreferences myPrefs;
@@ -33,6 +31,7 @@ public class Fragment_Login extends Fragment {
     String[] benutzer;
     ProgressBar progressBar;
     Button loginButton;
+    CheckBox advancedCheckbox;
     RESTClient myRESTClient;
 
     public Fragment_Login() {
@@ -77,11 +76,26 @@ public class Fragment_Login extends Fragment {
         prefixSpinner.setSelection(myPrefs.getInt("serverPrefix", 0));
 
 
+        /* Hide and Show Advanced Settings */
+        advancedCheckbox = (CheckBox) view.findViewById(R.id.checkboxAdvancedSettings);
+        final CardView advancedSettings = (CardView) view.findViewById(R.id.advanced_settings);
+        advancedCheckbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (advancedSettings.getVisibility() == View.GONE){
+                    advancedSettings.setVisibility(View.VISIBLE);
+                } else {
+                    advancedSettings.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+        /* control Login Button */
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         loginButton = (Button) view.findViewById(R.id.loginButton);
         loginButton.requestFocus();
         loginButton.requestFocusFromTouch();
-
         loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

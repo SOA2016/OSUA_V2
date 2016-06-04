@@ -4,8 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:textColorPrimary">#333333</item>
-        <item name="android:textColorSecondary">#333333</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/grey</item>
     </style>
 
     <style name="buttonStyle">
@@ -14,15 +14,15 @@
     </style>
 
     <style name="buttonStyleGrey">
-        <item name="colorButtonNormal">#c5c5c5</item>
+        <item name="colorButtonNormal">@color/lightgrey</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="CheckBoxAppTheme">
-        <item name="colorAccent">#000000</item>
-        <item name="colorControlNormal">#000000</item>
-        <item name="colorControlHighlight">#000000</item>
-        <item name="colorControlActivated">#000000</item>
+        <item name="colorAccent">@color/black</item>
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlHighlight">@color/black</item>
+        <item name="colorControlActivated">@color/black</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -36,15 +36,15 @@
     <style name="toolbarNormal" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:textColorPrimary">#FFF</item>
-        <item name="android:textColorSecondary">#FFF</item>
+        <item name="android:textColorPrimary">@color/lightgrey</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 
     <style name="toolbarSearch" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:textColorPrimary">#333333</item>
-        <item name="android:textColorSecondary">#333333</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
     </style>
 
     <style name="ColorEditTextStyle">
@@ -52,11 +52,11 @@
         <!-- colorAccent is used as the default value for colorControlActivated,
              which is used to tint widgets -->
 
-        <item name="android:colorAccent">#c5c5c5</item>
-        <item name="colorControlActivated">#444444</item>
-        <item name="colorSwitchThumbNormal">#c5c5c5</item>
-        <item name="colorControlNormal">#c5c5c5</item>
-        <item name="colorControlHighlight">#444444</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/grey</item>
+        <item name="colorSwitchThumbNormal">@color/lightgrey</item>
+        <item name="colorControlNormal">@color/mediumgrey</item>
+        <item name="colorControlHighlight">@color/colorControlHighlight</item>
         <!--<item name="android:colorForeground">@color/colorAccent</item>-->
 
         <!-- You can also set colorControlNormal, colorControlActivated
@@ -69,9 +69,9 @@
              which is used to tint widgets -->
 
 
-        <item name="colorControlActivated">#73ab6b</item>
-        <item name="colorSwitchThumbNormal">#f12c2c</item>
-        <item name="android:colorForeground">#c5c5c5</item>
+        <item name="colorControlActivated">@color/colorControlActivated</item>
+        <item name="colorSwitchThumbNormal">@color/palette_500</item>
+        <item name="android:colorForeground">@color/lightgrey</item>
 
         <!-- You can also set colorControlNormal, colorControlActivated
              colorControlHighlight, and colorSwitchThumbNormal. -->
@@ -79,7 +79,22 @@
 
     <style name="CustomDialog" parent="@android:style/Theme.Holo.Light.Dialog">
         <item name="android:listChoiceIndicatorMultiple">@drawable/ic_done_white_24dp</item>
-        <item name="android:background">#aaf</item>
+        <item name="android:background">@color/lightgrey</item>
+    </style>
+
+
+    <style name="headline">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="attributeTitle">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="attribute">
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

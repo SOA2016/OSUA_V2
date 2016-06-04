@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#b41f22</color>
     <color name="colorAccent">#cecece</color>
     <color name="colorControlHighlight">#cecece</color>
+    <color name="colorControlActivated">#73ab6b</color>
     <color name="grey">#6e6e6e</color>
+    <color name="mediumgrey">#dddddd</color>
     <color name="lightgrey">#f5f5f5</color>
     <color name="white">#FFFFFF</color>
     <color name="darkgrey">#333333</color>

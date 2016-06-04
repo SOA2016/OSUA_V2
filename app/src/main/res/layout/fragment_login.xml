@@ -2,33 +2,43 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
+    android:background="@color/mediumgrey"
     android:layout_width="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="vertical">
 
-        <TextView
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:orientation="vertical">
+
+
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="@string/fragment_login_connection"
-            android:textStyle="bold"
-            android:paddingLeft="4dp"
-            android:textColor="@color/black"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+            android:textAppearance="@style/headline"/>
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
 
             <TextView
                 android:id="@+id/input_loginServerLabel"
@@ -36,20 +46,16 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="@string/fragment_login_serverAddress"
-                android:textStyle="bold"
-                android:paddingLeft="4dp"
-                android:layout_marginTop="5dp"
-                android:textColor="#cecece"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+                android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+                android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+                android:textAppearance="@style/attributeTitle"/>
 
             <Spinner
                 android:layout_below="@id/input_loginServerLabel"
                 android:id="@+id/input_loginServerSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="0dp"
-                android:layout_marginLeft="-4dp"
-                android:layout_marginTop="11dp"
+                android:layout_centerVertical="true"
                 android:entries="@array/serverPrefixes"
                 />
 
@@ -58,23 +64,40 @@
                 android:layout_toRightOf="@id/input_loginServerSpinner"
                 android:layout_below="@id/input_loginServerLabel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:singleLine="true"
-                app:theme="@style/ColorEditTextStyle"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                android:background="@drawable/edittext_underline"
+                android:textAppearance="@style/attribute"
+                />
 
         </RelativeLayout>
 
-        <TextView
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:orientation="vertical">
+
+
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="@string/fragment_login_login"
-            android:textStyle="bold"
-            android:paddingLeft="4dp"
-            android:textColor="@color/black"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+            android:textAppearance="@style/headline"
+                />
 
 
         <TextView
@@ -82,59 +105,56 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="@string/fragment_login_userName"
-            android:textStyle="bold"
-            android:paddingLeft="4dp"
-            android:textColor="#cecece"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+            android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+            android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+            android:textAppearance="@style/attributeTitle"/>
 
         <EditText
             android:id="@+id/input_loginName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:theme="@style/ColorEditTextStyle"/>
+            android:layout_marginLeft="@dimen/activity_horizontal_attribute"
+            android:layout_marginTop="@dimen/activity_vertical_attribute"
+            android:textAppearance="@style/attribute"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="@string/fragment_login_userDomain"
-            android:textStyle="bold"
-            android:paddingLeft="4dp"
-            android:textColor="#cecece"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+            android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+            android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+            android:textAppearance="@style/attributeTitle"/>
 
         <EditText
             android:id="@+id/input_loginUserDomain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:hint="default"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:theme="@style/ColorEditTextStyle"/>
+            android:hint="@string/default_userDomain"
+            android:layout_marginLeft="@dimen/activity_horizontal_attribute"
+            android:layout_marginTop="@dimen/activity_vertical_attribute"
+            android:textAppearance="@style/attribute"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="@string/fragment_login_userPassword"
-            android:textStyle="bold"
-            android:textColor="#cecece"
-            android:paddingLeft="4dp"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+            android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+            android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+            android:textAppearance="@style/attributeTitle"/>
 
         <EditText
             android:id="@+id/input_loginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            app:theme="@style/ColorEditTextStyle"
             android:inputType="textPassword"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+            android:layout_marginLeft="@dimen/activity_horizontal_attribute"
+            android:layout_marginTop="@dimen/activity_vertical_attribute"
+            android:textAppearance="@style/attribute"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -157,66 +177,87 @@
                 android:layout_width="90dp"
                 android:layout_height="48dp"
                 android:text="@string/fragment_login_loginbutton"
-                android:textColor="@android:color/white"
-                android:layout_centerInParent="true"
                 android:id="@+id/loginButton"
-                android:backgroundTint="@color/colorPrimary"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="10dp"
-                style="@style/buttonStyle"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/loginButton_marginBottom"
+                android:layout_marginTop="@dimen/loginButton_marginTop"
                 android:theme="@style/buttonStyle"/>
-
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text="@string/fragment_login_scope"
-            android:textStyle="bold"
-            android:paddingLeft="4dp"
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+                <CheckBox android:id="@+id/checkboxAdvancedSettings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_attribute"
+                    android:layout_marginTop="@dimen/activity_vertical_attribute"
+                    android:textAppearance="@style/attribute"
+                    android:text="@string/fragment_login_advancedSettings"
+                    />
+</LinearLayout>
+        </android.support.v7.widget.CardView>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text="@string/fragment_login_userProject"
-            android:textStyle="bold"
-            android:paddingLeft="4dp"
-            android:textColor="#cecece"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="@color/white"
+        android:visibility="gone"
+        android:id="@+id/advanced_settings"
+        card_view:cardCornerRadius="4dp">
 
-        <EditText
-            android:id="@+id/input_loginProject"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:theme="@style/ColorEditTextStyle"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text="@string/fragment_login_projectDomain"
-            android:textStyle="bold"
-            android:paddingLeft="4dp"
-            android:textColor="#cecece"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/fragment_login_scope"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textAppearance="@style/headline"/>
 
-        <EditText
-            android:id="@+id/input_loginProjectDomain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:theme="@style/ColorEditTextStyle"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/fragment_login_userProject"
+                android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+                android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+                android:textAppearance="@style/attributeTitle"/>
+
+            <EditText
+                android:id="@+id/input_loginProject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_attribute"
+                android:layout_marginTop="@dimen/activity_vertical_attribute"
+                android:textAppearance="@style/attribute"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/fragment_login_projectDomain"
+                android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+                android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+                android:textAppearance="@style/attributeTitle"/>
+
+            <EditText
+                android:id="@+id/input_loginProjectDomain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_attribute"
+                android:layout_marginTop="@dimen/activity_vertical_attribute"
+                android:textAppearance="@style/attribute" />
+        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
 
-    </LinearLayout>
+</LinearLayout>
 </ScrollView>
