@@ -27,6 +27,8 @@
 
     <string name="fragment_settings_flushButton">Flush local Userlist/Projects</string>
     <string name="fragment_settings_flushed">Local Userlist/Projects flushed</string>
+    <string name="fragment_settings_tokenExpirationDate">TOKEN-EXPIRATION-DATE</string>
+    <string name="fragment_settings_settings">SETTINGS</string>
 
     <string name="fragment_login_userName">USER-NAME</string>
     <string name="fragment_login_userProject">PROJECT</string>
@@ -97,25 +99,25 @@
 
     <string name="imprint_title">IMPRINT</string>
     <string name="imprint_text"><![CDATA[
-    <h2>Publisher:</h2>
+    <h3>Publisher:</h3>
     <p>Hochschule Worms</p>
     <p>Erenburgerstraße 19<br>
     67549 Worms<br>
     Deutschland</p>
 
-    <h2>Course of Studies:</h2>
+    <h3>Course of Studies:</h3>
     <p>M. Sc. Wirtschaftsinformatik</p>
 
-    <h2>Design &amp; Usability:</h2>
+    <h3>Design &amp; Usability:</h3>
     <p>Karsten Würth, Roberto Damm</p>
 
-    <h2>Development</h2>
+    <h3>Development</h3>
     <p>Karsten Würth, Roberto Damm</p>
 
-    <h2>Other Participants</h2>
+    <h3>Other Participants</h3>
     <p>Riza Kara, Collins Bakop-Banga</p>
 
-    <h2>About</h2>
+    <h3>About</h3>
     <p>Die OpenStack-Cloud wurde von der Hochschule Worms entwickelt. Die App ermöglicht es Administratoren, Benutzer zu verwalten.
         OpenStack-Cloud ist mit der OpenStack-Software verbunden.
         OpenStack ist ein Open-Source-Software für die Erstellung und Verwaltung von Cloud-Computing -Plattformen für Öffentliche und private Clouds.</p>

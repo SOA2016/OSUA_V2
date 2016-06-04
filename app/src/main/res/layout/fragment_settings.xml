@@ -2,39 +2,57 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
+    android:background="@color/mediumgrey"
     android:layout_width="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="@color/white"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        card_view:cardElevation="4dp"
+        card_view:cardCornerRadius="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/fragment_settings_settings"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textAppearance="@style/headline"/>
 
         <TextView
             android:id="@+id/tokenExpiresAtLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="TOKEN-EXPIRATION-DATE"
-            android:textStyle="bold"
-            android:layout_marginTop="5dp"
-            android:paddingLeft="4dp"
-            android:textColor="#cecece"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+            android:text="@string/fragment_settings_tokenExpirationDate"
+            android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+            android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+            android:textAppearance="@style/attributeTitle"/>
 
         <TextView
             android:id="@+id/tokenExpiresAt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="4dp"
-            android:textColor="#333333"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:theme="@style/ColorEditTextStyle"/>
+            android:background="@drawable/edittext_underline"
+            android:textAppearance="@style/attribute"
+           />
 
         <TextView
             android:id="@+id/serverAddressLabel"
@@ -42,40 +60,17 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="SERVER"
-            android:textStyle="bold"
-            android:paddingLeft="4dp"
-            android:textColor="#cecece"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+            android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+            android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+            android:textAppearance="@style/attributeTitle"/>
 
         <TextView
             android:id="@+id/serverAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="#333333"
-            android:paddingLeft="4dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text="@string/imprint_title"
-            android:textStyle="bold"
-            android:textColor="#cecece"
-            android:paddingLeft="4dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
-
-        <TextView
-            android:id="@+id/impressum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="#333333"
-            android:paddingLeft="4dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+            android:background="@drawable/edittext_underline"
+            android:textAppearance="@style/attribute"
+            />
 
         <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"
@@ -89,5 +84,44 @@
             android:layout_marginTop="10dp"
             style="@style/buttonStyle"
             android:theme="@style/buttonStyle"/>
-    </LinearLayout>
-</ScrollView>
+
+        </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="@color/white"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        card_view:cardElevation="4dp"
+        card_view:cardCornerRadius="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/imprint_title"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textAppearance="@style/headline"/>
+
+        <TextView
+            android:id="@+id/impressum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#333333"
+            android:paddingLeft="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+</LinearLayout>
+        </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
