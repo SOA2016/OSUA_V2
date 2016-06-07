@@ -18,6 +18,12 @@ public class Fragment_ReLogin extends DialogFragment {
     SharedPreferences myPrefs;
     RESTClient myRESTClient;
     EditText inputUserPassword;
+    DialogFragment ReLogin = this;
+
+
+    public static Fragment_ReLogin newInstance() {
+        return new Fragment_ReLogin();
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -82,17 +88,18 @@ public class Fragment_ReLogin extends DialogFragment {
             }
         }
 
-        @Override
+                @Override
         protected void onPostExecute(Boolean success) {
 
+
             if(success) {
-                //Toast.makeText(mainActivity, "Expires at: " + myPrefs.getString("actualTokenExpiresAt", "No Token!"), Toast.LENGTH_LONG).show();
-                //Toast.makeText(mainActivity, "Token: " + myPrefs.getString("actualToken", "No Token!"), Toast.LENGTH_LONG).show();
-                mainActivity.changeFragment(MainActivity.TAG_USERLIST, mainActivity);
-            }else{
+                /* if Relogin was successfull, just close the Fragment */
+                MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_relogin_loginSuccess));
+            } else {
+                /* if ReLogin is not successfull, go back to Login */
+                MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_relogin_loginFail));
                 mainActivity.changeFragment(MainActivity.TAG_LOGIN, mainActivity);
             }
-
             super.onPostExecute(success);
         }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,6 +102,7 @@ public class Fragment_Settings extends Fragment {
                 mainActivity.databaseAdapter.deleteUserList();
                 mainActivity.databaseAdapter.deleteProjectList();
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_settings_flushed));
+                mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
             }
         });
         return view;

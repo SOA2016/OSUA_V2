@@ -72,6 +72,8 @@
     <string name="fragment_userList_deleteDialog_deleteButton">Delete</string>
     <string name="fragment_userList_deleteDialog_cancelButton">Cancel</string>
 
+
+
     <string name="mainActivity_logoutDialog_title">Logout</string>
     <string name="mainActivity_logoutDialog_text">Do you really want to logout?</string>
 
@@ -81,12 +83,16 @@
 
     <string name="fragment_relogin_loginButton">Login</string>
     <string name="fragment_relogin_cancelButton">Cancel</string>
+    <string name="fragment_relogin_sessionExpired_title">Session expired</string>
+    <string name="fragment_relogin_sessionExpired_text">Your session has expired. Please login to create a new token.</string>
+    <string name="fragment_relogin_loginFail">Relogin has failed</string>
+    <string name="fragment_relogin_loginSuccess">Relogin has been successfull</string>
 
 
 
 
     <string name="error_0">Unexpected Error</string>
-    <string name="error_1">An Error occured (ERROR 1)</string>
+    <string name="error_1">Received invalid fragment</string>
     <string name="error_2">Connection to server failed</string>
     <string name="error_3">Token could not be deleted</string>
     <string name="error_4">Server timeout. Token could not be deleted</string>

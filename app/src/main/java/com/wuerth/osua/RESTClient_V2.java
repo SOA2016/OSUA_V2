@@ -255,8 +255,7 @@ public class RESTClient_V2 extends RESTClient {
     public boolean getUsers(){
 
         if(!validateToken()) {
-            Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
-            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), MainActivity.TAG_RELOGIN);
+            mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
             return false;
         }
 
@@ -358,8 +357,7 @@ public class RESTClient_V2 extends RESTClient {
     public boolean getUser(String ID){
 
         if(!validateToken()) {
-            Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
-            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), "Relogin");
+            mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
             return false;
         }
 
@@ -461,8 +459,7 @@ public class RESTClient_V2 extends RESTClient {
     public boolean getProjects(){
 
         if(!validateToken()) {
-            Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
-            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), MainActivity.TAG_RELOGIN);
+            mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
             return false;
         }
 
@@ -548,8 +545,7 @@ public class RESTClient_V2 extends RESTClient {
     public boolean postUser(String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
 
         if(!validateToken()) {
-            Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
-            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), MainActivity.TAG_RELOGIN);
+            mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
             return false;
         }
 
@@ -621,8 +617,7 @@ public class RESTClient_V2 extends RESTClient {
     public boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
 
         if(!validateToken()) {
-            Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
-            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), MainActivity.TAG_RELOGIN);
+            mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
             return false;
         }
 
@@ -695,8 +690,7 @@ public class RESTClient_V2 extends RESTClient {
     public boolean deleteUser(String userID){
 
         if(!validateToken()) {
-            Fragment_ReLogin fragment_reLogin = new Fragment_ReLogin();
-            fragment_reLogin.show(mainActivity.getSupportFragmentManager(), MainActivity.TAG_RELOGIN);
+            mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
             return false;
         }
 

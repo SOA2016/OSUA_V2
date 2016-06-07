@@ -518,6 +518,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 transaction.commit();
                 break;
             }
+            case TAG_RELOGIN: {
+                    DialogFragment newFragment =Fragment_ReLogin.newInstance();
+                    newFragment.show(manager, TAG_RELOGIN);
+                break;
+            }
             default: {
                 Toast.makeText(ac, ac.getString(R.string.error_1), Toast.LENGTH_SHORT).show();
                 break;
