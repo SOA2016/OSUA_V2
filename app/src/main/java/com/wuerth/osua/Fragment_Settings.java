@@ -63,7 +63,7 @@ public class Fragment_Settings extends Fragment {
             }
 
             long difference = tokentime.getTime() - actualtime.getTime();
-            tokenExpiresAt.setText(tokentime.toString() + " (+" + (difference/60) + " " + mainActivity.getString(R.string.fragment_settings_minutes) + ")");
+            tokenExpiresAt.setText(tokentime.toString() + " (+" + (difference/1000/60) + " " + mainActivity.getString(R.string.fragment_settings_minutes_remaining) + ")");
             serverAddress.setText(myPrefs.getString("serverAddress", ""));
 
             if (difference > 0) {

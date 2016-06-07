@@ -1,7 +1,6 @@
 package com.wuerth.osua;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -19,7 +18,6 @@ public class Fragment_ReLogin extends DialogFragment {
     SharedPreferences myPrefs;
     RESTClient myRESTClient;
     EditText inputUserPassword;
-    Context Context;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -39,7 +37,7 @@ public class Fragment_ReLogin extends DialogFragment {
 
         mainActivity = (MainActivity) getActivity();
         myRESTClient = new RESTClient_V3(mainActivity);
-        myPrefs = mainActivity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        myPrefs = mainActivity.getSharedPreferences("MyPrefs", MainActivity.MODE_PRIVATE);
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
@@ -79,7 +77,7 @@ public class Fragment_ReLogin extends DialogFragment {
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());
-                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+                MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
         }
@@ -90,9 +88,9 @@ public class Fragment_ReLogin extends DialogFragment {
             if(success) {
                 //Toast.makeText(mainActivity, "Expires at: " + myPrefs.getString("actualTokenExpiresAt", "No Token!"), Toast.LENGTH_LONG).show();
                 //Toast.makeText(mainActivity, "Token: " + myPrefs.getString("actualToken", "No Token!"), Toast.LENGTH_LONG).show();
-                //mainActivity.changeFragment(mainActivity.TAG_USERLIST);
+                mainActivity.changeFragment(MainActivity.TAG_USERLIST, mainActivity);
             }else{
-                mainActivity.changeFragment(mainActivity.TAG_LOGIN, mainActivity);
+                mainActivity.changeFragment(MainActivity.TAG_LOGIN, mainActivity);
             }
 
             super.onPostExecute(success);

@@ -28,7 +28,7 @@
     <string name="fragment_settings_flushed">Local Userlist/Projects flushed</string>
     <string name="fragment_settings_tokenExpirationDate">TOKEN-EXPIRATION-DATE</string>
     <string name="fragment_settings_settings">SETTINGS</string>
-    <string name="fragment_settings_minutes">minutes</string>
+    <string name="fragment_settings_minutes_remaining">minutes remaining</string>
 
     <string name="fragment_login_userName">USER-NAME</string>
     <string name="fragment_login_userProject">PROJECT</string>
