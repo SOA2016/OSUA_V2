@@ -14,13 +14,18 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.support.v7.widget.CardView;
 
 
 
 /**
- * A placeholder fragment containing a simple view.
+ * changed by Stephan Strissel
+ * Manages Login and is first screen when App is opened
+ * 1) auto prefix for Server-Address
+ * 2) unscoped login
+ * 3) scoped login
+ * 4) default settings
+ * 5) login precondition-check
  */
 public class Fragment_Login extends Fragment {
     private ListView listView;
@@ -54,7 +59,6 @@ public class Fragment_Login extends Fragment {
         myRESTClient = new RESTClient_V3(mainActivity); // Here you should distinguish API V2.0 or V3.0
 
         // Load saved Key-Value-Pairs to Views
-
         final EditText loginServer = (EditText) view.findViewById(R.id.input_loginServer);
         loginServer.setText(myPrefs.getString("serverAddress", ""));
 
@@ -126,10 +130,9 @@ public class Fragment_Login extends Fragment {
                 }
 
 
+                /* if preconditions are true, try to login*/
                 if (try_to_login)
                 {
-
-
                     /* serverAddress Prefix Autocorrect */
                     loginServer.getText().toString();
                     boolean serverAddressCorrect = false;

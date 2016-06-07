@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,10 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * A placeholder fragment containing a simple view.
+ * changed by Stephan Strissel
+ * 1) A fragment to show Token-Expiration-Date and Server-Address
+ * 2) also implements a flush-button to delete local Userlist and Projectlist, forces Relogin
+ * 3) shows the imprint
  */
 public class Fragment_Settings extends Fragment {
     TextView tokenExpiresAt, serverAddress;
@@ -60,7 +62,7 @@ public class Fragment_Settings extends Fragment {
             try {
                 tokentime = simpleDateFormat.parse(myPrefs.getString("actualTokenExpiresAt", ""));
             } catch (Exception e) {
-                MainActivity.showSnackbar("Failed to convert timetoken");
+                MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_settings_parseTimeTokenFailed));
             }
 
             long difference = tokentime.getTime() - actualtime.getTime();
@@ -88,21 +90,24 @@ public class Fragment_Settings extends Fragment {
             serverAddress.setVisibility(View.GONE);
         }
 
+        /* text in this Textview has to be loaded in Code, because text is html */
         TextView impressum = (TextView) view.findViewById(R.id.impressum);
         impressum.setText(Html.fromHtml(mainActivity.getString(R.string.imprint_text)));
 
+
+        /* Stephan Strissel */
+        /* initialise flushButton */
         flushButton = (Button) view.findViewById(R.id.loginButton);
         flushButton.requestFocus();
         flushButton.requestFocusFromTouch();
 
         flushButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-                mainActivity.databaseAdapter.deleteUserList();
-                mainActivity.databaseAdapter.deleteProjectList();
+                mainActivity.databaseAdapter.deleteUserList(); // delete local Userlist
+                mainActivity.databaseAdapter.deleteProjectList(); // delete local Projectlist
+                mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity); // force Relogin
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_settings_flushed));
-                mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
             }
         });
         return view;
