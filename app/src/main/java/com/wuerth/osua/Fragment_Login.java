@@ -125,7 +125,8 @@ public class Fragment_Login extends Fragment {
                     try_to_login = false; /* abort login */
                 }
                 if(loginUserDomain.getText().toString().isEmpty()) {
-                    mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterUserDomain));
+                    //mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterUserDomain));
+                    loginUserDomain.setText("default");
                     /*continue with default domain*/
                 }
 
