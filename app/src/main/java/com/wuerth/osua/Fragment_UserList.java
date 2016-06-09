@@ -192,7 +192,9 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                 progressBar.setVisibility(View.INVISIBLE);
 
            }else{
-                mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_loadFail));
+
+                //mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_loadFail));
+                //mainActivity.changeFragment(MainActivity.TAG_LOGIN, mainActivity);
             }
 
             userListRefresh.setRefreshing(false);

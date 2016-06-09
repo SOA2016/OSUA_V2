@@ -62,8 +62,10 @@ public class RESTClient_V3 extends RESTClient {
 			HttpEntity e = response.getEntity();
 			if (status == 200){
 				return EntityUtils.toString(e);
-			}
-			else{
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return response.getStatusLine().toString()+" "+EntityUtils.toString(e);
+			} else{
 				return response.getStatusLine().toString()+" "+EntityUtils.toString(e);
 			}
 
@@ -86,8 +88,10 @@ public class RESTClient_V3 extends RESTClient {
 			HttpEntity e = response.getEntity();
 			if (status == 200){
 				return EntityUtils.toString(e);
-			}
-			else{
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return response.getStatusLine().toString()+" "+EntityUtils.toString(e);
+			} else{
 				return response.getStatusLine().toString()+" "+EntityUtils.toString(e);
 			}
 		}
@@ -120,7 +124,7 @@ public class RESTClient_V3 extends RESTClient {
             return false;
         }
 
-        /* loginName, serverAdress and Password a mandatory */
+        /* loginName, serverAdress and Password are mandatory */
 		if(loginName.equals("") || serverAddress.equals("") || loginPassword.equals("")){
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
 			return false;
@@ -245,6 +249,10 @@ public class RESTClient_V3 extends RESTClient {
 								spEditor.putString("actualToken", header.getValue());
 								spEditor.putString("actualTokenExpiresAt", token.getString("expires_at"));
 								spEditor.apply();
+								/* changed by Stephan Strissel */
+								if (!validateToken()) { // reCheck if validateToken() is functional. Otherwise App won't behave properly
+									return false;
+								}
 								return true;
 							}
 						 catch (JSONException e)
@@ -266,6 +274,10 @@ public class RESTClient_V3 extends RESTClient {
 				}
 				case 401: {
 					MainActivity.showSnackbar(mainActivity.getString(R.string.error_401));
+					return false;
+				}
+				case 403: {
+					MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
 					return false;
 				}
                 default: {
@@ -308,8 +320,10 @@ public class RESTClient_V3 extends RESTClient {
 			HttpEntity e = response.getEntity();
 			if (status == 200){
 				return EntityUtils.toString(e);
-			}
-			else{
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return response.getStatusLine().toString()+" "+EntityUtils.toString(e);
+			} else{
 				return response.getStatusLine().toString()+" "+EntityUtils.toString(e);
 			}
 
@@ -346,8 +360,11 @@ public class RESTClient_V3 extends RESTClient {
 			HttpEntity e = response.getEntity();
 			if (status == 200){
 				return EntityUtils.toString(e);
-			}
-			else{
+
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return response.getStatusLine().toString()+" "+EntityUtils.toString(e);
+			} else {
 				return response.getStatusLine().toString()+" "+EntityUtils.toString(e);
 			}
 			
@@ -432,6 +449,9 @@ public class RESTClient_V3 extends RESTClient {
                     MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                     return false;
                 }
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return false;
             } else{
                 Log.e("RESTClient", "" + status);
                 MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
@@ -538,6 +558,9 @@ public class RESTClient_V3 extends RESTClient {
 					MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
 					return false;
 				}
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return false;
 			} else{
 				Log.e("RESTClient", "" + status);
 				MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
@@ -646,7 +669,11 @@ public class RESTClient_V3 extends RESTClient {
 					MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
 					return false;
 				}
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return false;
 			} else{
+
 				Log.e("RESTClient", "" + status);
 				MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
 				return false;
@@ -691,6 +718,9 @@ public class RESTClient_V3 extends RESTClient {
 			if (status == 200){
 				HttpEntity e = response.getEntity();
 				return EntityUtils.toString(e);
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return response.getStatusLine().toString();
 			}
 			else{
 				return response.getStatusLine().toString();
@@ -742,6 +772,9 @@ public class RESTClient_V3 extends RESTClient {
 				spEditor.putString("actualTokenExpiresAt", null);
 				spEditor.apply();
 				return true;
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return false;
 			}else{
 				Log.e("RESTClient", "" + status);
 				MainActivity.showSnackbar(mainActivity.getString(R.string.error_3));
@@ -811,6 +844,9 @@ public class RESTClient_V3 extends RESTClient {
 			if(status == 200){
 				MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateSuccess));
 				return true;
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return false;
 			} else{
 				Log.e("RESTClient", "" + status);
 				MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateFail));
@@ -883,6 +919,9 @@ public class RESTClient_V3 extends RESTClient {
 			if(status == 201){
 				MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationSuccess));
 				return true;
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return false;
 			} else{
 				Log.e("RESTClient", "" + status);
 				MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationFail));
@@ -941,6 +980,9 @@ public class RESTClient_V3 extends RESTClient {
 			if(status == 204){
 				MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationSuccess));
 				return true;
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return false;
 			}else{
 				Log.e("RESTClient", "" + status);
 				MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationFail));
@@ -1010,8 +1052,7 @@ public class RESTClient_V3 extends RESTClient {
 				return true;
 			}else if(status == 403) {
 				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
-				mainActivity.changeFragment(MainActivity.TAG_LOGIN, mainActivity);
-				return false;
+				return false; // The identity was successfully authenticated but it is not authorized to perform the requested action, so token is not valid
 			}else{
 				Log.e("RESTClient", "" + status);
 				spEditor.putString("actualToken", null);

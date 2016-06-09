@@ -107,7 +107,10 @@ public class RESTClient_V2 extends RESTClient {
                         spEditor.putString("actualToken", token.getString("id"));
                         spEditor.putString("actualTokenExpiresAt", token.getString("expires"));
                         spEditor.apply();
-
+                        /* changed by Stephan Strissel */
+                        if (!validateToken()) { // reCheck if validateToken() is functional. Otherwise App won't behave properly
+                            return false;
+                        }
                         return true;
 
                     } catch (JSONException e) {
