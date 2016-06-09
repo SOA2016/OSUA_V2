@@ -156,37 +156,6 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         return view;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if(id== R.id.action_search) {
-            listView.setAdapter(new BaseAdapter() {
-                @Override
-                public int getCount() {
-                    return 0;
-                }
-
-                @Override
-                public Object getItem(int position) {
-                    return null;
-                }
-
-                @Override
-                public long getItemId(int position) {
-                    return 0;
-                }
-
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    return null;
-                }
-            });
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public class myWorker extends AsyncTask<String, Void, Boolean> {
 
         @Override
@@ -231,10 +200,8 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                 ListAdapter adapter = new myListAdapter();
                 listView.setAdapter(adapter);
                 progressBar.setVisibility(View.INVISIBLE);
-                //mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_loadSuccess) + " (" + listView.getCount() + " " + mainActivity.getString(R.string.fragment_userList_loadSuccess_items) + ")");
-            }else{
-                //loginButton.setVisibility(View.VISIBLE);
-                //progressBar.setVisibility(View.INVISIBLE);
+
+           }else{
                 mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_userList_loadFail));
             }
 
@@ -272,10 +239,6 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
             }   // If not null use old View
 
             userItem user = userList.get(position);
-
-            /*if(position != 0)
-                if(!user.userName.substring(0,1).equals(userList.get(position-1).userName.substring(0,1)))
-                    item = inflater.inflate(R.layout.userlist_item_divider, parent, false);*/
 
             TextView name = (TextView) item.findViewById(R.id.userName);
             name.setText(user.userName);
@@ -395,10 +358,6 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MainActivity mainActivity = (MainActivity) getActivity();
         FragmentManager manager = mainActivity.getSupportFragmentManager();
-
-        mainActivity.toolbarSearch.setVisibility(View.INVISIBLE);
-        EditText txtSearch = ((EditText)mainActivity.menuItemSearch.getActionView().findViewById(android.support.v7.appcompat.R.id.search_src_text));
-        txtSearch.setText("");
 
         Fragment_EditUser newFragment = Fragment_EditUser.newInstance(userList.get(position).userID);
         FragmentTransaction transaction = manager.beginTransaction();

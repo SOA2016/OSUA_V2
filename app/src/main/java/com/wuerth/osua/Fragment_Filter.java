@@ -99,8 +99,11 @@ public class Fragment_Filter extends DialogFragment {
                         spEditor.putString("filterDisabledProjects", newFilterString);
                         spEditor.apply();
 
+                        Fragment_UserList newFragment = Fragment_UserList.newInstance();
                         FragmentManager manager = mainActivity.getSupportFragmentManager();
-                        Fragment_UserList newFragment = Fragment_UserList.newInstance(mainActivity.searchView.getQuery().toString());
+                        if (mainActivity.searchView != null) {
+                            newFragment = Fragment_UserList.newInstance(mainActivity.searchView.getQuery().toString());
+                        }
                         FragmentTransaction transaction = manager.beginTransaction();
                         transaction.replace(R.id.fragment, newFragment);
                         transaction.addToBackStack(mainActivity.TAG_USERLIST);

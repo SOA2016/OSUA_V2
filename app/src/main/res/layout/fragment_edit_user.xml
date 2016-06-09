@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:theme="@style/ColorEditTextStyle"/>
+                app:theme="@style/EditText"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                app:theme="@style/ColorEditTextStyle"
+                app:theme="@style/EditText"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
             <RelativeLayout
@@ -145,7 +145,7 @@
                     android:singleLine="true"
                     android:inputType="textPassword"
                     android:enabled="false"
-                    app:theme="@style/ColorEditTextStyle"
+                    app:theme="@style/EditText"
                     android:visibility="invisible"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 

@@ -3,7 +3,6 @@ package com.wuerth.osua;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -23,15 +22,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.app.Activity;
 
 import java.util.ArrayList;
+import android.view.MenuInflater;
+import android.app.SearchManager;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener,Toolbar.OnMenuItemClickListener, MenuItemCompat.OnActionExpandListener {
-
     final static String TAG_LOGIN = "Login",
             TAG_USERLIST = "Userlist",
             TAG_EDIT_USER = "Edit User",
@@ -43,13 +42,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     private FragmentManager manager;
     ArrayList<Integer> mSelectedItems;
     DatabaseAdapter databaseAdapter;
-
     static FloatingActionButton fab;
+
     Toolbar toolbar;
-    static Toolbar toolbarSearch;
     Boolean search = false;
-    static MenuItem menuItemSearch;
     SearchView searchView;
+    MenuItem searchMenuItem;
+    Menu Mainmenu;
+
+
     LinearLayout fragment;
     static RESTClient RESTClient;
     MainActivity mainActivity = this;
@@ -58,52 +59,31 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbarSearch = (Toolbar) findViewById(R.id.toolbarSearch);
-        setSupportActionBar(toolbar);
 
         fragment = (LinearLayout) findViewById(R.id.fragment);
 
         RESTClient = new RESTClient_V3(this);
-
-        toolbarSearch = (Toolbar) findViewById(R.id.toolbarSearch);
-        //toolbarSearch.setVisibility(View.VISIBLE);
-        getMenuInflater().inflate(R.menu.menu_search, toolbarSearch.getMenu());
-        menuItemSearch = toolbarSearch.getMenu().findItem(R.id.action_search);
-        searchView = (SearchView) menuItemSearch.getActionView();
-        //menuItemSearch.expandActionView();
-        MenuItemCompat.setOnActionExpandListener(menuItemSearch, this);
-        toolbarSearch.setOnMenuItemClickListener(this);
-        EditText txtSearch = ((EditText)menuItemSearch.getActionView().findViewById(android.support.v7.appcompat.R.id.search_src_text));
-        txtSearch.setHint("Search...");
-        txtSearch.setHintTextColor(Color.LTGRAY);
-        txtSearch.setText("");
-        txtSearch.setTextColor(getResources().getColor(R.color.darkgrey));
 
         manager = getSupportFragmentManager();
         manager.addOnBackStackChangedListener(this);
 
         databaseAdapter = new DatabaseAdapter(this);
 
-        changeFragment(TAG_LOGIN, mainActivity);
 
-        /*Fragment_Login newFragment = Fragment_Login.newInstance();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.fragment, newFragment);
-        transaction.addToBackStack(TAG_LOGIN);
-        transaction.commit();*/
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.hide();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-
                 changeFragment(TAG_ADD_USER, mainActivity);
             }
         });
+
+        changeFragment(TAG_LOGIN, mainActivity);
     }
 
 
@@ -111,23 +91,30 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        /*MenuItemImpl menuItem = (MenuItemImpl) toolbarSearch.getMenu().findItem(R.id.action_search);
-        menuItem.expandActionView();
-        menuItem.getActionView();*/
-        //searchView = (SearchView) menuItem.getActionView();
+        // store menu
+        Mainmenu = menu;
+
+        // Inflate the options menu from XML
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu); // load menu
+
+
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchMenuItem = menu.findItem(R.id.action_searchField);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        // Assumes current activity is the searchable activity
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            searchView.setSubmitButtonEnabled(true);
+            searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Fragment_UserList newFragment = Fragment_UserList.newInstance(searchView.getQuery().toString());
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragment, newFragment);
-                transaction.addToBackStack(TAG_USERLIST);
-                transaction.commit();
-
-                searchView.clearFocus();
-                fragment.requestFocus();
-
-                toolbarSearch.setVisibility(View.VISIBLE);
+                callSearch(query);
                 return true;
             }
 
@@ -135,27 +122,28 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
+
+            private void callSearch(String query) {
+                Fragment_UserList newFragment = Fragment_UserList.newInstance(query);
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.fragment, newFragment);
+                transaction.addToBackStack(TAG_USERLIST);
+                transaction.commit();
+
+                fragment.clearFocus();
+                fragment.requestFocus();
+            }
+
         });
-        //toolbarSearch.setVisibility(View.INVISIBLE);
-
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        /*MenuItem menuItem = toolbar.getMenu().findItem(R.id.action_search);
-        MenuItemCompat.setOnActionExpandListener(menuItem, this);
-
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        EditText txtSearch = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        txtSearch.setHint("Search...");
-        txtSearch.setHintTextColor(Color.LTGRAY);
-        txtSearch.setText("");
-        txtSearch.setTextColor(getResources().getColor(R.color.darkgrey));*/
+    }
 
         switch (getCurrentFragment()) { // Manage Menu-Items
             case TAG_LOGIN: {
                 menu.findItem(R.id.action_logout).setVisible(false);
-                menu.findItem(R.id.action_search).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
                 menu.findItem(R.id.action_confirm).setVisible(false);
+                menu.findItem(R.id.action_searchField).setVisible(false);
+                menu.findItem(R.id.action_searchButton).setVisible(false);
 
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 getSupportActionBar().setDisplayShowHomeEnabled(false);
@@ -167,7 +155,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             case TAG_EDIT_USER: {
                 menu.findItem(R.id.action_logout).setVisible(false);
                 menu.findItem(R.id.action_settings).setVisible(false);
-                menu.findItem(R.id.action_search).setVisible(false);
+                menu.findItem(R.id.action_searchField).setVisible(false);
+                menu.findItem(R.id.action_searchButton).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
 
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -181,7 +170,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             case TAG_ADD_USER: {
                 menu.findItem(R.id.action_logout).setVisible(false);
                 menu.findItem(R.id.action_settings).setVisible(false);
-                menu.findItem(R.id.action_search).setVisible(false);
+                menu.findItem(R.id.action_searchField).setVisible(false);
+                menu.findItem(R.id.action_searchButton).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
                 menu.findItem(R.id.action_confirm).setVisible(true);
 
@@ -196,7 +186,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             case TAG_SETTINGS: {
                 menu.findItem(R.id.action_logout).setVisible(false);
                 menu.findItem(R.id.action_settings).setVisible(false);
-                menu.findItem(R.id.action_search).setVisible(false);
+                menu.findItem(R.id.action_searchField).setVisible(false);
+                menu.findItem(R.id.action_searchButton).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
                 menu.findItem(R.id.action_confirm).setVisible(false);
 
@@ -211,7 +202,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             case TAG_USERLIST: {
                 menu.findItem(R.id.action_logout).setVisible(true);
                 menu.findItem(R.id.action_settings).setVisible(true);
-                menu.findItem(R.id.action_search).setVisible(true);
+                menu.findItem(R.id.action_searchField).setVisible(false);
+                menu.findItem(R.id.action_searchButton).setVisible(true);
                 menu.findItem(R.id.action_filter).setVisible(true);
                 menu.findItem(R.id.action_confirm).setVisible(false);
 
@@ -258,43 +250,22 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             fragment_filter.show(manager, "Testss");
         }
 
-        if(id== R.id.action_search) {
+        if(id== R.id.action_searchButton) {
             search = true;
-            toolbarSearch.setVisibility(View.VISIBLE);
-            menuItemSearch.expandActionView();
-            searchView.requestFocus();
+            Mainmenu.findItem(R.id.action_searchField).setVisible(true);
+            item.setVisible(false);
+            searchMenuItem.expandActionView();
+            if (searchView != null) {
+                searchView.requestFocus();
+            }
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-
-
-            //toolbar.setBackgroundColor(getResources().getColor(R.color.grey));
         }
 
         if(id == android.R.id.home) { // Zurück Event aufrufen
             onBackPressed();
             return true;
         }
-
-        /*if(id == R.id.action_confirm) {
-
-            /*changeFragment(TAG_USERLIST);
-
-            FloatingActionButton.OnVisibilityChangedListener fabListener;
-            fabListener = new FloatingActionButton.OnVisibilityChangedListener(){
-                @Override
-                public void onShown(FloatingActionButton fab) {
-
-                    Snackbar.make(fab, "User saved", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-
-                    super.onShown(fab);
-                }
-            };
-
-            fab.show(fabListener);
-
-            return true;
-        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -346,8 +317,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         supportInvalidateOptionsMenu();
 
-        if(toolbarSearch.getVisibility() == View.VISIBLE){
-            toolbarSearch.setVisibility(View.INVISIBLE);
+        if(Mainmenu.findItem(R.id.action_searchField).isVisible()){
+            Mainmenu.findItem(R.id.action_searchField).setVisible(false);
+            Mainmenu.findItem(R.id.action_searchButton).setVisible(true);
             if(getCurrentFragment().equals(TAG_USERLIST))
                 changeFragment(TAG_USERLIST, mainActivity);
         }else {
@@ -413,37 +385,16 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Override
     public boolean onMenuItemActionExpand(MenuItem item) {
-        //Toast.makeText(this, "Opened", Toast.LENGTH_SHORT).show();
-        //toolbarSearch.setVisibility(View.VISIBLE);
         search = true;
-        //supportInvalidateOptionsMenu();
-
-        //toolbar.setBackgroundColor(getResources().getColor(R.color.grey));
-        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         return true;
     }
 
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
-        //Toast.makeText(this, "Closed", Toast.LENGTH_SHORT).show();
-        //showSnackbar("Test");
-        //toolbar.setVisibility(View.INVISIBLE);
-        //Toolbar toolbarSearch = (Toolbar) findViewById(R.id.toolbarSearch);
-        //toolbarSearch.setVisibility(View.INVISIBLE);
-        //searchView.expandActionView();
-        toolbarSearch.setVisibility(View.INVISIBLE);
+        Mainmenu.findItem(R.id.action_searchField).setVisible(false);
+        Mainmenu.findItem(R.id.action_searchButton).setVisible(true);
         changeFragment(TAG_USERLIST, mainActivity);
-        //Toast.makeText(this, "hola", Toast.LENGTH_LONG).show();
         search = false;
-        //supportInvalidateOptionsMenu();
-
-        //toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        //getSupportActionBar().setDisplayShowHomeEnabled(false);
-        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
 
         return true;
     }
@@ -456,16 +407,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     public void changeFragment(String TAG, Activity ac) {
 
-        //searchView.setQuery("", true);
-
         if (ac.getCurrentFocus() != null) {
             InputMethodManager inputManager = (InputMethodManager) ac.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(ac.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
-
-        toolbarSearch.setVisibility(View.INVISIBLE);
-        EditText txtSearch = ((EditText)menuItemSearch.getActionView().findViewById(android.support.v7.appcompat.R.id.search_src_text));
-        txtSearch.setText("");
 
         switch (TAG) {
             case TAG_USERLIST: {

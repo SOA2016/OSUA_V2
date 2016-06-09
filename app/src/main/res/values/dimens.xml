@@ -9,4 +9,6 @@
     <dimen name="activity_vertical_attribute">5dp</dimen>
     <dimen name="loginButton_marginTop">10dp</dimen>
     <dimen name="loginButton_marginBottom">5dp</dimen>
+
+    <dimen name="textsize_medium">14pt</dimen>
 </resources>
