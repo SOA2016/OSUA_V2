@@ -502,8 +502,6 @@ public class RESTClient_V3 extends RESTClient {
 						String userID, userName, userMail, userProject, userDescription;
 						Boolean userEnabled;
 
-						//mainActivity.databaseAdapter.insertUser(1,"test", "testmail", "testprojekt");
-
 						userID = user.getString("id");
 						userName = user.getString("name");
 						userEnabled = user.getBoolean("enabled");
@@ -511,7 +509,7 @@ public class RESTClient_V3 extends RESTClient {
                         try {
                             userDescription = user.getString("description");
                         }catch (Exception e){
-                            // No email for this user
+                            // No Description for this user
                             userDescription = "";
                         }
 
@@ -991,6 +989,24 @@ public class RESTClient_V3 extends RESTClient {
 			int status = httpResponse.getStatusLine().getStatusCode();
 
 			if(status == 200){
+                HttpEntity entity = httpResponse.getEntity();
+                String responseString = EntityUtils.toString(entity);
+                Log.d("Response (editUser)", responseString);
+
+                JSONObject response;
+                JSONObject token;
+                String expires_at;
+                try {
+                    response = new JSONObject(responseString);
+                    token  = response.getJSONObject("token");
+                    expires_at = token.getString("expires_at");
+                    spEditor.putString("actualTokenExpiresAt", expires_at );
+                } catch (JSONException e) {
+                    Log.e("RESTClient", ""+status+e);
+                    MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+                    return false;
+                }
+
 				return true;
 			}else if(status == 403) {
 				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));

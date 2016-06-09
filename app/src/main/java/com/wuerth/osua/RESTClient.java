@@ -28,5 +28,4 @@ public abstract class RESTClient {
     public abstract boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, String userDescription, Boolean userEnabled);
 
     public abstract boolean getUser(String ID);
-
 }
