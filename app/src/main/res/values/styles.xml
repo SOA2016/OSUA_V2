@@ -29,23 +29,16 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="toolbarNormal">
+    <style name="toolbar">
         <item name="android:textColorPrimary">@color/lightgrey</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
-    <style name="toolbarSearch">
+    <style name="popupToolbar">
+        <item name="android:textColor">@color/black</item>
         <item name="android:background">@color/white</item>
-        <item name="android:color">@color/black</item>
     </style>
-
-    <style name="SearchView">
-        <item name="android:background">@color/white</item>
-        <item name="android:color">@color/black</item>
-    </style>
-
-
 
     <style name="EditText">
         <!-- colorAccent is used as the default value for colorControlActivated,
