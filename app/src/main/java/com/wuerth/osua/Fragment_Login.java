@@ -107,24 +107,24 @@ public class Fragment_Login extends Fragment {
                 * */
                 boolean try_to_login = true;
 
-                if(loginServer.getText().toString().isEmpty()) {
+                if (loginServer.getText().toString().isEmpty()) {
                     mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterServerAddress));
                     try_to_login = false; /* abort login */
                 }
-                if(loginName.getText().toString().isEmpty()) {
+                if (loginName.getText().toString().isEmpty()) {
                     mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterUserName));
                     try_to_login = false; /* abort login */
                 }
-                if(loginPassword.getText().toString().isEmpty()) {
+                if (loginPassword.getText().toString().isEmpty()) {
                     mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterPassword));
                     try_to_login = false; /* abort login */
                 }
                 /* when a project is specified, a project-domain has to be specified, too */
-                if(!loginProject.getText().toString().isEmpty() && loginProjectDomain.getText().toString().isEmpty()) {
+                if (!loginProject.getText().toString().isEmpty() && loginProjectDomain.getText().toString().isEmpty()) {
                     mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterProjectDomain));
                     try_to_login = false; /* abort login */
                 }
-                if(loginUserDomain.getText().toString().isEmpty()) {
+                if (loginUserDomain.getText().toString().isEmpty()) {
                     //mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_enterUserDomain));
                     loginUserDomain.setText("default");
                     /*continue with default domain*/
@@ -132,18 +132,17 @@ public class Fragment_Login extends Fragment {
 
 
                 /* if preconditions are true, try to login*/
-                if (try_to_login)
-                {
+                if (try_to_login) {
                     /* serverAddress Prefix Autocorrect */
                     loginServer.getText().toString();
                     boolean serverAddressCorrect = false;
-                    for(String prefix : getResources().getStringArray((R.array.serverPrefixes))) {
-                        if (loginServer.getText().toString().substring(0,prefix.length()).equals(prefix)){
+                    for (String prefix : getResources().getStringArray((R.array.serverPrefixes))) {
+                        if (loginServer.getText().toString().substring(0, prefix.length()).equals(prefix)) {
                             serverAddressCorrect = true;
                             break;
                         }
                     }
-                    if (!serverAddressCorrect){
+                    if (!serverAddressCorrect) {
                         loginServer.setText("https://" + loginServer.getText().toString());
                     }
 
@@ -161,15 +160,31 @@ public class Fragment_Login extends Fragment {
                             android.graphics.PorterDuff.Mode.SRC_IN);
                     progressBar.setVisibility(View.VISIBLE);
 
-                    new myWorker().execute(loginPassword.getText().toString());
+                    new loginTask().execute(loginPassword.getText().toString());
                 }
             }
         });
 
+        /*
+         * Created by Stephan Strissel on 09.06.2016.
+         * try to Login in Background if token is still available
+         */
+        if (!myPrefs.getString("actualToken", "").equals("") && !myPrefs.getString("serverAddress", "").equals("")) {
+            // lock Login-Screen to execute tokenValidation in Background
+            loginButton.setVisibility((View.GONE));
+            progressBar.setVisibility(View.VISIBLE);
+
+            // Background-Task
+            returnParam2 param = new returnParam2(false, loginButton, progressBar);
+            new tokenValidationTask().execute(param);
+            // Notice: Login-Screen will be unlocked when Background-Task is finished
+        }
+
+
         return view;
     }
 
-    public class myWorker extends AsyncTask<String, Void, Boolean> {
+    public class loginTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... params) {
@@ -178,7 +193,7 @@ public class Fragment_Login extends Fragment {
                 return myRESTClient.getAuthentificationToken(params[0]);
             }
             catch(Exception e){
-                Log.e("Asynctask", e.toString());
+                Log.e("loginTask", e.toString());
                 mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
                 return false;
             }
@@ -188,8 +203,6 @@ public class Fragment_Login extends Fragment {
         protected void onPostExecute(Boolean success) {
 
             if(success) {
-                //Toast.makeText(mainActivity, "Expires at: " + myPrefs.getString("actualTokenExpiresAt", "No Token!"), Toast.LENGTH_LONG).show();
-                //Toast.makeText(mainActivity, "Token: " + myPrefs.getString("actualToken", "No Token!"), Toast.LENGTH_LONG).show();
                 mainActivity.changeFragment(mainActivity.TAG_USERLIST, mainActivity);
             }else{
                 loginButton.setVisibility(View.VISIBLE);
@@ -197,6 +210,39 @@ public class Fragment_Login extends Fragment {
             }
 
             super.onPostExecute(success);
+        }
+
+    }
+
+    /*
+    * Created by Stephan Strissel on 09.06.2016.
+    * trys to login in Background-Task if token is still available
+     */
+    public class tokenValidationTask extends AsyncTask<returnParam2, Void,  returnParam2> {
+
+        @Override
+        protected returnParam2 doInBackground(returnParam2... params) {
+
+            try{
+                params[0] = new returnParam2(myRESTClient.validateToken(), loginButton, progressBar);
+            }
+            catch(Exception e){
+                Log.e("tokenValidationTask", e.toString());
+                mainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+                params[0] = new returnParam2(false, loginButton, progressBar);;
+            }
+            return params[0];
+        }
+
+        @Override
+        protected void onPostExecute(returnParam2 param) {
+
+            if(param.success) {
+                mainActivity.changeFragment(mainActivity.TAG_USERLIST, mainActivity); // token is still valid
+            }else{
+                param.loginButton.setVisibility(View.VISIBLE);
+                param.progessBar.setVisibility(View.GONE);
+            }
         }
 
     }

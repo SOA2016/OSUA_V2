@@ -31,7 +31,8 @@ import android.view.MenuInflater;
 import android.app.SearchManager;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener,Toolbar.OnMenuItemClickListener, MenuItemCompat.OnActionExpandListener {
-    final static String TAG_LOGIN = "Login",
+    final static String
+            TAG_LOGIN = "Login",
             TAG_USERLIST = "Userlist",
             TAG_EDIT_USER = "Edit User",
             TAG_ADD_USER = "Add User",
@@ -491,5 +492,4 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
 
     }
-
 }

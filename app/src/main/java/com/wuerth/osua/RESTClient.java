@@ -10,7 +10,6 @@ public abstract class RESTClient {
     MainActivity mainActivity;
     SharedPreferences myPrefs;
     SharedPreferences.Editor spEditor;
-    String[] prefixList;
 
     public abstract boolean getAuthentificationToken(String loginPassword);
 

@@ -107,7 +107,6 @@ public class RESTClient_V3 extends RESTClient {
 		String serverAddress = myPrefs.getString("serverAddress", "");
 		String loginUserDomain = myPrefs.getString("loginUserDomain", "");
         String loginProjectDomain = myPrefs.getString("loginProjectDomain", "");
-		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
         /* If you specify the user name, you must also specify the domain, by ID or name. */
         /* UserDomain is mandatory and will be set by default */
@@ -380,7 +379,6 @@ public class RESTClient_V3 extends RESTClient {
 
 		String actualToken = myPrefs.getString("actualToken", "");
 		String serverAddress = myPrefs.getString("serverAddress", "");
-		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
 		if(actualToken.equals("") || serverAddress.equals("")){
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
@@ -482,7 +480,6 @@ public class RESTClient_V3 extends RESTClient {
 
 		String actualToken = myPrefs.getString("actualToken", "");
 		String serverAddress = myPrefs.getString("serverAddress", "");
-		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
 		if(actualToken.equals("") || serverAddress.equals("")){
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
@@ -624,7 +621,6 @@ public class RESTClient_V3 extends RESTClient {
 
 		String actualToken = myPrefs.getString("actualToken", "");
 		String serverAddress = myPrefs.getString("serverAddress", "");
-		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
 		if(actualToken.equals("") || serverAddress.equals("")){
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
@@ -681,7 +677,6 @@ public class RESTClient_V3 extends RESTClient {
 
 		String actualToken = myPrefs.getString("actualToken", "");
 		String serverAddress = myPrefs.getString("serverAddress", "");
-		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
 		if(actualToken.equals("") || serverAddress.equals("")){
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
@@ -754,7 +749,6 @@ public class RESTClient_V3 extends RESTClient {
 
 		String actualToken = myPrefs.getString("actualToken", "");
 		String serverAddress = myPrefs.getString("serverAddress", "");
-		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
 		if(actualToken.equals("") || serverAddress.equals("")){
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
@@ -826,7 +820,6 @@ public class RESTClient_V3 extends RESTClient {
 
 		String actualToken = myPrefs.getString("actualToken", "");
 		String serverAddress = myPrefs.getString("serverAddress", "");
-		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
 		if(actualToken.equals("") || serverAddress.equals("")){
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
@@ -876,7 +869,6 @@ public class RESTClient_V3 extends RESTClient {
 
 		String actualToken = myPrefs.getString("actualToken", "");
 		String serverAddress = myPrefs.getString("serverAddress", "");
-		String[] prefixList = mainActivity.getResources().getStringArray(R.array.serverPrefixes);
 
 		if(actualToken.equals("") || serverAddress.equals("")){
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
@@ -907,7 +899,7 @@ public class RESTClient_V3 extends RESTClient {
 			if(status == 200){
 				return true;
 			}else if(status == 403) {
-				MainActivity.showSnackbar("Please login with an admin account");
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
 				mainActivity.changeFragment(MainActivity.TAG_LOGIN, mainActivity);
 				return false;
 			}else{
