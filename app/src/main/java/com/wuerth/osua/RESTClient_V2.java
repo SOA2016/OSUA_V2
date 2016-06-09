@@ -325,7 +325,7 @@ public class RESTClient_V2 extends RESTClient {
                             userProject = "";
                         }
 
-                        mainActivity.databaseAdapter.insertUser(userID, userName, userMail, userProject, userEnabled);
+                        mainActivity.databaseAdapter.insertUser(userID, userName, userMail, userProject, userEnabled, "");
                         //Log.d("User"+index, user.getString("name"));
                     }
 
@@ -427,7 +427,7 @@ public class RESTClient_V2 extends RESTClient {
                         }
 
                         mainActivity.databaseAdapter.deleteUserList();
-                        mainActivity.databaseAdapter.insertUser(userID, userName, userMail, userProject, userEnabled);
+                        mainActivity.databaseAdapter.insertUser(userID, userName, userMail, userProject, userEnabled, "");
                         //Log.d("User"+index, user.getString("name"));
                     //}
 
@@ -540,7 +540,7 @@ public class RESTClient_V2 extends RESTClient {
         }
     }
 
-    public boolean postUser(String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
+    public boolean postUser(String projectID, String userName, String userMail, String userPassword, String userDescription, Boolean userEnabled){
 
         if(!validateToken()) {
             mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
@@ -612,7 +612,7 @@ public class RESTClient_V2 extends RESTClient {
         }
     }
 
-    public boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
+    public boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, String userDescription, Boolean userEnabled){
 
         if(!validateToken()) {
             mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);

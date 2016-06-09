@@ -57,11 +57,25 @@
     <string name="fragment_addUser_enterPassword">Please enter a password</string>
     <string name="fragment_addUser_creationSuccess">User created successfully</string>
     <string name="fragment_addUser_creationFail">User could not be created</string>
+    <string name="fragment_addUser_userProject">USER-PROJECT</string>
+    <string name="fragment_addUser_newPassword">NEW PASSWORD</string>
+    <string name="fragment_addUser_userPassword">USER-PASSWORD</string>
+    <string name="fragment_addUser_userMail">USER-MAIL</string>
+    <string name="fragment_addUser_userName">USER-NAME</string>
+    <string name="fragment_addUser_userDescription">USER-DESCRIPTION</string>
+    <string name="fragment_addUser_userEnabled">ENABLED</string>
 
     <string name="fragment_editUser_enterUserName">Please enter an user-name</string>
     <string name="fragment_editUser_enterPassword">Please enter a password</string>
     <string name="fragment_editUser_updateSuccess">User updated successfully</string>
     <string name="fragment_editUser_updateFail">User could not be updated</string>
+    <string name="fragment_editUser_userDescription">USER-DESCRIPTION</string>
+    <string name="fragment_editUser_userProject">USER-PROJECT</string>
+    <string name="fragment_editUser_newPassword">NEW PASSWORD</string>
+    <string name="fragment_editUser_userPassword">USER-PASSWORD</string>
+    <string name="fragment_editUser_userMail">USER-MAIL</string>
+    <string name="fragment_editUser_userName">USER-NAME</string>
+    <string name="fragment_editUser_userEnabled">ENABLED</string>
 
 
     <string name="fragment_userList_deleteSuccess">User deleted successfully</string>

@@ -25,7 +25,7 @@ public class Fragment_AddUser extends Fragment {
     Spinner spinner;
     LinearLayout content;
     ProgressBar progressBar;
-    EditText inputUserName, inputUserMail, inputUserPassword;
+    EditText inputUserName, inputUserMail, inputUserPassword, inputUserDescription;
     SwitchCompat inputUserEnabled;
 
     public static Fragment_AddUser newInstance(){
@@ -64,6 +64,7 @@ public class Fragment_AddUser extends Fragment {
         inputUserName = (EditText) view.findViewById(R.id.input_userName);
         inputUserMail = (EditText) view.findViewById(R.id.input_userMail);
         inputUserPassword = (EditText) view.findViewById(R.id.input_userPassword);
+        inputUserDescription = (EditText) view.findViewById(R.id.input_userDescription);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
@@ -86,15 +87,16 @@ public class Fragment_AddUser extends Fragment {
             }else if(inputUserPassword.getText().toString().isEmpty()){
                 mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_enterPassword));
             }else {
-                String userName, userMail, userPassword;
+                String userName, userMail, userPassword, userDescription;
                 Boolean userEnabled;
 
                 userName = inputUserName.getText().toString();
                 userMail = inputUserMail.getText().toString();
+                userDescription = inputUserDescription.getText().toString();
                 userPassword = inputUserPassword.getText().toString();
                 userEnabled = inputUserEnabled.isChecked();
                 //Toast.makeText(mainActivity, ""+userEnabled, Toast.LENGTH_LONG).show();
-                new addUserAsynctask(projectList.get(spinner.getSelectedItemPosition()).projectID, userName, userMail, userPassword, userEnabled).execute();
+                new addUserAsynctask(projectList.get(spinner.getSelectedItemPosition()).projectID, userName, userMail, userPassword, userDescription, userEnabled).execute();
             }
         }
 
@@ -144,15 +146,16 @@ public class Fragment_AddUser extends Fragment {
     }
 
     public class addUserAsynctask extends AsyncTask<String, Void, Boolean> {
-        String userName, userMail, userPassword, projectID;
+        String userName, userMail, userPassword, projectID, userDescription;
         Boolean userEnabled;
 
-        public addUserAsynctask(String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
+        public addUserAsynctask(String projectID, String userName, String userMail, String userPassword, String userDescription, Boolean userEnabled){
             this.userName = userName;
             this.userMail = userMail;
             this.userPassword = userPassword;
             this.userEnabled = userEnabled;
             this.projectID = projectID;
+            this.userDescription = userDescription;
             //Toast.makeText(mainActivity, "Created"+userName+ userMail+ userPassword+ userEnabled, Toast.LENGTH_LONG).show();
         }
 
@@ -162,7 +165,7 @@ public class Fragment_AddUser extends Fragment {
             try{
                 //myRESTClient.postUser();
                 //Toast.makeText(mainActivity, "Called", Toast.LENGTH_LONG).show();
-                return myRESTClient.postUser(projectID, userName, userMail, userPassword, userEnabled);
+                return myRESTClient.postUser(projectID, userName, userMail, userPassword, userDescription, userEnabled);
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());

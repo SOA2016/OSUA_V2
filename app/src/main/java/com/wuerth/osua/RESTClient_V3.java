@@ -499,7 +499,7 @@ public class RESTClient_V3 extends RESTClient {
 
 					for(int index = 0; index < userList.length(); index++){
 						JSONObject user = userList.getJSONObject(index);
-						String userID, userName, userMail, userProject;
+						String userID, userName, userMail, userProject, userDescription;
 						Boolean userEnabled;
 
 						//mainActivity.databaseAdapter.insertUser(1,"test", "testmail", "testprojekt");
@@ -507,6 +507,13 @@ public class RESTClient_V3 extends RESTClient {
 						userID = user.getString("id");
 						userName = user.getString("name");
 						userEnabled = user.getBoolean("enabled");
+
+                        try {
+                            userDescription = user.getString("description");
+                        }catch (Exception e){
+                            // No email for this user
+                            userDescription = "";
+                        }
 
 						try{
 							userMail = user.getString("email");
@@ -522,7 +529,7 @@ public class RESTClient_V3 extends RESTClient {
 							userProject = "";
 						}
 
-						mainActivity.databaseAdapter.insertUser(userID, userName, userMail, userProject, userEnabled);
+						mainActivity.databaseAdapter.insertUser(userID, userName, userMail, userProject, userEnabled, userDescription);
 						//Log.d("User"+index, user.getString("name"));
 					}
 
@@ -599,7 +606,7 @@ public class RESTClient_V3 extends RESTClient {
 
 					//for(int index = 0; index < userList.length(); index++){
 					JSONObject user = myJSONObject.getJSONObject("user");
-					String userID, userName, userMail, userProject;
+					String userID, userName, userMail, userProject, userDescription;
 					Boolean userEnabled;
 
 					//mainActivity.databaseAdapter.insertUser(1,"test", "testmail", "testprojekt");
@@ -607,6 +614,13 @@ public class RESTClient_V3 extends RESTClient {
 					userID = user.getString("id");
 					userName = user.getString("name");
 					userEnabled = user.getBoolean("enabled");
+
+                    try {
+                        userDescription = user.getString("description");
+                    }catch (Exception e)
+                    {
+                        userDescription = "";
+                    }
 
 					try{
 						userMail = user.getString("email");
@@ -623,7 +637,7 @@ public class RESTClient_V3 extends RESTClient {
 					}
 
 					mainActivity.databaseAdapter.deleteUserList();
-					mainActivity.databaseAdapter.insertUser(userID, userName, userMail, userProject, userEnabled);
+					mainActivity.databaseAdapter.insertUser(userID, userName, userMail, userProject, userEnabled, userDescription);
 					//Log.d("User"+index, user.getString("name"));
 					//}
 
@@ -746,7 +760,7 @@ public class RESTClient_V3 extends RESTClient {
 		}
 	}
 
-	public boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
+	public boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, String userDescription, Boolean userEnabled){
 
 		if(!validateToken()) {
 			mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
@@ -786,6 +800,7 @@ public class RESTClient_V3 extends RESTClient {
 				userinfo.put("password", userPassword);
 			userinfo.put("enabled", userEnabled);
 			userinfo.put("default_project_id", projectID);
+            userinfo.put("description", userDescription);
 
 			user.put("user", userinfo);
 
@@ -818,7 +833,7 @@ public class RESTClient_V3 extends RESTClient {
 		}
 	}
 
-	public boolean postUser(String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
+	public boolean postUser(String projectID, String userName, String userMail, String userPassword, String userDescription, Boolean userEnabled){
 
 		if(!validateToken()) {
 			mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
@@ -857,6 +872,7 @@ public class RESTClient_V3 extends RESTClient {
 			userinfo.put("password", userPassword);
 			userinfo.put("enabled", userEnabled);
 			userinfo.put("default_project_id", projectID);
+            userinfo.put("description", userDescription);
 
 			user.put("user", userinfo);
 

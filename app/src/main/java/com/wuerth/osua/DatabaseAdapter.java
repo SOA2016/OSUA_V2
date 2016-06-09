@@ -8,6 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,26 +27,28 @@ public class DatabaseAdapter {
         private Context context;
 
         private static final String DATABASE_NAME="OSUA";
-        private static final int DATABASE_VERSION = 3;
+        private static final int DATABASE_VERSION = 4; // increment this number if you made a change to database-columns
 
         /** USERLIST STUFF **/
 
-        private static final String USERLIST_TABLE_NAME = "userlist";
-        private static final String USERLIST_ID = "userID";
-        private static final String USERLIST_USER_NAME = "userName";
-        private static final String USERLIST_USER_MAIL = "userMail";
-        private static final String USERLIST_USER_PROJECT = "userProject";
-        private static final String USERLIST_USER_ENABLED = "userEnabled";
+        private static final String USER_TABLE_NAME = "userlist";
+        private static final String USER_ID = "userID";
+        private static final String USER_NAME = "userName";
+        private static final String USER_MAIL = "userMail";
+        private static final String USER_PROJECT = "userProject";
+        private static final String USER_DESCRIPTION = "userDesc";
+        private static final String USER_ENABLED = "userEnabled";
 
-        private static final String CREATE_TABLE_USERLIST = "CREATE TABLE "+ USERLIST_TABLE_NAME +" (" +
-                USERLIST_ID +" VARCHAR(255) PRIMARY KEY," +   // AUTO_INCREMENT is added automatically
-                USERLIST_USER_NAME +" VARCHAR(255)," +
-                USERLIST_USER_MAIL +" VARCHAR(255)," +
-                USERLIST_USER_PROJECT +" VARCHAR(255)," +
-                USERLIST_USER_ENABLED +" BOOLEAN" +
+        private static final String CREATE_TABLE_USERLIST = "CREATE TABLE '"+ USER_TABLE_NAME +"' (" +
+                "'" + USER_ID +"' VARCHAR(255) PRIMARY KEY," +   // AUTO_INCREMENT is added automatically
+                "'" + USER_NAME +"' VARCHAR(255) NOT NULL," +
+                "'" + USER_MAIL +"' VARCHAR(255) NOT NULL DEFAULT ''," +
+                "'" + USER_PROJECT +"' VARCHAR(255) NOT NULL DEFAULT ''," +
+                "'" + USER_DESCRIPTION + "' TEXT NOT NULL DEFAULT ''," +
+                "'" + USER_ENABLED +"' BOOLEAN NOT NULL" +
                 ")";
 
-        private static final String DROP_TABLE_USERLIST = "DROP TABLE IF EXISTS "+ USERLIST_TABLE_NAME;
+        private static final String DROP_TABLE_USERLIST = "DROP TABLE IF EXISTS "+ USER_TABLE_NAME;
 
         /** PROJECT STUFF **/
 
@@ -93,21 +96,41 @@ public class DatabaseAdapter {
 
     /*** METHODS ***/
 
+    /**
+     * created by Stephan Strissel
+     * forcibly drop datatables (debug)
+     */
+    public void forceDrop()
+    {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Log.e("DatabaseAdapter", "Forcibly drop of Database was called");
+        try {
+            db.execSQL(helper.DROP_TABLE_USERLIST);
+            db.execSQL(helper.DROP_TABLE_PROJECT);
+            helper.onCreate(db);
+        }catch (SQLException e){
+            Log.e("DatabaseAdapter", e.toString());
+        }
+
+    }
+
     /** CATEGORY STUFF **/
 
-    public long insertUser(String userID, String userName, String userMail, String userProject, Boolean userEnabled){
+
+
+    public long insertUser(String userID, String userName, String userMail, String userProject, Boolean userEnabled, String userDescription){
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(databaseAdapter.USERLIST_ID, userID);
-        contentValues.put(databaseAdapter.USERLIST_USER_NAME, userName);
-        if(!userMail.equals(""))
-            contentValues.put(databaseAdapter.USERLIST_USER_MAIL, userMail);
-        if(!userProject.equals(""))
-            contentValues.put(databaseAdapter.USERLIST_USER_PROJECT, userProject);
-        contentValues.put(databaseAdapter.USERLIST_USER_ENABLED, userEnabled);
+        contentValues.put(databaseAdapter.USER_ID, userID);
+        contentValues.put(databaseAdapter.USER_NAME, userName);
+        contentValues.put(databaseAdapter.USER_MAIL, userMail);
+        contentValues.put(databaseAdapter.USER_PROJECT, userProject);
+        if(!userDescription.equals(""))
+            contentValues.put(databaseAdapter.USER_DESCRIPTION, userDescription);
+        contentValues.put(databaseAdapter.USER_ENABLED, userEnabled);
 
-        long rowID = db.insert(databaseAdapter.USERLIST_TABLE_NAME, null, contentValues);
+        long rowID = db.insert(databaseAdapter.USER_TABLE_NAME, null, contentValues);
         db.close();
 
         return rowID;
@@ -119,9 +142,9 @@ public class DatabaseAdapter {
         SharedPreferences myPrefs;
         myPrefs = mainActivity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
-        String query =   databaseAdapter.USERLIST_TABLE_NAME+" a " +
-                            "INNER JOIN "+databaseAdapter.PROJECT_TABLE_NAME+" b " +
-                            "ON a."+ databaseAdapter.USERLIST_USER_PROJECT +" = b."+databaseAdapter.PROJECT_ID;
+        String query =   databaseAdapter.USER_TABLE_NAME+" a " +
+                            "LEFT JOIN "+databaseAdapter.PROJECT_TABLE_NAME+" b " +
+                            "ON a."+ databaseAdapter.USER_PROJECT +" = b."+databaseAdapter.PROJECT_ID;
 
         String disabledProjects = myPrefs.getString("filterDisabledProjects", "");
         String[] disabledProjectsArray = disabledProjects.split(",");
@@ -129,18 +152,19 @@ public class DatabaseAdapter {
             disabledProjectsArray[index] = "'"+ disabledProjectsArray[index] +"'";
         }
 
-        Cursor cursor = db.query(query, null, databaseAdapter.USERLIST_USER_PROJECT + " NOT IN("+TextUtils.join(",", disabledProjectsArray)+") AND "+databaseAdapter.USERLIST_USER_NAME+" LIKE '%"+searchQuery+"%'", null, null, null, databaseAdapter.USERLIST_USER_NAME+" COLLATE NOCASE");
+        Cursor cursor = db.query(query, null, databaseAdapter.USER_PROJECT + " NOT IN("+TextUtils.join(",", disabledProjectsArray)+") AND "+databaseAdapter.USER_NAME+" LIKE '%"+searchQuery+"%'", null, null, null, databaseAdapter.USER_NAME+" COLLATE NOCASE");
 
         ArrayList<userItem> userList = new ArrayList<userItem>();
 
         while(cursor.moveToNext()){
-            String userID = cursor.getString(cursor.getColumnIndex(databaseAdapter.USERLIST_ID));
-            String userName = cursor.getString(cursor.getColumnIndex(databaseAdapter.USERLIST_USER_NAME));
-            String userMail = cursor.getString(cursor.getColumnIndex(databaseAdapter.USERLIST_USER_MAIL));
+            String userID = cursor.getString(cursor.getColumnIndex(databaseAdapter.USER_ID));
+            String userName = cursor.getString(cursor.getColumnIndex(databaseAdapter.USER_NAME));
+            String userMail = cursor.getString(cursor.getColumnIndex(databaseAdapter.USER_MAIL));
+            String userDescription = cursor.getString(cursor.getColumnIndex(databaseAdapter.USER_DESCRIPTION));
             String userProject = cursor.getString(cursor.getColumnIndex(databaseAdapter.PROJECT_NAME));
-            Boolean userEnabled = cursor.getInt(cursor.getColumnIndex(databaseAdapter.USERLIST_USER_ENABLED)) != 0;
+            Boolean userEnabled = cursor.getInt(cursor.getColumnIndex(databaseAdapter.USER_ENABLED)) != 0;
 
-            userList.add(new userItem(userID, userName, userMail, userProject, userEnabled));
+            userList.add(new userItem(userID, userName, userMail, userProject, userEnabled, userDescription));
         }
 
         cursor.close();
@@ -152,9 +176,9 @@ public class DatabaseAdapter {
     public Integer getProjectUserCount (String projectID){
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        String[] columns = {databaseAdapter.USERLIST_ID};
+        String[] columns = {databaseAdapter.USER_ID};
         String[] selectionArgs = {projectID};
-        Cursor cursor = db.query(databaseAdapter.USERLIST_TABLE_NAME, columns, databaseAdapter.USERLIST_USER_PROJECT + "=?", selectionArgs, null, null, null);
+        Cursor cursor = db.query(databaseAdapter.USER_TABLE_NAME, columns, databaseAdapter.USER_PROJECT + "=?", selectionArgs, null, null, null);
         cursor.moveToNext();
 
         Integer size = cursor.getCount();
@@ -164,36 +188,11 @@ public class DatabaseAdapter {
 
         return size;
     }
-/*
-    public JSONArray getAllCategoryMeta(){
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        String[] columns = {databaseAdapter.USERLIST_ID,
-                            databaseAdapter.CATEGORY_LAST_UPDATE};
-        Cursor cursor = db.query(databaseAdapter.USERLIST_TABLE_NAME, columns, null, null, null, null, null);
-
-        JSONArray data = new JSONArray();
-        while(cursor.moveToNext()){
-                JSONObject item = new JSONObject();
-                try {
-                    item.put("id", cursor.getInt(cursor.getColumnIndex(databaseAdapter.USERLIST_ID)));
-                    item.put("timestamp", cursor.getString(cursor.getColumnIndex(databaseAdapter.CATEGORY_LAST_UPDATE)));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                data.put(item);
-        }
-
-        cursor.close();
-        db.close();
-
-        return data;
-    }*/
 
     public void deleteUserList(){
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        db.delete(databaseAdapter.USERLIST_TABLE_NAME, null, null); // Clean Table
+        db.delete(databaseAdapter.USER_TABLE_NAME, null, null); // Clean Table
     }
 
     /** CATEGORY STUFF **/

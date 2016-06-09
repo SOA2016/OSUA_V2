@@ -84,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             }
         });
 
+        // forcibly drop Database for Debug-Reasons
+        //databaseAdapter.forceDrop();
+
         changeFragment(TAG_LOGIN, mainActivity);
     }
 
@@ -361,8 +364,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     public String getCurrentFragment(){
         int count = manager.getBackStackEntryCount();
-        FragmentManager.BackStackEntry entry = manager.getBackStackEntryAt(count - 1); // Get the top entry (current fragment)
-        return entry.getName();
+
+        if (count < 2) {
+            return ""; // no current fragment
+        } else {
+            FragmentManager.BackStackEntry entry = manager.getBackStackEntryAt(count - 1); // get the fragment beneath
+            return entry.getName();
+        }
+
     }
 
     @Override
@@ -484,9 +493,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 // No Activity -> App destoryed
             }
 
-            if(param.success) {
+            if (param.success) {
                 Log.d("deleteToken", "success");
-            }else{
+            } else {
                 Log.d("deleteToken", "failed");
             }
         }

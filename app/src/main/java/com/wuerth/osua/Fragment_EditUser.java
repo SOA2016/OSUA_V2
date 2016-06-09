@@ -31,7 +31,7 @@ public class Fragment_EditUser extends Fragment {
     Spinner spinner;
     LinearLayout content;
     ProgressBar progressBar;
-    EditText inputUserName, inputUserMail, inputUserPassword;
+    EditText inputUserName, inputUserMail, inputUserPassword, inputUserDescription;
 
     public static Fragment_EditUser newInstance(String userID){
         Fragment_EditUser fragment_editUser = new Fragment_EditUser();
@@ -63,6 +63,7 @@ public class Fragment_EditUser extends Fragment {
         inputUserMail = (EditText) view.findViewById(R.id.input_userMail);
         inputUserEnabled = (SwitchCompat) view.findViewById(R.id.userEnabled);
         inputUserPassword = (EditText) view.findViewById(R.id.input_userPassword);
+        inputUserDescription = (EditText) view.findViewById(R.id.input_userDescription);
         spinner = (Spinner) view.findViewById(R.id.input_userProject);
         content = (LinearLayout) view.findViewById(R.id.content);
 
@@ -103,11 +104,12 @@ public class Fragment_EditUser extends Fragment {
             }else if(inputUserPassword.getText().toString().isEmpty() && inputUserPassword.isEnabled()){
                 MainActivity.showSnackbar(getActivity().getString(R.string.fragment_editUser_enterPassword));
             }else{
-                String userName, userMail, userPassword;
+                String userName, userMail, userPassword, userDescription;
                 Boolean userEnabled;
 
                 userName = inputUserName.getText().toString();
                 userMail = inputUserMail.getText().toString();
+                userDescription = inputUserDescription.getText().toString();
                 userEnabled = inputUserEnabled.isChecked();
 
                 if(inputUserPassword.isEnabled()){
@@ -116,7 +118,7 @@ public class Fragment_EditUser extends Fragment {
                     userPassword = null;
                 }
 
-                new updateUserAsynctask(userList.get(0).userID, projectList.get(spinner.getSelectedItemPosition()).projectID, userName, userMail, userPassword, userEnabled).execute();
+                new updateUserAsynctask(userList.get(0).userID, projectList.get(spinner.getSelectedItemPosition()).projectID, userName, userMail, userPassword, userDescription, userEnabled).execute();
             }
 
 
@@ -132,8 +134,6 @@ public class Fragment_EditUser extends Fragment {
 
             try{
                 myRESTClient.getUser(userID);
-                //myRESTClient.getProjects();
-
                 return true;
             }
             catch(Exception e){
@@ -154,6 +154,7 @@ public class Fragment_EditUser extends Fragment {
 
                 inputUserMail.setText(user.userMail);
                 inputUserName.setText(user.userName);
+                inputUserDescription.setText(user.userDescription);
                 inputUserEnabled.setChecked(user.userEnabled);
 
                 projectList = mainActivity.databaseAdapter.getAllProjects(mainActivity);
@@ -173,8 +174,6 @@ public class Fragment_EditUser extends Fragment {
                 content.setVisibility(View.VISIBLE);
 
             }else{
-                //loginButton.setVisibility(View.VISIBLE);
-                //progressBar.setVisibility(View.INVISIBLE);
                 MainActivity mainActivity = (MainActivity) getActivity();
                 MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
             }
@@ -185,26 +184,24 @@ public class Fragment_EditUser extends Fragment {
     }
 
     public class updateUserAsynctask extends AsyncTask<String, Void, Boolean> {
-        String userName, userMail, userPassword, projectID, userID;
+        String userName, userMail, userPassword, projectID, userID, userDescription;
         Boolean userEnabled;
 
-        public updateUserAsynctask(String userID, String projectID, String userName, String userMail, String userPassword, Boolean userEnabled){
+        public updateUserAsynctask(String userID, String projectID, String userName, String userMail, String userPassword, String userDescription, Boolean userEnabled){
             this.userName = userName;
             this.userMail = userMail;
             this.userPassword = userPassword;
             this.userEnabled = userEnabled;
             this.projectID = projectID;
             this.userID = userID;
-            //Toast.makeText(mainActivity, "Created"+userName+ userMail+ userPassword+ userEnabled, Toast.LENGTH_LONG).show();
+            this.userDescription = userDescription;
         }
 
         @Override
         protected Boolean doInBackground(String... params) {
             MainActivity mainActivity = (MainActivity) getActivity();
             try{
-                //myRESTClient.postUser();
-                //Toast.makeText(mainActivity, "Called", Toast.LENGTH_LONG).show();
-                return myRESTClient.updateUser(userID, projectID, userName, userMail, userPassword, userEnabled);
+                return myRESTClient.updateUser(userID, projectID, userName, userMail, userPassword, userDescription, userEnabled);
 
             }
             catch(Exception e){

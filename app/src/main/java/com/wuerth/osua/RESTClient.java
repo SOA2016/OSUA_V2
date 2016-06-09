@@ -23,9 +23,9 @@ public abstract class RESTClient {
 
     public abstract boolean deleteUser(String userID);
 
-    public abstract boolean postUser(String projectID, String userName, String userMail, String userPassword, Boolean userEnabled);
+    public abstract boolean postUser(String projectID, String userName, String userMail, String userPassword, String userDescription, Boolean userEnabled);
 
-    public abstract boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, Boolean userEnabled);
+    public abstract boolean updateUser(String userID, String projectID, String userName, String userMail, String userPassword, String userDescription, Boolean userEnabled);
 
     public abstract boolean getUser(String ID);
 

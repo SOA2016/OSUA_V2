@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="Enabled"
+                    android:text="@string/fragment_addUser_userEnabled"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="#333333"
                     android:textStyle="bold"/>
@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="USER-NAME"
+                android:text="@string/fragment_addUser_userName"
                 android:textStyle="bold"
                 android:paddingLeft="4dp"
                 android:textColor="#cecece"
@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="USER-MAIL"
+                android:text="@string/fragment_addUser_userMail"
                 android:textStyle="bold"
                 android:paddingLeft="4dp"
                 android:textColor="#cecece"
@@ -114,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="USER-PASSWORD"
+                android:text="@string/fragment_addUser_userPassword"
                 android:textStyle="bold"
                 android:textColor="#cecece"
                 android:paddingLeft="4dp"
@@ -134,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="USER-PROJECT"
+                android:text="@string/fragment_addUser_userProject"
                 android:textStyle="bold"
                 android:paddingLeft="4dp"
                 android:textColor="#cecece"
@@ -149,6 +149,25 @@
                 android:layout_marginLeft="-4dp"
                 android:layout_marginTop="11dp"
                 />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/fragment_addUser_userDescription"
+                android:textStyle="bold"
+                android:paddingLeft="4dp"
+                android:textColor="#cecece"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+            <EditText
+                android:id="@+id/input_userDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:theme="@style/EditText"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
         </LinearLayout>
 
 </LinearLayout>
