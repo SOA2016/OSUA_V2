@@ -102,13 +102,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchMenuItem = menu.findItem(R.id.action_searchField);
+        searchMenuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
         // Assumes current activity is the searchable activity
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             searchView.setSubmitButtonEnabled(true);
-            searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+            searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -142,8 +142,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 menu.findItem(R.id.action_logout).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
                 menu.findItem(R.id.action_confirm).setVisible(false);
-                menu.findItem(R.id.action_searchField).setVisible(false);
-                menu.findItem(R.id.action_searchButton).setVisible(false);
+                menu.findItem(R.id.action_search).setVisible(false);
 
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 getSupportActionBar().setDisplayShowHomeEnabled(false);
@@ -155,8 +154,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             case TAG_EDIT_USER: {
                 menu.findItem(R.id.action_logout).setVisible(false);
                 menu.findItem(R.id.action_settings).setVisible(false);
-                menu.findItem(R.id.action_searchField).setVisible(false);
-                menu.findItem(R.id.action_searchButton).setVisible(false);
+                menu.findItem(R.id.action_search).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
 
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -170,8 +168,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             case TAG_ADD_USER: {
                 menu.findItem(R.id.action_logout).setVisible(false);
                 menu.findItem(R.id.action_settings).setVisible(false);
-                menu.findItem(R.id.action_searchField).setVisible(false);
-                menu.findItem(R.id.action_searchButton).setVisible(false);
+                menu.findItem(R.id.action_search).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
                 menu.findItem(R.id.action_confirm).setVisible(true);
 
@@ -186,8 +183,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             case TAG_SETTINGS: {
                 menu.findItem(R.id.action_logout).setVisible(false);
                 menu.findItem(R.id.action_settings).setVisible(false);
-                menu.findItem(R.id.action_searchField).setVisible(false);
-                menu.findItem(R.id.action_searchButton).setVisible(false);
+                menu.findItem(R.id.action_search).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
                 menu.findItem(R.id.action_confirm).setVisible(false);
 
@@ -202,8 +198,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             case TAG_USERLIST: {
                 menu.findItem(R.id.action_logout).setVisible(true);
                 menu.findItem(R.id.action_settings).setVisible(true);
-                menu.findItem(R.id.action_searchField).setVisible(false);
-                menu.findItem(R.id.action_searchButton).setVisible(true);
+                menu.findItem(R.id.action_search).setVisible(true);
                 menu.findItem(R.id.action_filter).setVisible(true);
                 menu.findItem(R.id.action_confirm).setVisible(false);
 
@@ -248,18 +243,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         if(id== R.id.action_filter) {
             Fragment_Filter fragment_filter = new Fragment_Filter();
             fragment_filter.show(manager, "Testss");
-        }
-
-        if(id== R.id.action_searchButton) {
-            search = true;
-            Mainmenu.findItem(R.id.action_searchField).setVisible(true);
-            item.setVisible(false);
-            searchMenuItem.expandActionView();
-            if (searchView != null) {
-                searchView.requestFocus();
-            }
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         }
 
         if(id == android.R.id.home) { // Zurück Event aufrufen
@@ -317,9 +300,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         supportInvalidateOptionsMenu();
 
-        if(Mainmenu.findItem(R.id.action_searchField).isVisible()){
-            Mainmenu.findItem(R.id.action_searchField).setVisible(false);
-            Mainmenu.findItem(R.id.action_searchButton).setVisible(true);
+        if(Mainmenu.findItem(R.id.action_search).isVisible()){
             if(getCurrentFragment().equals(TAG_USERLIST))
                 changeFragment(TAG_USERLIST, mainActivity);
         }else {
@@ -391,8 +372,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
-        Mainmenu.findItem(R.id.action_searchField).setVisible(false);
-        Mainmenu.findItem(R.id.action_searchButton).setVisible(true);
         changeFragment(TAG_USERLIST, mainActivity);
         search = false;
 
