@@ -363,12 +363,90 @@ public class RESTClient_V3 extends RESTClient {
 	}
 
 	/*
-	not yet implemented
-	 */
+    * Created by Stephan Strissel on 09.06.2016.
+    * receives Projects from Server and writes them into databaseAdapter
+     */
 	public boolean getProjects()
 	{
-		return false;
-	}
+		if(!validateToken()) {
+			mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity);
+			return false;
+		}
+
+		String actualToken = myPrefs.getString("actualToken", "");
+		String serverAddress = myPrefs.getString("serverAddress", "");
+
+		if(actualToken.equals("") || serverAddress.equals("")){
+			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+			return false;
+		}
+        try {
+            HttpParams httpParameters = new BasicHttpParams();
+
+            int timeoutConnection = 10000;	// Set the timeout in milliseconds until a connection is established.
+            HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+            int timeoutSocket = 10000;	// Set the default socket timeout (SO_TIMEOUT) in milliseconds which is the timeout for waiting for data.
+            HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+            HttpClient client = new DefaultHttpClient(httpParameters);
+            URI website = new URI(serverAddress + "/v3/projects");
+            HttpGet request = new HttpGet();
+            request.setURI(website);
+            request.setHeader("Content-Type", "application/json");
+            request.setHeader("Accept", "application/json");
+            request.setHeader("X-Auth-Token", actualToken);
+
+            HttpResponse httpResponse = client.execute(request);
+
+            int status = httpResponse.getStatusLine().getStatusCode();
+
+            if(status == 200){
+                HttpEntity entity = httpResponse.getEntity();
+                String responseString = EntityUtils.toString(entity);
+                Log.d("Response (projectlist)", responseString);
+
+                JSONObject myJSONObject;
+                JSONArray projectList;
+
+                try {
+                    myJSONObject = new JSONObject(responseString);
+                    projectList = myJSONObject.getJSONArray("projects");
+
+                    mainActivity.databaseAdapter.deleteProjectList();
+
+                    for(int index = 0; index < projectList.length(); index++){
+                        JSONObject project = projectList.getJSONObject(index);
+                        String projectID, projectName;
+
+                        projectID = project.getString("id");
+                        projectName = project.getString("name");
+
+
+                        mainActivity.databaseAdapter.insertProject(projectID, projectName);
+                    }
+
+                    return true;
+
+                } catch (JSONException e) {
+                    Log.e("RESTClient", ""+status+e);
+                    MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+                    return false;
+                }
+            } else{
+                Log.e("RESTClient", "" + status);
+                MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+                return false;
+            }
+        }
+        catch (IOException e) {
+            MainActivity.showSnackbar(mainActivity.getString(R.string.error_2));
+            return false;
+        } catch (URISyntaxException e) {
+            Log.e("RESTClient", e.toString());
+            MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+            return false;
+        }
+    }
 
 	public boolean getUsers(){
 

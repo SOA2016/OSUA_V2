@@ -44,7 +44,8 @@ public class Fragment_Filter extends DialogFragment {
         //this.view = view;
         this.builder = new AlertDialog.Builder(getActivity());
         mainActivity = (MainActivity) getActivity();
-        myRESTClient = new RESTClient_V2(mainActivity);
+
+        myRESTClient = new RESTClient_V3(mainActivity); // Here you should distinguish API V2.0 or V3.0
 
         View view = inflater.inflate(R.layout.fragment_filter, null);
         this.view = view;
@@ -131,11 +132,7 @@ public class Fragment_Filter extends DialogFragment {
         protected Boolean doInBackground(String... params) {
 
             try{
-                if(myRESTClient.validateToken()) {   // First validate token to prevent login from non-admin)
                     return myRESTClient.getProjects();
-                }else{
-                    return false;
-                }
             }
             catch(Exception e){
                 Log.e("Asynctask", e.toString());

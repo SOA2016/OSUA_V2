@@ -87,6 +87,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         mainActivity = (MainActivity) getActivity();
+
         myRESTClient = new RESTClient_V3(mainActivity); // Here you should distinguish API V2.0 or V3.0
 
         progressBar.getIndeterminateDrawable().setColorFilter(
@@ -163,17 +164,8 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                 //if(myRESTClient.validateToken())    // First validate token to prevent login from non-admin)
                     if(myRESTClient.getUsers()) {
 
-                        // by Stephan Strissel
-                        // temporary fix to retrieve Projects for Userlist (not implemented yet in V3)
-                        // without Project-List no Userlist will be shown
-                        //
-                        //uncomment this after implementation in V3:
-                        //myRESTClient.getProjects();
+                        myRESTClient.getProjects();
 
-                        // delete/comment this after implementation in V3...
-                        RESTClient tempRESTClient = new RESTClient_V2(mainActivity);
-                        tempRESTClient.getProjects();
-                        // delete/comment this after implementation in V3...
                         return true;
                     } else {
                         return false;
