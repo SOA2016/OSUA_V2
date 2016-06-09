@@ -24,7 +24,7 @@
         <item>http://</item>
     </string-array>
 
-    <string name="fragment_settings_flushButton">Flush local Userlist/Projects and force ReLogin</string>
+    <string name="fragment_settings_flushButton">Flush local Userlist/Projects</string>
     <string name="fragment_settings_flushed">Local Userlist/Projects flushed</string>
     <string name="fragment_settings_tokenExpirationDate">TOKEN-EXPIRATION-DATE</string>
     <string name="fragment_settings_settings">SETTINGS</string>
@@ -112,6 +112,7 @@
     <string name="error_2">Connection to server failed</string>
     <string name="error_3">Token could not be deleted</string>
     <string name="error_4">Server timeout. Token could not be deleted</string>
+    <string name="error_5">Function not implemented</string>
 
     <string name="error_400">The Identity service failed to parse the request as expected.</string>
     <string name="error_401">The authentication credentials are not valid.</string>

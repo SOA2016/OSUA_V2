@@ -214,7 +214,18 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 break;
             }
             default: {
-                //enableDrawerToggle(true);
+                // default Settings have to be like Login
+                menu.findItem(R.id.action_logout).setVisible(false);
+                menu.findItem(R.id.action_filter).setVisible(false);
+                menu.findItem(R.id.action_confirm).setVisible(false);
+                menu.findItem(R.id.action_search).setVisible(false);
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                getSupportActionBar().setDisplayShowHomeEnabled(false);
+                getSupportActionBar().setTitle(TAG_LOGIN);
+
+                fab.hide();
+                break;
             }
         }
 

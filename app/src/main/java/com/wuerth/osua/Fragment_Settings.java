@@ -106,7 +106,6 @@ public class Fragment_Settings extends Fragment {
             public void onClick(View view) {
                 mainActivity.databaseAdapter.deleteUserList(); // delete local Userlist
                 mainActivity.databaseAdapter.deleteProjectList(); // delete local Projectlist
-                mainActivity.changeFragment(MainActivity.TAG_RELOGIN, mainActivity); // force Relogin
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_settings_flushed));
             }
         });
