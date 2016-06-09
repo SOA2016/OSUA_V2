@@ -55,6 +55,7 @@
                 android:layout_height="match_parent"
                 android:singleLine="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_attribute"
+                android:inputType="textUri"
                 android:layout_marginTop="@dimen/activity_vertical_attribute"
                 android:textAppearance="@style/attribute"
                 />
