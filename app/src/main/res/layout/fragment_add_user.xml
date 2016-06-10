@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:theme="@style/EditText"/>
+                android:theme="@style/EditText"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                app:theme="@style/EditText"
+                android:theme="@style/EditText"
                 android:inputType="textEmailAddress"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
             <TextView
@@ -128,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:inputType="textPassword"
-                app:theme="@style/EditText"
+                android:theme="@style/EditText"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
             <TextView

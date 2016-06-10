@@ -227,8 +227,8 @@ public class RESTClient_V3 extends RESTClient {
 			Log.d("Response (auth)", responseString);
 
 			JSONObject myJSONObject;
-			JSONObject access;
 			JSONObject token;
+			JSONObject error;
 
 			switch(status){
 				case 201: {
@@ -273,7 +273,17 @@ public class RESTClient_V3 extends RESTClient {
 					return false;
 				}
 				case 401: {
-					MainActivity.showSnackbar(mainActivity.getString(R.string.error_401));
+					/*changed by Stephan Strissel */
+					// get Error-Message from Server
+					try {
+						myJSONObject = new JSONObject(responseString);
+						error = myJSONObject.getJSONObject("error");
+						MainActivity.showSnackbar(error.getString("message"));
+					} catch (Exception e) {
+						Log.e("RESTClient", ""+status);
+						MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+						return false;
+					}
 					return false;
 				}
 				case 403: {
