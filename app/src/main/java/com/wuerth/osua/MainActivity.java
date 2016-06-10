@@ -32,6 +32,7 @@ import android.app.SearchManager;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener,Toolbar.OnMenuItemClickListener, MenuItemCompat.OnActionExpandListener {
     final static String
+            TAG_DEFAULT = "OpenStack User Adminstration",
             TAG_LOGIN = "Login",
             TAG_USERLIST = "Userlist",
             TAG_EDIT_USER = "Edit User",
@@ -144,9 +145,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         switch (getCurrentFragment()) { // Manage Menu-Items
             case TAG_LOGIN: {
                 menu.findItem(R.id.action_logout).setVisible(false);
+                menu.findItem(R.id.action_login).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
                 menu.findItem(R.id.action_confirm).setVisible(false);
                 menu.findItem(R.id.action_search).setVisible(false);
+
 
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 getSupportActionBar().setDisplayShowHomeEnabled(false);
@@ -157,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             }
             case TAG_EDIT_USER: {
                 menu.findItem(R.id.action_logout).setVisible(false);
+                menu.findItem(R.id.action_login).setVisible(false);
                 menu.findItem(R.id.action_settings).setVisible(false);
                 menu.findItem(R.id.action_search).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
@@ -171,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             }
             case TAG_ADD_USER: {
                 menu.findItem(R.id.action_logout).setVisible(false);
+                menu.findItem(R.id.action_login).setVisible(false);
                 menu.findItem(R.id.action_settings).setVisible(false);
                 menu.findItem(R.id.action_search).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
@@ -186,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             }
             case TAG_SETTINGS: {
                 menu.findItem(R.id.action_logout).setVisible(false);
+                menu.findItem(R.id.action_login).setVisible(false);
                 menu.findItem(R.id.action_settings).setVisible(false);
                 menu.findItem(R.id.action_search).setVisible(false);
                 menu.findItem(R.id.action_filter).setVisible(false);
@@ -201,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             }
             case TAG_USERLIST: {
                 menu.findItem(R.id.action_logout).setVisible(true);
+                menu.findItem(R.id.action_login).setVisible(false);
                 menu.findItem(R.id.action_settings).setVisible(true);
                 menu.findItem(R.id.action_search).setVisible(true);
                 menu.findItem(R.id.action_filter).setVisible(true);
@@ -216,13 +223,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             default: {
                 // default Settings have to be like Login
                 menu.findItem(R.id.action_logout).setVisible(false);
+                menu.findItem(R.id.action_login).setVisible(true);
                 menu.findItem(R.id.action_filter).setVisible(false);
                 menu.findItem(R.id.action_confirm).setVisible(false);
                 menu.findItem(R.id.action_search).setVisible(false);
 
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 getSupportActionBar().setDisplayShowHomeEnabled(false);
-                getSupportActionBar().setTitle(TAG_LOGIN);
+                getSupportActionBar().setTitle(TAG_DEFAULT);
 
                 fab.hide();
                 break;
@@ -244,6 +252,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         if (id == R.id.action_settings) {
 
             changeFragment(TAG_SETTINGS, mainActivity);
+
+            return true;
+        }
+
+        if (id == R.id.action_login) {
+
+            changeFragment(TAG_LOGIN, mainActivity);
 
             return true;
         }
@@ -278,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         supportInvalidateOptionsMenu();
 
-        switch (getCurrentFragment()) {
+        switch (getLastFragment()) {
             case TAG_LOGIN: {
                 //toolbarSearch.setVisibility(View.INVISIBLE);
                 break;
@@ -312,27 +327,25 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Override
     public void onBackPressed() {
-
         supportInvalidateOptionsMenu();
 
-        if(Mainmenu.findItem(R.id.action_search).isVisible()){
-            if(getCurrentFragment().equals(TAG_USERLIST))
-                changeFragment(TAG_USERLIST, mainActivity);
-        }else {
             switch (getCurrentFragment()) {
                 case TAG_LOGIN: {
-                    finish();
+                    Mainmenu.findItem(R.id.action_login).setVisible(true);
+                    super.onBackPressed();
                     break;
                 }
                 case TAG_USERLIST: {
                     new FireMissilesDialogFragment().show(manager, "Dialog_Fragment_Logout");
                     break;
                 }
+                case "": {
+                    finish();
+                }
                 default: {
                     super.onBackPressed();
                 }
             }
-        }
     }
 
 
@@ -373,16 +386,27 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
     }
 
-    public String getCurrentFragment(){
-        int count = manager.getBackStackEntryCount();
-
-        if (count < 2) {
-            return ""; // no current fragment
-        } else {
-            FragmentManager.BackStackEntry entry = manager.getBackStackEntryAt(count - 1); // get the fragment beneath
-            return entry.getName();
+    public String getCurrentFragment()
+        {
+            int count = manager.getBackStackEntryCount();
+            if (count >= 1)
+            {
+                FragmentManager.BackStackEntry entry = manager.getBackStackEntryAt(count -1); // get the fragment (index 0 = count 1)
+                return entry.getName();
+            }
+            return "";
         }
 
+
+    public String getLastFragment()
+    {
+        int count = manager.getBackStackEntryCount();
+        if (count >= 2)
+        {
+            FragmentManager.BackStackEntry entry = manager.getBackStackEntryAt(count - 2); // get the fragment beneath (index 0 = count 1)
+            return entry.getName();
+        }
+        return "";
     }
 
     @Override
@@ -403,6 +427,19 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     public boolean onMenuItemClick(MenuItem item) {
         onOptionsItemSelected(item);
         return false;
+    }
+
+
+    /* created by Stephan Strissel
+    * clear BackStack so there is no fragment-History anymore
+     */
+    public void clearBackStack()
+    {
+        int count = manager.getBackStackEntryCount();
+        for(int i = 0; i < count; ++i) {
+            manager.popBackStack();
+        }
+
     }
 
     public void changeFragment(String TAG, Activity ac) {
@@ -497,14 +534,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
         @Override
         protected void onPostExecute(returnParam param) {
-            //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
-            try {
-                param.mainActivity.changeFragment(TAG_LOGIN, param.mainActivity);
-            } catch (Exception e){
-                // No Activity -> App destoryed
-            }
-
             if (param.success) {
+                // Forget everything
+                param.mainActivity.clearBackStack(); // clear BackStack/History
+                param.mainActivity.databaseAdapter.deleteProjectList(); // clear projectlist
+                param.mainActivity.databaseAdapter.deleteUserList(); // clear userlist
+                param.mainActivity.changeFragment(TAG_LOGIN, param.mainActivity); // back to login-screen
                 Log.d("deleteToken", "success");
             } else {
                 Log.d("deleteToken", "failed");

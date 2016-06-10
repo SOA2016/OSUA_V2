@@ -16,6 +16,7 @@
     <string name="action_filter">Filter</string>
     <string name="action_search">Search</string>
     <string name="action_confirm">Confirm</string>
+    <string name="action_login">Login</string>
 
     <string name="default_userDomain">default</string>
 
