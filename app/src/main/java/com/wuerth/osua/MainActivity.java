@@ -264,9 +264,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
 
         if(id == R.id.action_logout) {
-            returnParam params = new returnParam(false, mainActivity);
-            new deleteTokenAsynctask().execute(params);
-
+            onBackPressed();
             return true;
         }
 
