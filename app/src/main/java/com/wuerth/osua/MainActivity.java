@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        initToolbar();
 
         setSupportActionBar(toolbar);
 
@@ -91,20 +92,29 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         // forcibly drop Database for Debug-Reasons
         //databaseAdapter.forceDrop();
 
+
         changeFragment(TAG_LOGIN, mainActivity);
     }
 
     /* created by Stephan Strissel
     * hide and show Toolbar
      */
+    public void showToolbar()
+    {
+        initToolbar();
+        toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+    }
+
     public void hideToolbar()
     {
        toolbar.animate().translationY(-toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
     }
 
-    public void showToolbar()
+    public void initToolbar()
     {
-        toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+        toolbar.setVisibility(View.INVISIBLE);
+        toolbar.setTranslationY(-toolbar.getHeight());
+        toolbar.setVisibility(View.VISIBLE);
     }
 
 
@@ -238,6 +248,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             }
             default: {
                 // default Settings have to be like Login
+                initToolbar();
                 menu.findItem(R.id.action_logout).setVisible(false);
                 menu.findItem(R.id.action_login).setVisible(true);
                 menu.findItem(R.id.action_filter).setVisible(false);
@@ -262,18 +273,16 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
             changeFragment(TAG_SETTINGS, mainActivity);
-
             return true;
         }
 
         if (id == R.id.action_login) {
-
             changeFragment(TAG_LOGIN, mainActivity);
 
             return true;
@@ -464,8 +473,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     }
 
-    public void changeFragment(String TAG, Activity ac) {
-
+    public void changeFragment(String TAG, Activity ac,String... userID) {
+        hideToolbar();
+        fab.hide();
         if (ac.getCurrentFocus() != null) {
             InputMethodManager inputManager = (InputMethodManager) ac.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(ac.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -481,11 +491,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 break;
             }
             case TAG_EDIT_USER: {
-                /*Fragment_EditUser newFragment = Fragment_EditUser.newInstance();
+                Fragment_EditUser newFragment = Fragment_EditUser.newInstance(userID[0]);
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.fragment, newFragment);
                 transaction.addToBackStack(TAG_EDIT_USER);
-                transaction.commit();*/
+                transaction.commit();
                 break;
             }
             case TAG_ADD_USER: {

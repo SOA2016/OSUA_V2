@@ -42,11 +42,14 @@ public class Fragment_AddUser extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        mainActivity = (MainActivity) getActivity();
+        mainActivity.initToolbar();
+
         View view = inflater.inflate(R.layout.fragment_add_user, container, false);
 
         setHasOptionsMenu(true);
 
-        mainActivity = (MainActivity) getActivity();
+
         myRESTClient = new RESTClient_V3(mainActivity); // Here you should distinguish API V2.0 or V3.0
 
         spinner = (Spinner) view.findViewById(R.id.input_userProject);
@@ -67,7 +70,7 @@ public class Fragment_AddUser extends Fragment {
                 android.graphics.PorterDuff.Mode.SRC_IN);
 
         mainActivity.hideToolbar();
-        new loadUserAsyncTask().execute();
+        new loadProjectsAsyncTask().execute();
 
         return view;
     }
@@ -109,7 +112,7 @@ public class Fragment_AddUser extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public class loadUserAsyncTask extends AsyncTask<String, Void, Boolean> {
+    public class loadProjectsAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... params) {

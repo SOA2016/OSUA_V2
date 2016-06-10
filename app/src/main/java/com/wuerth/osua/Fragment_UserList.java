@@ -87,6 +87,8 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         mainActivity = (MainActivity) getActivity();
+        mainActivity.initToolbar();
+        mainActivity.fab.hide();
 
         myRESTClient = new RESTClient_V3(mainActivity); // Here you should distinguish API V2.0 or V3.0
 
@@ -95,7 +97,6 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                 android.graphics.PorterDuff.Mode.SRC_IN);
         progressBar.setVisibility(View.VISIBLE);
 
-        mainActivity.hideToolbar();
         new loadDatabaseAsynctask().execute();
 
         listView = (ListView) view.findViewById(R.id.userList);
@@ -150,6 +151,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                     }
                 });
                 mainActivity.hideToolbar();
+                mainActivity.fab.hide();
                 new loadDatabaseAsynctask().execute();
             }
         });
@@ -186,6 +188,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
 
 
             mainActivity.showToolbar();
+            mainActivity.fab.show();
             if(success) {
                 DatabaseAdapter databaseAdapter = new DatabaseAdapter(mainActivity);
                 userList = databaseAdapter.getAllUsers(searchQuery);
@@ -351,13 +354,8 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MainActivity mainActivity = (MainActivity) getActivity();
-        FragmentManager manager = mainActivity.getSupportFragmentManager();
 
-        Fragment_EditUser newFragment = Fragment_EditUser.newInstance(userList.get(position).userID);
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.fragment, newFragment);
-        transaction.addToBackStack(mainActivity.TAG_EDIT_USER);
-        transaction.commit();
+        mainActivity.changeFragment(MainActivity.TAG_EDIT_USER, mainActivity,userList.get(position).userID);
     }
 
     @Override
@@ -386,6 +384,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                     .setPositiveButton(getActivity().getString(R.string.fragment_userList_deleteDialog_deleteButton), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             ((MainActivity)getActivity()).hideToolbar();
+                            ((MainActivity)getActivity()).fab.hide();
                             new deleteUserAsynctask(user.userID).execute();
                         }
                     })
@@ -433,6 +432,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         @Override
         protected void onPostExecute(returnParam params) {
             params.mainActivity.showToolbar();
+            params.mainActivity.fab.show();
             if(params.success) {
                 params.mainActivity.showSnackbar(params.mainActivity.getString(R.string.fragment_userList_deleteSuccess));
                 params.mainActivity.changeFragment(params.mainActivity.TAG_LOGIN, params.mainActivity);

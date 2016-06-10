@@ -53,6 +53,8 @@ public class Fragment_Login extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         mainActivity = (MainActivity) getActivity();
+        mainActivity.initToolbar();
+
         manager = getActivity().getSupportFragmentManager();
         myPrefs = mainActivity.getSharedPreferences("MyPrefs", MainActivity.MODE_PRIVATE);
         spEditor = myPrefs.edit();
@@ -100,6 +102,8 @@ public class Fragment_Login extends Fragment {
 
             @Override
             public void onClick(View view) {
+
+                mainActivity.hideToolbar();
 
                 /* decide whether or not login is possible (scoped, unscoped, etc.)
                 * unscoped login is not possible, because you have to provide the userID instead of the username
@@ -160,7 +164,11 @@ public class Fragment_Login extends Fragment {
                             android.graphics.PorterDuff.Mode.SRC_IN);
                     progressBar.setVisibility(View.VISIBLE);
 
+
+                    mainActivity.hideToolbar();
                     new loginTask().execute(loginPassword.getText().toString());
+                } else {
+                    mainActivity.showToolbar();
                 }
             }
         });
@@ -171,6 +179,7 @@ public class Fragment_Login extends Fragment {
          */
         if (!myPrefs.getString("actualToken", "").equals("") && !myPrefs.getString("serverAddress", "").equals("")) {
             // lock Login-Screen to execute tokenValidation in Background
+            mainActivity.hideToolbar();
             loginButton.setVisibility((View.GONE));
             progressBar.setVisibility(View.VISIBLE);
 
@@ -178,9 +187,9 @@ public class Fragment_Login extends Fragment {
             returnParam2 param = new returnParam2(false, loginButton, progressBar);
             new tokenValidationTask().execute(param);
             // Notice: Login-Screen will be unlocked when Background-Task is finished
+        } else {
+            mainActivity.showToolbar();
         }
-
-
         return view;
     }
 
@@ -205,6 +214,7 @@ public class Fragment_Login extends Fragment {
             if(success) {
                 mainActivity.changeFragment(mainActivity.TAG_USERLIST, mainActivity);
             }else{
+                mainActivity.showToolbar();
                 loginButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
             }

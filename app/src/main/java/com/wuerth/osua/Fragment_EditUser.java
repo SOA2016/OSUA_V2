@@ -25,6 +25,12 @@ public class Fragment_EditUser extends Fragment {
     RESTClient myRESTClient;
     //EditText userName, userMail;
     SwitchCompat inputUserEnabled;
+    MainActivity mainActivity;
+
+    public MainActivity getMainActivity() {
+        return mainActivity;
+    }
+
     String userID;
     ArrayList<projectItem> projectList;
     ArrayList<userItem> userList;
@@ -46,12 +52,14 @@ public class Fragment_EditUser extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         userID = getArguments().getString("userID");
-
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        mainActivity = (MainActivity)getActivity();
+        mainActivity.initToolbar();
 
         View view = inflater.inflate(R.layout.fragment_edit_user, container, false);
 
@@ -88,7 +96,7 @@ public class Fragment_EditUser extends Fragment {
                 getResources().getColor(R.color.colorPrimary),
                 android.graphics.PorterDuff.Mode.SRC_IN);
 
-        new myWorker().execute();
+        new getUserAsyncTask().execute();
 
         return view;
     }
@@ -133,7 +141,7 @@ public class Fragment_EditUser extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public class myWorker extends AsyncTask<String, Void, Boolean> {
+    public class getUserAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... params) {
@@ -153,8 +161,10 @@ public class Fragment_EditUser extends Fragment {
         @Override
         protected void onPostExecute(Boolean success) {
 
+            MainActivity mainActivity = (MainActivity)getActivity();
+            mainActivity.showToolbar();
             if(success) {
-                MainActivity mainActivity = (MainActivity)getActivity();
+
                 userList = mainActivity.databaseAdapter.getAllUsers("");
                 userItem user = userList.get(0);
 
@@ -180,7 +190,6 @@ public class Fragment_EditUser extends Fragment {
                 content.setVisibility(View.VISIBLE);
 
             }else{
-                MainActivity mainActivity = (MainActivity) getActivity();
                 MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
             }
 

@@ -44,6 +44,7 @@ public class Fragment_Filter extends DialogFragment {
         //this.view = view;
         this.builder = new AlertDialog.Builder(getActivity());
         mainActivity = (MainActivity) getActivity();
+        mainActivity.initToolbar();
 
         myRESTClient = new RESTClient_V3(mainActivity); // Here you should distinguish API V2.0 or V3.0
 

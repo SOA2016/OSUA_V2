@@ -40,6 +40,7 @@ public class Fragment_Settings extends Fragment {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         mainActivity = (MainActivity) getActivity();
+        mainActivity.initToolbar();
 
         myPrefs = mainActivity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
@@ -109,6 +110,8 @@ public class Fragment_Settings extends Fragment {
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_settings_flushed));
             }
         });
+
+        mainActivity.showToolbar();
         return view;
 
     }
