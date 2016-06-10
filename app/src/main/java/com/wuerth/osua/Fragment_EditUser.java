@@ -216,7 +216,6 @@ public class Fragment_EditUser extends Fragment {
         protected Boolean doInBackground(String... params) {
             MainActivity mainActivity = (MainActivity) getActivity();
             try{
-                Thread.sleep(10*1000);
                 return myRESTClient.updateUser(userID, projectID, userName, userMail, userPassword, userDescription, userEnabled);
 
             }
