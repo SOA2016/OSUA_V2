@@ -95,7 +95,8 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                 android.graphics.PorterDuff.Mode.SRC_IN);
         progressBar.setVisibility(View.VISIBLE);
 
-        new myWorker().execute();
+        mainActivity.hideToolbar();
+        new loadDatabaseAsynctask().execute();
 
         listView = (ListView) view.findViewById(R.id.userList);
         listView.setOnItemClickListener(this);
@@ -148,14 +149,15 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                         return null;
                     }
                 });
-                new myWorker().execute();
+                mainActivity.hideToolbar();
+                new loadDatabaseAsynctask().execute();
             }
         });
 
         return view;
     }
 
-    public class myWorker extends AsyncTask<String, Void, Boolean> {
+    public class loadDatabaseAsynctask extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... params) {
@@ -183,7 +185,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         protected void onPostExecute(Boolean success) {
 
 
-
+            mainActivity.showToolbar();
             if(success) {
                 DatabaseAdapter databaseAdapter = new DatabaseAdapter(mainActivity);
                 userList = databaseAdapter.getAllUsers(searchQuery);
@@ -383,6 +385,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
                     .setMessage(Html.fromHtml(getActivity().getString(R.string.fragment_userList_deleteDialog_text) + " <b>"+user.userName+"</b>?"))
                     .setPositiveButton(getActivity().getString(R.string.fragment_userList_deleteDialog_deleteButton), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            ((MainActivity)getActivity()).hideToolbar();
                             new deleteUserAsynctask(user.userID).execute();
                         }
                     })
@@ -417,8 +420,6 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
         protected returnParam doInBackground(returnParam... params) {
 
             try{
-                //myRESTClient.postUser();
-                //Toast.makeText(mainActivity, "Called", Toast.LENGTH_LONG).show();
                 params[0].success = myRESTClient.deleteUser(userID);
                 return params[0];
              } catch (Exception e){
@@ -431,7 +432,7 @@ public class Fragment_UserList extends Fragment implements AdapterView.OnItemCli
 
         @Override
         protected void onPostExecute(returnParam params) {
-            //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
+            params.mainActivity.showToolbar();
             if(params.success) {
                 params.mainActivity.showSnackbar(params.mainActivity.getString(R.string.fragment_userList_deleteSuccess));
                 params.mainActivity.changeFragment(params.mainActivity.TAG_LOGIN, params.mainActivity);

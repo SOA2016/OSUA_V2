@@ -26,6 +26,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.app.Activity;
 
+
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import java.util.ArrayList;
 import android.view.MenuInflater;
 import android.app.SearchManager;
@@ -89,6 +92,19 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         //databaseAdapter.forceDrop();
 
         changeFragment(TAG_LOGIN, mainActivity);
+    }
+
+    /* created by Stephan Strissel
+    * hide and show Toolbar
+     */
+    public void hideToolbar()
+    {
+       toolbar.animate().translationY(-toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+    }
+
+    public void showToolbar()
+    {
+        toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
 
@@ -360,8 +376,16 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                     .setMessage(Html.fromHtml(this.getString(R.string.mainActivity_logoutDialog_text)))
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            returnParam param = new returnParam(false, (MainActivity)getActivity());
-                            new deleteTokenAsynctask().execute(param);
+                            /* changed by Stephan Strissel
+                            * wait until deleteTokenAsyncTask is finished
+                             */
+                            returnParam param = new returnParam(false, (MainActivity) getActivity());
+                            try {
+                                returnParam result = new deleteTokenAsynctask().execute(param).get(); // makes this Task wait until returnParam received from AsyncTask
+                            } catch (Exception e) {
+                                Log.e("RESTClient", e.toString());
+                                MainActivity.showSnackbar(param.mainActivity.getString(R.string.error_0));
+                            }
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -502,10 +526,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         returnParam params = new returnParam(false, mainActivity);
         new deleteTokenAsynctask().execute(params);
-
+        super.onDestroy();
     }
 
     public static void showSnackbar (String message){

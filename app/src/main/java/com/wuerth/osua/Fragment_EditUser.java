@@ -118,8 +118,14 @@ public class Fragment_EditUser extends Fragment {
                     userPassword = null;
                 }
 
+                 /* changed by Stephan Strissel
+                * wait until updateUserAsynctask is finished
+                 */
+                ((MainActivity)getActivity()).hideToolbar();
+                progressBar.setVisibility(View.VISIBLE);
+                content.setVisibility(View.GONE);
                 new updateUserAsynctask(userList.get(0).userID, projectList.get(spinner.getSelectedItemPosition()).projectID, userName, userMail, userPassword, userDescription, userEnabled).execute();
-            }
+           }
 
 
         }
@@ -170,7 +176,7 @@ public class Fragment_EditUser extends Fragment {
                 spinner.setAdapter(spinnerAdapter);
                 spinner.setSelection(selectedProject);
 
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
                 content.setVisibility(View.VISIBLE);
 
             }else{
@@ -201,6 +207,7 @@ public class Fragment_EditUser extends Fragment {
         protected Boolean doInBackground(String... params) {
             MainActivity mainActivity = (MainActivity) getActivity();
             try{
+                Thread.sleep(10*1000);
                 return myRESTClient.updateUser(userID, projectID, userName, userMail, userPassword, userDescription, userEnabled);
 
             }
@@ -213,8 +220,10 @@ public class Fragment_EditUser extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean success) {
-            //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
             MainActivity mainActivity = (MainActivity) getActivity();
+            progressBar.setVisibility(View.GONE);
+            content.setVisibility(View.VISIBLE);
+            mainActivity.showToolbar();
             if(success) {
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateSuccess));
                 mainActivity.changeFragment(mainActivity.TAG_USERLIST, mainActivity);

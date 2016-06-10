@@ -31,17 +31,11 @@ public class Fragment_AddUser extends Fragment {
     public static Fragment_AddUser newInstance(){
         Fragment_AddUser fragment_editUser = new Fragment_AddUser();
 
-        /*Bundle args = new Bundle();
-        args.putString("userID", userID);
-        fragment_editUser.setArguments(args);*/
-
         return fragment_editUser;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        //userID = getArguments().getString("userID");
-
         super.onCreate(savedInstanceState);
     }
 
@@ -72,7 +66,8 @@ public class Fragment_AddUser extends Fragment {
                 getResources().getColor(R.color.colorPrimary),
                 android.graphics.PorterDuff.Mode.SRC_IN);
 
-        new myWorker().execute();
+        mainActivity.hideToolbar();
+        new loadUserAsyncTask().execute();
 
         return view;
     }
@@ -96,14 +91,25 @@ public class Fragment_AddUser extends Fragment {
                 userPassword = inputUserPassword.getText().toString();
                 userEnabled = inputUserEnabled.isChecked();
                 //Toast.makeText(mainActivity, ""+userEnabled, Toast.LENGTH_LONG).show();
-                new addUserAsynctask(projectList.get(spinner.getSelectedItemPosition()).projectID, userName, userMail, userPassword, userDescription, userEnabled).execute();
+
+
+
+
+                /* changed by Stephan Strissel
+                * wait until updateUserAsynctask is finished
+                 */
+                ((MainActivity)getActivity()).hideToolbar();
+                progressBar.setVisibility(View.VISIBLE);
+                content.setVisibility(View.GONE);
+                 new addUserAsynctask(projectList.get(spinner.getSelectedItemPosition()).projectID, userName, userMail, userPassword, userDescription, userEnabled).execute();
+
             }
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public class myWorker extends AsyncTask<String, Void, Boolean> {
+    public class loadUserAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... params) {
@@ -122,6 +128,7 @@ public class Fragment_AddUser extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean success) {
+            mainActivity.showToolbar();
             if(success) {
                 projectList = mainActivity.databaseAdapter.getAllProjects(mainActivity);
                 ArrayList<String> projectNames = new ArrayList<>();
@@ -132,7 +139,7 @@ public class Fragment_AddUser extends Fragment {
                 ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mainActivity, android.R.layout.simple_spinner_dropdown_item, projectNames);
                 spinner.setAdapter(spinnerAdapter);
 
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
                 content.setVisibility(View.VISIBLE);
 
             }else{
@@ -176,7 +183,10 @@ public class Fragment_AddUser extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean success) {
-            //Toast.makeText(mainActivity, "Called"+success, Toast.LENGTH_LONG).show();
+            MainActivity mainActivity = (MainActivity) getActivity();
+            progressBar.setVisibility(View.GONE);
+            content.setVisibility(View.VISIBLE);
+            mainActivity.showToolbar();
             if(success) {
                 mainActivity.showSnackbar(mainActivity.getString(R.string.fragment_addUser_creationSuccess));
                 mainActivity.changeFragment(mainActivity.TAG_USERLIST, mainActivity);
