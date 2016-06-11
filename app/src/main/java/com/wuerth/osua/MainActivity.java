@@ -32,7 +32,6 @@ import android.view.animation.DecelerateInterpolator;
 import java.util.ArrayList;
 import android.view.MenuInflater;
 import android.app.SearchManager;
-import android.animation.ObjectAnimator;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener,Toolbar.OnMenuItemClickListener, MenuItemCompat.OnActionExpandListener {
     final static String
@@ -94,19 +93,17 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         // forcibly drop Database for Debug-Reasons
         //databaseAdapter.forceDrop();
 
-
         changeFragment(TAG_LOGIN, mainActivity);
     }
 
     /* created by Stephan Strissel
     * hide and show Toolbar
      */
-
     boolean animation_finished = false;
     public void showToolbar()
     {
        initToolbar();
-       toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).withEndAction();
+       toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
     public void hideToolbar()
@@ -133,12 +130,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu); // load menu
 
-
-
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchMenuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+
         // Assumes current activity is the searchable activity
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -277,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -313,11 +308,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     public void onBackStackChanged() {
 
-        /*if(search) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            search = false;
-        }*/
-
         supportInvalidateOptionsMenu();
 
         switch (getLastFragment()) {
@@ -338,11 +328,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 break;
             }
             case TAG_USERLIST: {
-                /*if(search) {
-                    toolbarSearch.setVisibility(View.VISIBLE);
-                }else{
-                    toolbarSearch.setVisibility(View.INVISIBLE);
-                }*/
 
                 break;
             }
@@ -359,6 +344,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             switch (getCurrentFragment()) {
                 case TAG_LOGIN: {
                     Mainmenu.findItem(R.id.action_login).setVisible(true);
+                    showToolbar();
                     super.onBackPressed();
                     break;
                 }
@@ -478,7 +464,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     }
 
     public void changeFragment(String TAG, Activity ac,String... userID) {
-        hideToolbar();
+        initToolbar();
         fab.hide();
         if (ac.getCurrentFocus() != null) {
             InputMethodManager inputManager = (InputMethodManager) ac.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -532,7 +518,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 break;
             }
             default: {
-                Toast.makeText(ac, ac.getString(R.string.error_1), Toast.LENGTH_SHORT).show();
+               showSnackbar(ac.getString(R.string.error_1));
                 break;
             }
         }
@@ -555,8 +541,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         protected returnParam doInBackground(returnParam... params) {
 
             try{
-                //myRESTClient.postUser();
-                //Toast.makeText(mainActivity, "Called", Toast.LENGTH_LONG).show();
                 params[0].success= RESTClient.deleteToken();
                 return params[0];
             }

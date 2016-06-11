@@ -162,7 +162,6 @@ public class Fragment_EditUser extends Fragment {
         protected void onPostExecute(Boolean success) {
 
             MainActivity mainActivity = (MainActivity)getActivity();
-            mainActivity.showToolbar();
             if(success) {
 
                 userList = mainActivity.databaseAdapter.getAllUsers("");
@@ -188,6 +187,7 @@ public class Fragment_EditUser extends Fragment {
 
                 progressBar.setVisibility(View.GONE);
                 content.setVisibility(View.VISIBLE);
+                mainActivity.showToolbar();
 
             }else{
                 MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
@@ -234,13 +234,11 @@ public class Fragment_EditUser extends Fragment {
             mainActivity.showToolbar();
             if(success) {
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateSuccess));
-                mainActivity.changeFragment(mainActivity.TAG_USERLIST, mainActivity);
             }else{
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_editUser_updateFail));
             }
 
             super.onPostExecute(success);
         }
-
     }
 }
