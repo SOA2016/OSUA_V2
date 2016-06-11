@@ -32,6 +32,7 @@ import android.view.animation.DecelerateInterpolator;
 import java.util.ArrayList;
 import android.view.MenuInflater;
 import android.app.SearchManager;
+import android.animation.ObjectAnimator;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener,Toolbar.OnMenuItemClickListener, MenuItemCompat.OnActionExpandListener {
     final static String
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             TAG_ADD_USER = "Add User",
             TAG_SETTINGS = "Settings",
             TAG_RELOGIN = "Relogin";
+
 
     /* FragmentManager must not be static */
     private FragmentManager manager;
@@ -99,10 +101,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     /* created by Stephan Strissel
     * hide and show Toolbar
      */
+
+    boolean animation_finished = false;
     public void showToolbar()
     {
-        initToolbar();
-        toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+       initToolbar();
+       toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).withEndAction();
     }
 
     public void hideToolbar()
