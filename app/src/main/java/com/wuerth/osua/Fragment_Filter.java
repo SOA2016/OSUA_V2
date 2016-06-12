@@ -63,7 +63,7 @@ public class Fragment_Filter extends DialogFragment {
         // Add action buttons
                 .setNegativeButton(mainActivity.getString(R.string.fragment_filter_cancelButton), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //LoginDialogFragment.this.getDialog().cancel();
+                        mainActivity.showToolbar();
                     }
                 });
 

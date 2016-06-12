@@ -344,6 +344,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             switch (getCurrentFragment()) {
                 case TAG_LOGIN: {
                     Mainmenu.findItem(R.id.action_login).setVisible(true);
+                    Mainmenu.findItem(R.id.action_settings).setVisible(false);
                     showToolbar();
                     super.onBackPressed();
                     break;
