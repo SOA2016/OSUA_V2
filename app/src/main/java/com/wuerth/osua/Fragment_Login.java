@@ -15,7 +15,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.support.v7.widget.CardView;
+import android.widget.Spinner;
 
+import android.widget.ArrayAdapter;
 
 
 /**
@@ -78,6 +80,9 @@ public class Fragment_Login extends Fragment {
 
         final EditText loginPassword = (EditText) view.findViewById(R.id.input_loginPassword);
 
+        final Spinner loginserverPrefix= (Spinner) view.findViewById(R.id.input_loginServerPrefix);
+        loginserverPrefix.setSelection(getIndex(loginserverPrefix, myPrefs.getString("serverPrefix", "")));
+
         /* Hide and Show Advanced Settings */
         advancedCheckbox = (CheckBox) view.findViewById(R.id.checkboxAdvancedSettings);
         final CardView advancedSettings = (CardView) view.findViewById(R.id.advanced_settings);
@@ -91,7 +96,6 @@ public class Fragment_Login extends Fragment {
                 }
             }
         });
-
 
         /* control Login Button */
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -137,20 +141,8 @@ public class Fragment_Login extends Fragment {
 
                 /* if preconditions are true, try to login*/
                 if (try_to_login) {
-                    /* serverAddress Prefix Autocorrect */
-                    loginServer.getText().toString();
-                    boolean serverAddressCorrect = false;
-                    for (String prefix : getResources().getStringArray((R.array.serverPrefixes))) {
-                        if (loginServer.getText().toString().substring(0, prefix.length()).equals(prefix)) {
-                            serverAddressCorrect = true;
-                            break;
-                        }
-                    }
-                    if (!serverAddressCorrect) {
-                        loginServer.setText("https://" + loginServer.getText().toString());
-                    }
-
                     // Save Input to as Key-Value-Pair
+                    spEditor.putString("serverPrefix", loginserverPrefix.getSelectedItem().toString());
                     spEditor.putString("serverAddress", loginServer.getText().toString());
                     spEditor.putString("loginName", loginName.getText().toString());
                     spEditor.putString("loginProject", loginProject.getText().toString());
@@ -190,7 +182,22 @@ public class Fragment_Login extends Fragment {
         } else {
             mainActivity.showToolbar();
         }
+
         return view;
+    }
+
+    //private method of your class
+    private int getIndex(Spinner spinner, String myString)
+    {
+        int index = 0;
+
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 
     public class loginTask extends AsyncTask<String, Void, Boolean> {

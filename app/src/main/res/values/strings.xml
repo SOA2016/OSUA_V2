@@ -32,6 +32,10 @@
     <string name="fragment_settings_minutes_remaining">minutes remaining</string>
     <string name="fragment_settings_parseTimeTokenFailed">Failed to parse timetoken</string>
     <string name="fragment_settings_serverAddress">SERVER-ADDRESS</string>
+    <string name="fragment_settings_userName">USER-NAME</string>
+    <string name="fragment_settings_userProject">PROJECT</string>
+    <string name="fragment_settings_userDomain">USER-DOMAIN</string>
+    <string name="fragment_settings_projectDomain">DOMAIN</string>
 
     <string name="fragment_login_userName">USER-NAME</string>
     <string name="fragment_login_userProject">PROJECT</string>
@@ -53,6 +57,7 @@
     <string name="fragment_login_loginScopedDomain">Login scoped to domain</string>
     <string name="fragment_login_loginScopedProject">Login scoped to project</string>
     <string name="fragment_login_advancedSettings">Advanced Settings</string>
+    <string name="fragment_login_prefixPrompt">Choose a prefix</string>
 
     <string name="fragment_addUser_enterUserName">Please enter an user-name</string>
     <string name="fragment_addUser_enterPassword">Please enter a password</string>
@@ -133,14 +138,8 @@
     <h3>Course of Studies:</h3>
     <p>Master of Science business information systems</p>
 
-    <h3>Design &amp; Usability:</h3>
-    <p>Karsten Würth, Roberto Damm</p>
-
-    <h3>Development</h3>
-    <p>Karsten Würth, Roberto Damm</p>
-
-    <h3>Other Participants</h3>
-    <p>Riza Kara, Collins Bakop-Banga</p>
+    <h3>Development:</h3>
+    <p>Karsten Würth, Roberto Damm, Riza Kara, Collins Bakop-Banga, Yann Weloko, Damir Gricic, Marko Spieß, Stephan Strissel</p>
 
     <h3>About</h3>
     <p>OpenStack User Administration (OSUA) was developed at the University of Applied Science Worms. The app enables administrators to manage their users in OpenStack.

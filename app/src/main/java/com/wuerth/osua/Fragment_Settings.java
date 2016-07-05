@@ -21,7 +21,7 @@ import java.util.TimeZone;
  * 3) shows the imprint
  */
 public class Fragment_Settings extends Fragment {
-    TextView tokenExpiresAt, serverAddress;
+    TextView tokenExpiresAt, serverAddress, loginName, loginUserDomain, loginUserProject, loginProjectDomain;
     SharedPreferences myPrefs;
     MainActivity mainActivity;
     Button flushButton;
@@ -48,6 +48,11 @@ public class Fragment_Settings extends Fragment {
         tokenExpiresAt = (TextView) view.findViewById(R.id.tokenExpiresAt);
         TextView serverAddressLabel = (TextView) view.findViewById(R.id.serverAddressLabel);
         serverAddress = (TextView) view.findViewById(R.id.serverAddress);
+        loginName = (TextView) view.findViewById(R.id.input_loginName);
+        loginUserDomain = (TextView) view.findViewById(R.id.input_loginUserDomain);
+        loginUserProject =  (TextView) view.findViewById(R.id.input_loginUserProject);
+        loginProjectDomain =  (TextView) view.findViewById(R.id.input_loginProjectDomain);
+
         if(!myPrefs.getString("actualTokenExpiresAt", "").equals("")) {
 
 
@@ -68,7 +73,11 @@ public class Fragment_Settings extends Fragment {
 
             long difference = tokentime.getTime() - actualtime.getTime();
             tokenExpiresAt.setText(tokentime.toString() + " (+" + (difference/1000/60) + " " + mainActivity.getString(R.string.fragment_settings_minutes_remaining) + ")");
-            serverAddress.setText(myPrefs.getString("serverAddress", ""));
+            serverAddress.setText(myPrefs.getString("serverPrefix", "") + myPrefs.getString("serverAddress", ""));
+            loginName.setText(myPrefs.getString("loginName", ""));
+            loginUserDomain.setText(myPrefs.getString("loginUserDomain", ""));
+            loginUserProject.setText(myPrefs.getString("loginUserProject", ""));
+            loginProjectDomain.setText(myPrefs.getString("loginProjectDomain", ""));
 
             if (difference > 0) {
                     tokenExpiresAtLabel.setVisibility(View.VISIBLE);

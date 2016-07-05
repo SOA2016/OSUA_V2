@@ -72,6 +72,74 @@
             android:textAppearance="@style/attribute"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/fragment_settings_userName"
+            android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+            android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+            android:textAppearance="@style/attributeTitle"/>
+
+        <TextView
+            android:id="@+id/input_loginName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_underline"
+            android:textAppearance="@style/attribute"
+            />
+
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="@string/fragment_settings_userDomain"
+        android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+        android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+        android:textAppearance="@style/attributeTitle"/>
+
+        <TextView
+            android:id="@+id/input_loginUserDomain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_underline"
+            android:textAppearance="@style/attribute"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/fragment_settings_userProject"
+            android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+            android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+            android:textAppearance="@style/attributeTitle"/>
+
+        <TextView
+            android:id="@+id/input_loginUserProject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_underline"
+            android:textAppearance="@style/attribute"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/fragment_settings_projectDomain"
+            android:layout_marginLeft="@dimen/activity_horizontal_attribute_title"
+            android:layout_marginTop="@dimen/activity_vertical_attribute_title"
+            android:textAppearance="@style/attributeTitle"/>
+
+        <TextView
+            android:id="@+id/input_loginProjectDomain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_underline"
+            android:textAppearance="@style/attribute"
+            />
+
         <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -28,7 +28,6 @@
                 android:padding="20dp"
                 android:orientation="vertical">
 
-
             <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,6 +35,13 @@
             android:text="@string/fragment_login_connection"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:textAppearance="@style/headline"/>
+
+                <Spinner
+                    android:id="@+id/input_loginServerPrefix"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/serverPrefixes"
+                    android:prompt="@string/fragment_login_prefixPrompt" />
 
 
             <TextView
