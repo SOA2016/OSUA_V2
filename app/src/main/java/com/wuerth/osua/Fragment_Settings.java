@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,6 +53,7 @@ public class Fragment_Settings extends Fragment {
         loginUserDomain = (TextView) view.findViewById(R.id.input_loginUserDomain);
         loginUserProject =  (TextView) view.findViewById(R.id.input_loginUserProject);
         loginProjectDomain =  (TextView) view.findViewById(R.id.input_loginProjectDomain);
+        LinearLayout settings_logged_in = (LinearLayout) view.findViewById(R.id.settings_logged_in);
 
         if(!myPrefs.getString("actualTokenExpiresAt", "").equals("")) {
 
@@ -76,28 +78,21 @@ public class Fragment_Settings extends Fragment {
             serverAddress.setText(myPrefs.getString("serverPrefix", "") + myPrefs.getString("serverAddress", ""));
             loginName.setText(myPrefs.getString("loginName", ""));
             loginUserDomain.setText(myPrefs.getString("loginUserDomain", ""));
-            loginUserProject.setText(myPrefs.getString("loginUserProject", ""));
+            loginUserProject.setText(myPrefs.getString("loginProject", ""));
             loginProjectDomain.setText(myPrefs.getString("loginProjectDomain", ""));
 
-            if (difference > 0) {
-                    tokenExpiresAtLabel.setVisibility(View.VISIBLE);
-                    tokenExpiresAt.setVisibility(View.VISIBLE);
-                    serverAddressLabel.setVisibility(View.VISIBLE);
-                    serverAddress.setVisibility(View.VISIBLE);
 
+
+            if (difference > 0) {
+
+                settings_logged_in.setVisibility(View.VISIBLE);
                 } else {
-                    tokenExpiresAtLabel.setVisibility(View.GONE);
-                    tokenExpiresAt.setVisibility(View.GONE);
-                    serverAddressLabel.setVisibility(View.GONE);
-                    serverAddress.setVisibility(View.GONE);
+                   settings_logged_in.setVisibility(View.GONE);
 
                 }
 
         } else {
-            tokenExpiresAtLabel.setVisibility(View.GONE);
-            tokenExpiresAt.setVisibility(View.GONE);
-            serverAddressLabel.setVisibility(View.GONE);
-            serverAddress.setVisibility(View.GONE);
+            settings_logged_in.setVisibility(View.GONE);
         }
 
         /* text in this Textview has to be loaded in Code, because text is html */
@@ -119,6 +114,9 @@ public class Fragment_Settings extends Fragment {
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_settings_flushed));
             }
         });
+
+
+
 
         mainActivity.showToolbar();
         return view;

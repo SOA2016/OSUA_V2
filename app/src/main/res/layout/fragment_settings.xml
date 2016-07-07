@@ -36,6 +36,12 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:textAppearance="@style/headline"/>
 
+        <LinearLayout
+            android:id="@+id/settings_logged_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
         <TextView
             android:id="@+id/tokenExpiresAtLabel"
             android:layout_width="match_parent"
@@ -139,6 +145,8 @@
             android:background="@drawable/edittext_underline"
             android:textAppearance="@style/attribute"
             />
+
+            </LinearLayout>
 
         <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"
