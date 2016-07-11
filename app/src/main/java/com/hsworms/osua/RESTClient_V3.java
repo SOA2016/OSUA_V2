@@ -168,7 +168,13 @@ public class RESTClient_V3 extends RESTClient {
                 auth.put("scope", scope);
             } else {
                 /* unscoped request */
-				auth.put("unscoped", "");
+
+				/* New in version 3.4 A
+				user may explicitly request an unscoped token by setting the “scope” value of the token request to the string “unscoped.”
+				This will behave the same as a token request with no scope, where the user has no default project defined. */
+				/* uncomment this for version 3.4A:
+				auth.put("scope", "unscoped");
+				 */
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_loginUnscoped));
             }
 
@@ -191,7 +197,7 @@ public class RESTClient_V3 extends RESTClient {
 			auth.put("identity", identity);
 
             /* Add auth to jsonRequest */
-			jsonRequest.put("auth", auth);
+				jsonRequest.put("auth", auth);
 		} catch (JSONException e1) {
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
 			return false; //new Response_Item(404, e1.toString());
@@ -595,7 +601,7 @@ public class RESTClient_V3 extends RESTClient {
 
 	/*
     * Created by Stephan Strissel, Marco Spiess, Damir Gricic on 17.07.2016.
-    * receives Domains from Serve
+    * receives Domains from Server
      */
 	public JSONArray getDomains()
 	{
