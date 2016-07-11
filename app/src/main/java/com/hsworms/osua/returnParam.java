@@ -1,7 +1,6 @@
-package com.wuerth.osua;
-
+package com.hsworms.osua;
 /**
- * Created by Stephan Strissel on 02.06.2016.
+ * Created by Stephan Strissel, Marco Spiess, Damir Gricic on 02.06.2016.
  * returnParam-Structure for mainActivity Background Task "deleteAsyncToken"
  * passes boolean success/fail and mainActivity-Instance to Async Task
  */

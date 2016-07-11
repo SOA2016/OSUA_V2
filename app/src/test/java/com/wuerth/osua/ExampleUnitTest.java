@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 import org.junit.Test;
 

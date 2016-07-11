@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OSUA</string>
+    <string name="app_name">OSUA API V3</string>
 
     <!--
     static TAG has to be edited in MainActivity and should be equal to fragment,
@@ -139,7 +139,7 @@
     <p>Master of Science business information systems</p>
 
     <h3>design and development:</h3>
-    <p>Karsten Würth, Roberto Damm, Riza Kara, Collins Bakop-Banga, Yann Weloko, Damir Gricic, Marko Spieß, Stephan Strissel</p>
+    <p>Karsten Würth, Roberto Damm, Riza Kara, Collins Bakop-Banga, Yann Weloko, Damir Gricic, Marco Spieß, Stephan Strissel</p>
 
     <h3>About</h3>
     <p>OpenStack User Administration (OSUA) was developed at the University of Applied Science Worms. The app enables administrators to manage their users in OpenStack.

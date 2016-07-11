@@ -1,10 +1,10 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 import android.widget.Button;
 import android.widget.ProgressBar;
 
 /**
- * Created by Stephan Strissel on 09.06.2016.
+ * Created by Stephan Strissel, Marco Spiess, Damir Gricic on 09.06.2016.
  * returnParam-Structure for mainActivity Background Task "tokenValidationTask"
  * passes boolean success/fail, loginButton and progressBar to Async Task
  */

@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -97,7 +97,7 @@ public class DatabaseAdapter {
     /*** METHODS ***/
 
     /**
-     * created by Stephan Strissel
+     * created by Stephan Strissel, Marco Spiess, Damir Gricic
      * forcibly drop datatables (debug)
      */
     public void forceDrop()

@@ -7,7 +7,7 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "com.wuerth.osua"
+        applicationId "com.hsworms.osua"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 2

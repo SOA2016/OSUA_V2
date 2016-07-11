@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -98,7 +98,7 @@ public class Fragment_AddUser extends Fragment {
 
 
 
-                /* changed by Stephan Strissel
+                /* created by Stephan Strissel, Marco Spiess, Damir Gricic
                 * wait until updateUserAsynctask is finished
                  */
                 ((MainActivity)getActivity()).hideToolbar();

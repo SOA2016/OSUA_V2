@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -37,7 +37,9 @@ public class RESTClient_V2 extends RESTClient {
         myPrefs = mainActivity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         spEditor = myPrefs.edit();
     }
-
+    public JSONArray getDomains() {
+        return new JSONArray();
+    }
 	public boolean getAuthentificationToken(String loginPassword){
 
         String loginName = myPrefs.getString("loginName", "");
@@ -107,7 +109,7 @@ public class RESTClient_V2 extends RESTClient {
                         spEditor.putString("actualToken", token.getString("id"));
                         spEditor.putString("actualTokenExpiresAt", token.getString("expires"));
                         spEditor.apply();
-                        /* changed by Stephan Strissel */
+                        /* changed by Stephan Strissel, Marco Spiess, Damir Gricic */
                         if (!validateToken()) { // reCheck if validateToken() is functional. Otherwise App won't behave properly
                             return false;
                         }

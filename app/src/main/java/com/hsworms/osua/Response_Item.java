@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 public class Response_Item {
     public int statusCode;

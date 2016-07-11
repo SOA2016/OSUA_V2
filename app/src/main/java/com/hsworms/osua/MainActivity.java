@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import android.app.Activity;
 
 
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         changeFragment(TAG_LOGIN, mainActivity);
     }
 
-    /* created by Stephan Strissel
+    /* created by Stephan Strissel, Marco Spiess, Damir Gricic
     * hide and show Toolbar
      */
     boolean animation_finished = false;
@@ -376,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                     .setMessage(Html.fromHtml(this.getString(R.string.mainActivity_logoutDialog_text)))
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            /* changed by Stephan Strissel
+                            /* changed by Stephan Strissel, Marco Spiess, Damir Gricic
                             * wait until deleteTokenAsyncTask is finished
                              */
                             returnParam param = new returnParam(false, (MainActivity) getActivity());
@@ -452,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     }
 
 
-    /* created by Stephan Strissel
+    /* created by Stephan Strissel, Marco Spiess, Damir Gricic
     * clear BackStack so there is no fragment-History anymore
      */
     public void clearBackStack()

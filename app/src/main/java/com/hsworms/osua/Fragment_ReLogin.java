@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

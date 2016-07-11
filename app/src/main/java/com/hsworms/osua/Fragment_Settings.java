@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * changed by Stephan Strissel
+ * changed by Stephan Strissel, Marco Spiess, Damir Gricic
  * 1) A fragment to show Token-Expiration-Date and Server-Address
  * 2) also implements a flush-button to delete local Userlist and Projectlist, forces Relogin
  * 3) shows the imprint
@@ -59,7 +59,7 @@ public class Fragment_Settings extends Fragment {
 
 
             /*
-             Stephan Strissel
+             Stephan Strissel, Marco Spiess, Damir Gricic
              implemented new time comparsion
              */
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
@@ -100,7 +100,7 @@ public class Fragment_Settings extends Fragment {
         impressum.setText(Html.fromHtml(mainActivity.getString(R.string.imprint_text)));
 
 
-        /* Stephan Strissel */
+        /* Stephan Strissel, Marco Spiess, Damir Gricic */
         /* initialise flushButton */
         flushButton = (Button) view.findViewById(R.id.loginButton);
         flushButton.requestFocus();

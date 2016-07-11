@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -21,7 +21,7 @@ import android.widget.ArrayAdapter;
 
 
 /**
- * changed by Stephan Strissel
+ /* changed by Stephan Strissel, Marco Spiess, Damir Gricic
  * Manages Login and is first screen when App is opened
  * 1) auto prefix for Server-Address
  * 2) unscoped login
@@ -232,7 +232,7 @@ public class Fragment_Login extends Fragment {
     }
 
     /*
-    * Created by Stephan Strissel on 09.06.2016.
+    * Created by Stephan Strissel, Marco Spiess, Damir Gricic on 09.06.2016.
     * trys to login in Background-Task if token is still available
      */
     public class tokenValidationTask extends AsyncTask<returnParam2, Void,  returnParam2> {

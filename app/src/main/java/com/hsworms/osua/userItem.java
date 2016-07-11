@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 /**
  * Created by inf1783 on 20.12.15.

@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -126,7 +126,7 @@ public class Fragment_EditUser extends Fragment {
                     userPassword = null;
                 }
 
-                 /* changed by Stephan Strissel
+                /* created by Stephan Strissel, Marco Spiess, Damir Gricic
                 * wait until updateUserAsynctask is finished
                  */
                 ((MainActivity)getActivity()).hideToolbar();

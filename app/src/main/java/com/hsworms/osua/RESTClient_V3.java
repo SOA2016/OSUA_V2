@@ -1,4 +1,4 @@
-package com.wuerth.osua;
+package com.hsworms.osua;
 
 
 import android.content.SharedPreferences;
@@ -165,9 +165,10 @@ public class RESTClient_V3 extends RESTClient {
                 /* scope to domain */
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_loginScopedDomain));
                 scope.put("domain", domain);
-                auth.put("scope", domain);
+                auth.put("scope", scope);
             } else {
                 /* unscoped request */
+				auth.put("unscoped", "");
                 MainActivity.showSnackbar(mainActivity.getString(R.string.fragment_login_loginUnscoped));
             }
 
@@ -195,6 +196,8 @@ public class RESTClient_V3 extends RESTClient {
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
 			return false; //new Response_Item(404, e1.toString());
 		}
+
+		Log.d("JSON OBJEKT", jsonRequest.toString());
 
 		//return request.toString();
 		
@@ -250,7 +253,7 @@ public class RESTClient_V3 extends RESTClient {
 								spEditor.putString("actualToken", header.getValue());
 								spEditor.putString("actualTokenExpiresAt", token.getString("expires_at"));
 								spEditor.apply();
-								/* changed by Stephan Strissel */
+								/* changed by Stephan Strissel, Marco Spiess, Damir Gricic */
 								if (!validateToken()) { // reCheck if validateToken() is functional. Otherwise App won't behave properly
 									return false;
 								}
@@ -274,7 +277,7 @@ public class RESTClient_V3 extends RESTClient {
 					return false;
 				}
 				case 401: {
-					/*changed by Stephan Strissel */
+					/*changed by Stephan Strissel, Marco Spiess, Damir Gricic */
 					// get Error-Message from Server
 					try {
 						myJSONObject = new JSONObject(responseString);
@@ -391,7 +394,7 @@ public class RESTClient_V3 extends RESTClient {
 	}
 
 	/*
-    * Created by Stephan Strissel on 09.06.2016.
+    * Created by Stephan Strissel, Marco Spiess, Damir Gricic on 09.06.2016.
     * receives Projects from Server and writes them into databaseAdapter
      */
 	public boolean getProjects()
@@ -587,6 +590,79 @@ public class RESTClient_V3 extends RESTClient {
 			Log.e("RESTClient", e.toString());
 			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
 			return false;
+		}
+	}
+
+	/*
+    * Created by Stephan Strissel, Marco Spiess, Damir Gricic on 17.07.2016.
+    * receives Domains from Serve
+     */
+	public JSONArray getDomains()
+	{
+
+		String actualToken = myPrefs.getString("actualToken", "");
+		String serverAddress = myPrefs.getString("serverAddress", "");
+		String serverPrefix = myPrefs.getString("serverPrefix", "");
+
+		if(actualToken.equals("") || serverAddress.equals("")){
+			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+			return new JSONArray();
+		}
+		try {
+			HttpParams httpParameters = new BasicHttpParams();
+
+			int timeoutConnection = 10000;	// Set the timeout in milliseconds until a connection is established.
+			HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+			int timeoutSocket = 10000;	// Set the default socket timeout (SO_TIMEOUT) in milliseconds which is the timeout for waiting for data.
+			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+			HttpClient client = new DefaultHttpClient(httpParameters);
+			URI website = new URI(serverPrefix + serverAddress + "/v3/domains");
+			HttpGet request = new HttpGet();
+			request.setURI(website);
+			request.setHeader("Content-Type", "application/json");
+			request.setHeader("Accept", "application/json");
+			request.setHeader("X-Auth-Token", actualToken);
+
+			HttpResponse httpResponse = client.execute(request);
+
+			int status = httpResponse.getStatusLine().getStatusCode();
+
+			if(status == 200){
+				HttpEntity entity = httpResponse.getEntity();
+				String responseString = EntityUtils.toString(entity);
+				Log.d("Response (domainlist)", responseString);
+
+				JSONObject myJSONObject;
+				JSONArray domainList;
+
+				try {
+					myJSONObject = new JSONObject(responseString);
+					domainList = myJSONObject.getJSONArray("domains");
+
+					return domainList;
+
+				} catch (JSONException e) {
+					Log.e("RESTClient", ""+status+e);
+					MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+					return new JSONArray();
+				}
+			}else if(status == 403) {
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_403));
+				return new JSONArray();
+			} else{
+				Log.e("RESTClient", "" + status);
+				MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+				return new JSONArray();
+			}
+		}
+		catch (IOException e) {
+			MainActivity.showSnackbar(mainActivity.getString(R.string.error_2));
+			return new JSONArray();
+		} catch (URISyntaxException e) {
+			Log.e("RESTClient", e.toString());
+			MainActivity.showSnackbar(mainActivity.getString(R.string.error_0));
+			return new JSONArray();
 		}
 	}
 
