@@ -853,12 +853,13 @@ public class RESTClient_V3 extends RESTClient {
 			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
 			HttpClient client = new DefaultHttpClient(httpParameters);
-			URI website = new URI(serverPrefix + serverAddress + "/v2.0/tokens/"+actualToken);
+			URI website = new URI(serverPrefix + serverAddress + "/v3/auth/tokens/");
 			HttpDelete request = new HttpDelete();
 			request.setURI(website);
 			request.setHeader("Content-Type", "application/json");
 			request.setHeader("Accept", "application/json");
 			request.setHeader("X-Auth-Token", actualToken);
+			request.setHeader("X-Subject-Token", actualToken);
 
 			HttpResponse httpResponse = client.execute(request);
 
